@@ -1,0 +1,245 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\geometry{a4paper, margin=2.3cm}
+
+\lstset{
+    backgroundcolor=\color{gray!5},
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    keywordstyle=\color{blue!80!black}\bfseries,
+    commentstyle=\color{green!50!black}\itshape,
+    stringstyle=\color{orange},
+    frame=single,
+    rulecolor=\color{gray!30},
+    numbers=none,
+    showstringspaces=false
+}
+
+\title{
+    \textbf{Relazione del Progetto di Programmazione per la Fisica} \\
+    \vspace{0.3cm}
+    \large Simulazione dinamica ed emergenza collettiva del comportamento di stormi nel modello dei Boids con SFML
+}
+\author{Borchetta Simone, Genovesi Antonio, Granieri Ginevra}
+\date{5 luglio 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\small\textbf{Modifiche dalla consegna precedente:} Prima consegna ufficiale del progetto completo.
+\end{center}
+\hrule
+\vspace{0.5cm}
+
+\section*{Riassunto}
+Il progetto implementa una simulazione numerica del modello dei \textit{Boids}, introdotto da Craig Reynolds nel 1986 per descrivere il comportamento collettivo e coordinato (\textit{flocking}) di stormi di uccelli o banchi di pesci. Ogni agente evolve nel tempo seguendo semplici regole locali geometriche e cinematiche. La simulazione è interamente realizzata in C++ ed integra la libreria grafica SFML per la visualizzazione bidimensionale in tempo reale, una componente statistica per l'analisi dei dati in esecuzione e un modulo interattivo che prevede la presenza di agenti predatori (\textit{hunters}) e forze esterne pilotabili dall'utente tramite mouse.
+
+\section{Introduzione e Tema del Progetto}
+\label{sec:introduzione}
+Il presente lavoro implementa uno dei temi d'esame del corso. L'obiettivo principale è studiare simulazione delle proprietà emergenti di un sistema complesso auto-organizzato, basato sul modello di \textit{flocking} dei Boids.
+
+All'inizio della simulazione, le posizioni e le velocità dei boids sono del tutto casuali e disordinate. Tuttavia, le interazioni a corto raggio tra i vicini fanno in modo che si formi uno stormo unito e coerente. Il funzionamento del modello si basa sul concetto di \textit{proprietà emergente}: non esiste un leader che coordina il movimento, ma ogni agente decide come muoversi guardando solo gli altri boids che si trovano all'interno del suo raggio visivo ($d$). Ad ogni passo temporale $\Delta t$, il ciclo di esecuzione prevede che ogni boid scansioni l'ambiente circostante, identifichi i propri vicini e calcoli vettorialmente le forze d'interazione. La somma di questi contributi determina la nuova velocità e, di conseguenza, la posizione successiva dell'agente sullo schermo.
+
+\section{Modello Fisico e Regole di Volo}
+\label{sec:modellofisico}
+Le regole di volo servono a calcolare le variazioni di velocità da applicare a ciascun boid. Matematicamente, l'aggiornamento della velocità $\vec{v}_{b_i}$ e della posizione $\vec{x}_{b_i}$ di ogni boid $b_i$ avviene tramite le seguenti equazioni:
+\begin{align}
+    \vec{v}_{b_i} &= \vec{v}_{b_i} + \vec{v}_1 + \vec{v}_2 + \vec{v}_3 \\
+    \vec{x}_{b_i} &= \vec{x}_{b_i} + \vec{v}_{b_i} \Delta t
+\end{align}
+I vettori $\vec{v}_1$, $\vec{v}_2$ e $\vec{v}_3$ sono i contributi calcolati applicando le tre regole di Reynolds sui boids vicini. Dato il raggio visivo $d$, l'insieme dei vicini $N_i$ del boid $i$-esimo contiene tutti gli agenti che si trovano a una distanza minore di $d$:
+\begin{equation}
+    N_i = \{ b_j \;\vert\; 0 < \lVert \vec{x}_i - \vec{x}_j \rVert < d \}
+\end{equation}
+
+\subsection{Le Regole Classiche di Reynolds}
+Il comportamento complessivo dello stormo emerge dalla combinazione lineare di tre forze fondamentali:
+\begin{itemize}
+    \item \textbf{Separazione:} Ha lo scopo di evitare che i boids collidano tra loro. L'accelerazione repulsiva si attiva solo se la distanza mutua è inferiore a un raggio critico di sicurezza $d_s < d$:
+    \begin{equation}
+        \vec{v}_1 = -s \sum_{j \neq i} (\vec{x}_{b_j} - \vec{x}_{b_i}) \quad \text{se } \lVert \vec{x}_{b_i} - \vec{x}_{b_j} \rVert < d_s
+    \end{equation}
+    L'uso della distanza come fattore cinematico garantisce un puntamento e un allontanamento graduale, la cui intensità è regolata dal coefficiente $s$.
+    
+    \item \textbf{Allineamento:} Fa in modo che gli agenti tendano a procedere nella stessa direzione dello stormo, sincronizzando i vettori di velocità relativi:
+    \begin{equation}
+        \vec{v}_2 = a \left( \frac{1}{n-1} \sum_{j \neq i} \vec{v}_{b_j} - \vec{v}_{b_i} \right)
+    \end{equation}
+    Il contributo si ottiene sottraendo la velocità attuale del boid $b_i$ dalla media delle velocità dei suoi vicini, pesata per un fattore $a < 1$ che determina la rapidità di sterzata.
+    
+    \item \textbf{Coesione:} Induce l'agente a volare verso il baricentro locale dei boids circostanti per mantenere l'unità dello stormo. Il centro di massa $\vec{x}_c$ è calcolato come:
+    \begin{equation}
+        \vec{x}_c = \frac{1}{n-1} \sum_{j \neq i} \vec{x}_{b_j}
+    \end{equation}
+    La componente di velocità $\vec{v}_3$ si ricava di conseguenza come attrazione verso tale baricentro tramite un coefficiente di accoppiamento $c$:
+    \begin{equation}
+        \vec{v}_3 = c (\vec{x}_c - \vec{x}_{b_i})
+    \end{equation}
+\end{itemize}
+
+\subsection{Modellizzazione della Predazione: gli \textit{Hunters}}
+Per inserire un elemento di disturbo nello stormo, il programma prevede la presenza dei cacciatori (\textit{hunters}). Rispetto ai boids ordinari, gli \textit{hunters} hanno parametri diversi: sono caratterizzati da dimensioni geometriche maggiori e si muovono a una velocità massima più elevata.
+
+Il loro comportamento segue una logica specifica tramite l'applicazione di forze centrali con la funzione \texttt{apply\_force}:
+\begin{itemize}
+    \item \textbf{Separazione tra i Cacciatori:} Gli \textit{hunters} non si muovono in modo del tutto isolato; per evitare di andarsi a sbattere addosso a vicenda, la regola della separazione rimane attiva all'interno del loro gruppo.
+    \item \textbf{Forza Inerziale di Propulsione:} Ciascun cacciatore viene spinto costantemente nella direzione in cui si sta già muovendo. Il programma calcola una forza diretta verso un punto proiettato in avanti nel tempo lungo la sua traiettoria ($\vec{x}_{\text{hunter}} + 4\vec{v}_{\text{hunter}}$), simulando l'inerzia del movimento.
+    \item \textbf{Attrazione verso il Centro dello Stormo:} Contemporaneamente, il cacciatore viene attratto dal centro di massa dello stormo dei boids ($\vec{x}_c$). Questa forza centrale serve a fargli inseguire il gruppo, e la sua intensità viene dimezzata (moltiplicata per $-0.5$) rispetto al parametro standard.
+\end{itemize}
+
+I boids avvertono il pericolo del predatore: non appena un \textit{hunter} entra nel loro raggio di influenza, i boids attivano una regola di fuga che ha la priorità assoluta su tutte le altre, spingendoli nella direzione opposta con una forza repulsiva a corto raggio.
+
+\section{Scelte Progettuali e Ripartizione del Codice}
+\label{sec:progettazione}
+Il codice è scritto in C++ seguendo la programmazione a oggetti ed è diviso in diversi file separati per mantenere il lavoro ordinato e modulare. Abbiamo inoltre impiegato l'utilizzo di diversi namespace in modo da evitare conflitti di nomi.
+
+\begin{itemize}
+    \item \textbf{\texttt{vector2d.hpp}} (\texttt{namespace phy}): contiene le definizioni dell'interfaccia per la struttura dati \texttt{Vector2D}, progettata per la gestione di vettori nello spazio bidimensionale $\mathbb{R}^2$.
+    \item \textbf{\texttt{vector2d.cpp}} (\texttt{namespace phy}): contiene le definizioni delle funzioni della struttura dati dichiarata nell'header \texttt{vector2d.hpp}. Inoltre sono presenti gli overload degli operatori dichiarati in esso.
+    \item \textbf{\texttt{boid.hpp}} (\texttt{namespace boids}): definisce la classe \texttt{Boid}, che modella l'agente fondamentale della simulazione. Questa classe incapsula lo stato fisico dell'entità (posizione e velocità) e i metodi necessari per implementare il comportamento collettivo basato sul modello di Reynolds (separazione, allineamento e coesione).
+    \item \textbf{\texttt{boid.cpp}} (\texttt{namespace boids}): implementa la logica comportamentale e cinetica della classe \texttt{Boid}. Basandosi sul modello di Reynolds, il codice traduce le interazioni locali tra le entità in vettori di forza, determinando il movimento fluido e collettivo tipico di uno stormo.
+    \item \textbf{\texttt{statistics.hpp}} (\texttt{namespace stats}): contiene le dichiarazioni dell'interfaccia per il modulo di analisi statistica, progettato per elaborare i dati relativi a un gruppo di oggetti di tipo \texttt{Boid} (tipicamente rappresentanti una simulazione di stormo).
+    \item \textbf{\texttt{statistics.cpp}} (\texttt{namespace stats}): fornisce l'implementazione logica delle funzioni di analisi statistica per lo stormo di Boid. Utilizza algoritmi della libreria standard C++ (\texttt{<algorithm>}, \texttt{<numeric>}) per elaborare in modo efficiente le proprietà del vettore flock.
+    \item \textbf{\texttt{simconfig.hpp}} (\texttt{namespace boids}): definisce la struttura dati \texttt{SimConfig}, che centralizza tutti i parametri di configurazione necessari al motore di simulazione. Tale approccio permette di separare la logica dei parametri dai componenti dinamici (i \textit{Boid}), facilitando la gestione delle impostazioni sia globali che specifiche per eventuali sottogruppi (es. predatori o \textit{kettle}). Abbiamo implementato questo \textit{header file}, incluso ad esempio in \texttt{boid.cpp} e in \texttt{boid.hpp}, in modo da poter dichiarare e definire delle funzioni che accettassero in input una singola struct, al posto di svariati parametri. Sono state dichiarate delle funzioni necessarie alla configurazione della simulazione, qualora si volessero utilizzare dei parametri da passare attraverso \texttt{std::cin}.
+    \item \textbf{\texttt{simconfig.cpp}} (\texttt{namespace boids}): implementa la logica di inizializzazione e configurazione dinamica dei parametri di simulazione. Gestisce l'interazione con l'utente tramite standard input per definire le caratteristiche dello stormo e dei predatori (\textit{hunter}), includendo meccanismi di validazione dei dati in ingresso.
+    \item \textbf{\texttt{simulation.hpp}} (\texttt{namespace sim}): contiene le dichiarazioni dell'interfaccia per il modulo di aggiornamento fisico della simulazione. In esso è presente la dichiarazione della funzione \texttt{update\_physics}, che gestisce l'evoluzione temporale dello stormo (\textit{flock}) e di eventuali sotto-gruppi (\textit{kettle}), applicando le regole di comportamento (\textit{flocking}) basate sulle configurazioni (\texttt{SimConfig}) e sugli input dell'utente (posizione del mouse e stati dei tasti).
+    \item \textbf{\texttt{simulation.cpp}} (\texttt{namespace sim}): implementa la logica di aggiornamento temporale della simulazione (\texttt{update\_physics}). Esso funge da motore principale, coordinando il calcolo delle forze, l'applicazione delle regole di comportamento (\textit{flocking}) e la gestione dei vincoli spaziali per le entità (\textit{Boid}) presenti sia nello stormo principale che nel sotto-gruppo dei predatori (\textit{kettle}).
+    \item \textbf{\texttt{render.hpp}}: viene dichiarata l'interfaccia per il modulo di visualizzazione grafica, che utilizza la libreria SFML (\textit{Simple and Fast Multimedia Library}) per l'interfacciamento con l'hardware grafico. Il modulo si occupa della traduzione dello stato logico della simulazione (vettori di entità e dati statistici) in rappresentazioni visive su finestra.
+    \item \textbf{\texttt{render.cpp}}: contiene l'implementazione del motore grafico del progetto, che traduce lo stato numerico della simulazione (posizioni, velocità e dati statistici) in un output visivo mediante la libreria \textit{SFML}. Il modulo segue un pattern di rendering immediato, ottimizzato per l'aggiornamento costante durante il ciclo di gioco (\textit{game loop}).
+\end{itemize}
+Nell'archivio inviato sono presenti file come \texttt{CMakeLists.txt}, \texttt{.clang-format}, \texttt{doctest.h}, \texttt{arial.ttf} utilizati nello sviluppo del progetto.
+\subsection{Scelte Algoritmiche e Dinamica delle Forze}
+\subsubsection{Configurazione Iniziale e Parametri di Input}
+Per garantire flessibilità nell'analisi della simulazione, la funzione \texttt{get\_user\_config()} richiede all'avvio alcuni parametri di input da terminale standard. L'utente può scegliere tra due modalità principali di inizializzazione:
+\begin{itemize}
+    \item \textbf{Configurazione Predefinita:} Avvia immediatamente la simulazione caricando un set di parametri fisici standard (velocità massime, coefficienti delle tre regole e raggi di influenza) pre-impostati per garantire uno stormo stabile e visivamente coerente.
+    \item \textbf{Configurazione Personalizzata:} Consente all'utente di modificare manualmente i singoli coefficienti per studiare comportamenti alternativi e fluttuazioni del sistema.
+\end{itemize}
+Indipendentemente dalla modalità scelta, il sistema richiede esplicitamente l'inserimento del \textbf{numero di cacciatori (\textit{hunters})} da generare nella mappa. Questo permette di testare la risposta dinamica dello stormo a diversi livelli di pressione predatoria, osservando l'impatto sulla stabilità globale.
+\paragraph{Esempio di esecuzione con configurazione personalizzata}
+Di seguito si riporta un esempio di input interattivo consigliato per la valutazione del comportamento collettivo:
+\begin{lstlisting}
+Would you like to start the boid simulation with the default parameters? (y/n): n
+Enter number of boids: 150
+Enter the visual range (d): 60
+Enter the separation radius (ds): 20
+Enter the separation factor (s): 0.8
+Enter the alignment factor (a): 0.5
+Enter the cohesion factor (c): 0.01
+Enter number of hunters: 3
+\end{lstlisting}
+\subsubsection{Generazione di flocks e kettles}
+Nella presente architettura di simulazione, la generazione sia degli stormi di Boid (\textit{flocks}) che dei gruppi di predatori (\text{kettle}) è affidata a una funzione di utilità unica e generica: \texttt{entity\_gen}. Questo approccio di programmazione modulare permette di gestire la creazione di entità diverse utilizzando un'unica logica di generazione, garantendo coerenza e manutenibilità del codice. La funzione riceve in input un oggetto di tipo \texttt{boids::SimConfig} contenente tutti i parametri necessari per configurare l'entità. La funzione esegue un controllo sugli input: per gli stormi di \textit{boids} viene richiesto un numero di entità strettamente positivo, mentre per gli \textit{hunters} un numero non negativo. In caso di parametri non validi, il sistema solleva un'eccezione di tipo \texttt{std::runtime\_error}, prevenendo errori di esecuzione.
+Utilizzando un motore di numeri casuali \texttt{std::default\_random\_engine} la funzione distribuisce le entità nello spazio $\mathbb{R}^2$. Le coordinate ($x$, $y$) sono calcolate entro i bordi definiti dalla configurazione, applicando un margine di sicurezza per evitare la generazione di boid sui confini. Ogni entità viene inizializzata con un vettore velocità ($v_x$,$v_y$) casuale, compreso in un intervallo che garantisce movimento iniziale dello stormo. A questo punto la funzione controlla il valore booleano \texttt{is\_hunter} presente nella configurazione: se esso ha valore \texttt{true}, vengono applicati i limiti di velocità specifici del predatore.
+
+\subsubsection{Regole di volo}
+Sono state implementate le regole di volo presentate in Sezione \ref{sec:modellofisico}:
+\begin{itemize}
+    \item \texttt{compute\_separation}: impedisce ai boids di sovrapporsi o scontrarsi. Per ogni vicino all'interno del \texttt{separarion\_radius} calcola un vettore repulsivo che allontana il boid corrente. L'intensità della spinta è regolata attraverso il \texttt{separation\_factor}.
+    \item \texttt{compute\_alignment}: permette allo stormo di muoversi in modo coordinato. Il boid calcola la media dei vettori velocità dei vicini entro il proprio \texttt{visual\_range} e genera una forza che tende ad allineare la propria direzione a quella del gruppo, pesata dall'\texttt{alignment\_factor}.
+    \item \texttt{compute\_cohesion}: spinge il boid verso il centro di massa dei vicini percepiti, garantendo che lo stormo rimanga coeso e non si disperda, regolata dal \texttt{cohesion\_factor}.
+\end{itemize}
+Sono state costruite delle funzioni di supporto al movimento delle entities:
+\begin{itemize}
+    \item \texttt{limit\_velocity}: assicura che ogni boid rimanga entro un intervallo di velocità realistico (\texttt{min\_vel} e \texttt{max\_vel}), evitando accelerazioni infinite che renderebbero instabile la simulazione.
+    \item \texttt{apply\_toroidal\_boundary}: crea uno spazio ciclico (se un boid esce a destra, rientra a sinistra).
+    \item \texttt{apply\_window\_boundary}: genera una forza repulsiva verso l'interno quando il boid si avvicina ai bordi della finestra.
+    \item \texttt{apply\_force}: permette di applicare influenze dirette, come l'attrazione/repulsione causata dal mouse o dai predatori, calcolando un vettore basato sulla distanza rispetto a un punto di influenza.
+\end{itemize}
+\subsubsection{Evoluzione temporale}
+L'evoluzione temporale del sistema adotta un approccio ad aggiornamento sincrono delle coordinate. All'interno della funzione \texttt{update\_physics}, lo stato dello stormo e del kettle al tempo $t$ viene preservato mediante una copia profonda in un vettore ausiliario (\texttt{next\_flock}) e (\texttt{next\_kettle}), sul quale si calcolano e applicano le forze. Successivamente, la riassegnazione efficiente avviene sfruttando la semantica di spostamento tramite \texttt{std::move(next\_flock)} e \texttt{std::move(next\_kettle)}. Ciò elimina asimmetrie temporali fittizie dovute all'ordine sequenziale dei cicli \texttt{for}.
+
+Il modello standard è arricchito da due elementi:
+\begin{enumerate}
+    \item \textbf{Agenti Predatori (Hunters):} Il codice istanzia una flotta di \textit{hunters} cinematica e strutturalmente distinta (\texttt{kettle}), configurata con velocità di punta superiori. Essi inseguono il centro di massa dei boid definiti \textit{vicini} secondo le logiche descritte nella Sezione~\ref{sec:modellofisico}. A seconda del parametro \texttt{is\_bounded}, vengono applicati confini rigidi o toroidali. Atraverso il metodo \texttt{update} vengono integrate le forze nel vettore velocità determinando lo spostamento finale.
+    \item \textbf{Boids}: Il metodo \texttt{update} calcola le forze di separazione, allineamento e coesione rispetto agli altri componenti dello stormo. Si applica una forza repulsiva verso la posizione di ogni \textit{hunter} presente nel vettore \texttt{kettle}, simulando l'istinto di fuga dei boids. Analogamente ai predatori, vengono applicati i vincoli di bordo per mantenere lo stormo nell'area definita.
+    \item \textbf{Interattività Utente:} L'utente può perturbare il sistema in tempo reale tramite input asincroni del mouse. La pressione del tasto destro genera una forza attrattiva verso le coordinate del cursore, mentre il tasto sinistro simula una forza repulsiva (effetto "spavento").
+\end{enumerate}
+
+\subsubsection{Generazione dei grafici attraverso SFML}
+Il modulo di rendering grafico è stato sviluppato, come anticipato, nel file \texttt{render.cpp}, che si basa sull'aggiornamento ciclico di primitive grafiche all'interno di una \texttt{sf::RenderWindow}. Il file si occupa di due tasks:
+\begin{enumerate}
+    \item Rendering delle entità: le funzioni \texttt{render\_flock} e \texttt{render\_kettle} visualizzano gli stormi e i predatori attraverso oggetti di tipo \texttt{sf::ConvexShape}. Le forme vengono dichiarate come \texttt{static} con un flag \texttt{initialized}, che garantisce che la geometria venga definita una volta sola all'avvio, risparmiando risorse computazionali durante il \textit{game loop}. Per ogni entità il codice esegue due operazioni prima di richiamare \texttt{window.draw()}: vengono allineate la forma alle coordinate ($x$, $y$) del \texttt{boid} attraverso la funzione \texttt{set\_Position}. Attraverso la funzione \texttt{set\_Rotation} viene orientato il triangolo in base all'angolo del vettore velocità, permettendo all'utente di percepire la direzione del moto del \texttt{boid}.
+    \item Rappresentazione dei dati: la funzione \texttt{render\_histogram} trasforma un insieme di dati statistici (bins di velocità) in un istogramma grafico. L'altezza di ogni barra viene calcolata proporzionalmente al valore massimo presente nel dataset (\texttt{max\_count}) rispetto all'altezza totale disponibile(\texttt{bounds.height}). Il ciclo \texttt{for} crea rettangoli (\texttt{sf::RectangleShape}) per ogni bin, posizionandoli orizzontalmente in modo equispaziato. Vengono utilizzate \texttt{sf::Text} per visualizzare i valori numerici e le etichette dell'asse X. Il font viene caricato una sola volta staticamente, evitando operazioni di I/O disco onerose a ogni fotogramma.
+    \item Gestione degli Eventi: la funzione \texttt{handle\_events} funge da interfaccia di controllo tra l'utente e la simulazione. Si utilizza \texttt{window.pollEvent} per monitorare costantemente le azioni dell'utente, come la chiusura delle finestre. La pressione di tasti specifici modifica lo stato della simulazione in tempo reale: premendo il tasto 'B' si cambia la modalità dei confini (toroidal $\leftrightarrow$ bounded), premendo il tasto 'S' apre o chiude la finestra secondaria dedicata alle statistiche, gestendo dinamicamente il ciclo di vita della \texttt{statsWindow} (creazione e distruzione).
+\end{enumerate}
+\section{Guida all'Uso e Parametri di Input}
+\label{sec:guida}
+
+\subsection{Dipendenze e Librerie Esterne}
+Il progetto richiede il supporto della libreria grafica multimediale SFML (Simple and Fast Multimedia Library). Il programma è sviluppato per ambienti Linux (incluso WSL per Windows). I pacchetti necessari e la libreria SFML si installano da terminale digitando:
+\begin{lstlisting}[language=bash]
+sudo apt update
+sudo apt install build-essential libsfml-dev
+\end{lstlisting}
+
+\subsection{Istruzioni per la Compilazione e il Testing}
+Per la gestione della compilazione viene utilizzato \texttt{CMake} in combinazione con \texttt{Ninja Multi-Config}. Questa scelta permette di configurare la cartella di \textit{build} una sola volta e di compilare successivamente il codice sia in modalità Debug (per l'esecuzione dei test) sia in modalità Release (ottimizzata per la simulazione), senza dover rigenerare l'ambiente da capo.
+
+La configurazione iniziale si esegue posizionandosi nella cartella radice del progetto e digitando:
+\begin{lstlisting}[language=bash]
+cmake -S . -B build -G"Ninja Multi-Config"
+\end{lstlisting}
+
+Per compilare il programma in modalità \textit{Debug} ed eseguire i test unitari automatizzati, i comandi sono:
+\begin{lstlisting}[language=bash]
+cmake --build build --config Debug
+cmake --build build --config Debug --target test
+\end{lstlisting}
+
+Infine, per generare la versione definitiva e ottimizzata in modalità \textit{Release} ed effettuare il controllo finale tramite i test, si esegue:
+\begin{lstlisting}[language=bash]
+cmake --build build --config Release
+cmake --build build --config Release --target test
+\end{lstlisting}
+Per eseguire la simulazione ci si posiziona all'interno della directory che include la cartella \texttt{build} e si esegue il comando:
+\begin{lstlisting}
+   $ ./build/Debug/simulazione 
+\end{lstlisting}
+per avviare la simulazone in modalità Debug, oppure si avvia in modalità Release:
+\begin{lstlisting}
+    $ ./build/Release/simulazione
+\end{lstlisting}
+\section{Formato di Output e Risultati}
+\label{sec:io}
+
+\subsection{Formato dei Canali di Output}
+La simulazione si biforca in tre canali di output simultanei:
+\begin{enumerate}
+    \item \textbf{Visualizzazione Grafica Principale:} Una finestra SFML renderizza i boids sotto forma di triangoli rossi orientati lungo il proprio vettore velocità e i cacciatori come triangoli di colore azzurro.
+    \item \textbf{Finestra Statistica Ausiliaria:} Premendo il tasto \textbf{\texttt{S}} sulla tastiera, viene istanziata una seconda finestra grafica indipendente che disegna l'istogramma dinamico delle frequenze di velocità del sistema, discretizzato in 25 bin calibrati su una velocità massima di $50.0$.
+    \item \textbf{Output di Diagnostica da Terminale:} Lo standard output (\texttt{std::cout}) stampa continuativamente ad ogni ciclo le grandezze fisiche medie e le deviazioni standard dello stormo nel seguente formato:
+\begin{lstlisting}
+Velocita' media: 27.42 | Dev.Std: 3.12 | Posizione media: 580.11 | Dev.Std: 142.34
+Velocita' media: 27.51 | Dev.Std: 2.98 | Posizione media: 581.45 | Dev.Std: 139.88
+\end{lstlisting}
+\end{enumerate}
+Premendo il tasto \textbf{\texttt{B}} sulla tastiera è possibile alternare dinamicamente tra confini chiusi (finestra finita) o condizioni toroidali (periodiche).
+
+\subsection{Interpretazione Fisica dei Risultati}
+Le rilevazioni statistiche evidenziano come, partendo da distribuzioni casuali omogenee prodotte dal generatore pseudorandomico \texttt{std::uniform\_real\_distribution}, il sistema evolva verso uno stato stazionario ordinato. 
+
+In regime toroidale e in assenza di \textit{hunters}, la deviazione standard del modulo della velocità diminuisce rapidamente, indicando che gli agenti hanno accoppiato con successo i propri vettori di volo (dunque coordinano i loro movimenti), riducendo le velocità relative (fase di \textit{flock} compatto). L'inserimento di agenti predatori rompe questo equilibrio, inducendo la dispersione locale dei boids limitrofi e la formazione di sottogruppi coordinati di fuga, riscontrabili nelle improvvise fluttuazioni della deviazione standard spaziale stampata a terminale.
+
+\textbf{Gestione del Progetto (GitHub):}
+Per la scrittura del codice il team ha adottato \texttt{Git} come sistema di controllo versione e \texttt{GitHub} come repository remoto. Questa infrastruttura ci ha permesso di isolare lo sviluppo di nuove feature su \textit{branch} separati, garantendo un'integrazione sicura del codice tramite \textit{merge} e risolvendo i conflitti di sovrascrittura.
+
+\section{Dichiarazione sull'uso di IA Generativa}
+\label{sec:ia}
+In accordo con i vincoli di trasparenza del corso, si dichiara che il modello di Intelligenza Artificiale Generativa Gemini è stato utilizzato esclusivamente come supporto per lo studio delle funzioni della libreria SFML (la quale esulava dal programma approfondito a lezione), per la ricerca di algoritmi e l'interpretazione di messaggi di errore del compilatore. La progettazione logica finale del sistema, l'implementazione software delle equazioni fisiche in C++, l'integrazione delle chiamate grafiche e il debugging finale rimangono interamente frutto dell'analisi e del lavoro originale del gruppo.
+
+\end{document}
