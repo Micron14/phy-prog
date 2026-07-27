@@ -1,0 +1,254 @@
+[
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -g -fsanitize=address,undefined -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/Debug/apps/main.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/apps/main.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/apps/main.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/Debug/apps/main.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -g -fsanitize=address,undefined -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/Debug/src/vector2d.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/vector2d.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/vector2d.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/Debug/src/vector2d.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -g -fsanitize=address,undefined -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/Debug/src/boid.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/boid.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/boid.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/Debug/src/boid.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -g -fsanitize=address,undefined -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/Debug/src/statistics.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/statistics.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/statistics.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/Debug/src/statistics.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -g -fsanitize=address,undefined -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/Debug/src/simconfig.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simconfig.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simconfig.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/Debug/src/simconfig.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -g -fsanitize=address,undefined -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/Debug/src/render.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/render.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/render.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/Debug/src/render.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -g -fsanitize=address,undefined -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/Debug/src/simulation.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simulation.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simulation.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/Debug/src/simulation.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O3 -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/Release/apps/main.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/apps/main.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/apps/main.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/Release/apps/main.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O3 -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/Release/src/vector2d.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/vector2d.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/vector2d.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/Release/src/vector2d.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O3 -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/Release/src/boid.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/boid.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/boid.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/Release/src/boid.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O3 -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/Release/src/statistics.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/statistics.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/statistics.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/Release/src/statistics.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O3 -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/Release/src/simconfig.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simconfig.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simconfig.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/Release/src/simconfig.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O3 -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/Release/src/render.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/render.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/render.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/Release/src/render.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O3 -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/Release/src/simulation.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simulation.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simulation.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/Release/src/simulation.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O2 -g -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/RelWithDebInfo/apps/main.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/apps/main.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/apps/main.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/RelWithDebInfo/apps/main.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O2 -g -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/RelWithDebInfo/src/vector2d.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/vector2d.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/vector2d.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/RelWithDebInfo/src/vector2d.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O2 -g -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/RelWithDebInfo/src/boid.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/boid.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/boid.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/RelWithDebInfo/src/boid.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O2 -g -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/RelWithDebInfo/src/statistics.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/statistics.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/statistics.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/RelWithDebInfo/src/statistics.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O2 -g -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/RelWithDebInfo/src/simconfig.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simconfig.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simconfig.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/RelWithDebInfo/src/simconfig.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O2 -g -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/RelWithDebInfo/src/render.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/render.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/render.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/RelWithDebInfo/src/render.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O2 -g -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/simulazione.dir/RelWithDebInfo/src/simulation.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simulation.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simulation.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/simulazione.dir/RelWithDebInfo/src/simulation.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -g -fsanitize=address,undefined -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/Debug/tests/main_test.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/tests/main_test.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/tests/main_test.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/Debug/tests/main_test.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -g -fsanitize=address,undefined -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/Debug/src/vector2d.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/vector2d.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/vector2d.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/Debug/src/vector2d.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -g -fsanitize=address,undefined -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/Debug/src/boid.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/boid.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/boid.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/Debug/src/boid.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -g -fsanitize=address,undefined -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/Debug/src/statistics.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/statistics.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/statistics.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/Debug/src/statistics.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -g -fsanitize=address,undefined -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/Debug/src/simconfig.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simconfig.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simconfig.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/Debug/src/simconfig.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -g -fsanitize=address,undefined -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/Debug/src/render.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/render.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/render.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/Debug/src/render.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Debug\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -g -fsanitize=address,undefined -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/Debug/src/simulation.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simulation.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simulation.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/Debug/src/simulation.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O3 -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/Release/tests/main_test.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/tests/main_test.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/tests/main_test.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/Release/tests/main_test.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O3 -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/Release/src/vector2d.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/vector2d.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/vector2d.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/Release/src/vector2d.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O3 -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/Release/src/boid.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/boid.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/boid.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/Release/src/boid.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O3 -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/Release/src/statistics.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/statistics.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/statistics.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/Release/src/statistics.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O3 -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/Release/src/simconfig.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simconfig.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simconfig.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/Release/src/simconfig.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O3 -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/Release/src/render.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/render.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/render.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/Release/src/render.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"Release\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O3 -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/Release/src/simulation.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simulation.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simulation.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/Release/src/simulation.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O2 -g -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/RelWithDebInfo/tests/main_test.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/tests/main_test.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/tests/main_test.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/RelWithDebInfo/tests/main_test.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O2 -g -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/RelWithDebInfo/src/vector2d.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/vector2d.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/vector2d.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/RelWithDebInfo/src/vector2d.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O2 -g -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/RelWithDebInfo/src/boid.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/boid.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/boid.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/RelWithDebInfo/src/boid.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O2 -g -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/RelWithDebInfo/src/statistics.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/statistics.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/statistics.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/RelWithDebInfo/src/statistics.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O2 -g -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/RelWithDebInfo/src/simconfig.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simconfig.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simconfig.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/RelWithDebInfo/src/simconfig.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O2 -g -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/RelWithDebInfo/src/render.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/render.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/render.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/RelWithDebInfo/src/render.cpp.o"
+},
+{
+  "directory": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build",
+  "command": "/usr/bin/c++ -DCMAKE_INTDIR=\\\"RelWithDebInfo\\\" -I/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/include -isystem /opt/homebrew/opt/sfml@2/include  -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wimplicit-fallthrough -Wextra-semi -Wold-style-cast -fno-omit-frame-pointer -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -O2 -g -DNDEBUG -std=c++20 -arch arm64 -o CMakeFiles/progetto.t.dir/RelWithDebInfo/src/simulation.cpp.o -c /Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simulation.cpp",
+  "file": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/src/simulation.cpp",
+  "output": "/Users/simoneborchetta/Documents/Uni/progetto-fisica-senza-refusi/build/CMakeFiles/progetto.t.dir/RelWithDebInfo/src/simulation.cpp.o"
+}
+]
