@@ -15,7 +15,7 @@ void render_kettle(sf::RenderWindow& window,
                    std::vector<Boid> const& kettle);
 
 void render_histogram(sf::RenderWindow& window, std::vector<int> const& bins,
-                      sf::FloatRect bounds, double max_val);
+                      sf::FloatRect const& bounds, double max_val);
 
 void handle_events(sf::RenderWindow& window, sf::RenderWindow& statsWindow,
                    bool& is_bounded);

@@ -7,12 +7,10 @@
 
 namespace boids {
 
-void update_physics(std::vector<Boid>& flock,
-                    std::vector<Boid>& kettle,
-                    SimConfig const& config,
-                    SimConfig const& h_config, bool left_mouse,
-                    bool right_mouse, Vector2D const& mouse_pos,
-                    bool is_bounded)
+void update_physics(std::vector<Boid>& flock, std::vector<Boid>& kettle,
+                    SimConfig const& config, SimConfig const& h_config,
+                    bool left_mouse, bool right_mouse,
+                    Vector2D const& mouse_pos, bool is_bounded)
 {
   std::vector<Boid> next_flock{flock};
   std::vector<Boid> next_kettle{kettle};
@@ -37,7 +35,7 @@ void update_physics(std::vector<Boid>& flock,
   for (std::size_t i{0}; i < next_flock.size(); ++i) {
     next_flock[i].update(flock, i, config);
 
-    for (const auto& hunter : kettle) {
+    for (auto const& hunter : kettle) {
       next_flock[i].apply_force(hunter.get_position(), config.influence_radius,
                                 config.interaction_strength);
     }

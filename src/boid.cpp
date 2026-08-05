@@ -17,7 +17,7 @@ Vector2D Boid::get_velocity() const
   return velocity_;
 }
 
-Vector2D Boid::compute_separation(const std::vector<Boid>& flock,
+Vector2D Boid::compute_separation(std::vector<Boid> const& flock,
                                   std::size_t self_index,
                                   SimConfig const& config) const
 {
@@ -27,7 +27,7 @@ Vector2D Boid::compute_separation(const std::vector<Boid>& flock,
     if (i == self_index) {
       continue;
     }
-    const auto& b = flock[i];
+    auto const& b = flock[i];
 
     double dist{position_.distance(b.get_position())};
 
@@ -39,7 +39,7 @@ Vector2D Boid::compute_separation(const std::vector<Boid>& flock,
   return separation;
 }
 
-Vector2D Boid::compute_alignment(const std::vector<Boid>& flock,
+Vector2D Boid::compute_alignment(std::vector<Boid> const& flock,
                                  std::size_t self_index,
                                  SimConfig const& config) const
 {
@@ -50,7 +50,7 @@ Vector2D Boid::compute_alignment(const std::vector<Boid>& flock,
     if (i == self_index) {
       continue;
     }
-    const auto& b = flock[i];
+    auto const& b = flock[i];
     if (position_.distance(b.get_position()) < config.visual_range) {
       mean_velocity += b.get_velocity();
       ++count;
@@ -65,7 +65,7 @@ Vector2D Boid::compute_alignment(const std::vector<Boid>& flock,
 
   return (mean_velocity - velocity_) * config.alignment_factor;
 }
-Vector2D Boid::compute_cohesion(const std::vector<Boid>& flock,
+Vector2D Boid::compute_cohesion(std::vector<Boid> const& flock,
                                 std::size_t self_index,
                                 SimConfig const& config) const
 {
@@ -76,7 +76,7 @@ Vector2D Boid::compute_cohesion(const std::vector<Boid>& flock,
     if (i == self_index) {
       continue;
     }
-    const auto& b = flock[i];
+    auto const& b = flock[i];
 
     if (position_.distance(b.get_position()) < config.visual_range) {
       center_of_mass += b.get_position();
@@ -104,7 +104,7 @@ void Boid::limit_velocity()
   }
 }
 
-void Boid::update(const std::vector<Boid>& flock, std::size_t self_index,
+void Boid::update(std::vector<Boid> const& flock, std::size_t self_index,
                   SimConfig const& config)
 {
   Vector2D separation{compute_separation(flock, self_index, config)};
@@ -155,7 +155,7 @@ void Boid::apply_window_boundary(SimConfig const& config)
   }
 }
 
-void Boid::apply_force(const Vector2D& force_point, double influence_radius,
+void Boid::apply_force(Vector2D const& force_point, double influence_radius,
                        double interaction_strength)
 {
   double dist{position_.distance(force_point)};
