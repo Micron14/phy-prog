@@ -6,21 +6,22 @@
 #include <vector>
 
 namespace boids {
-phy::Vector2D Boid::get_position() const
+
+Vector2D Boid::get_position() const
 {
   return position_;
 }
 
-phy::Vector2D Boid::get_velocity() const
+Vector2D Boid::get_velocity() const
 {
   return velocity_;
 }
 
-phy::Vector2D Boid::compute_separation(const std::vector<Boid>& flock,
-                                       std::size_t self_index,
-                                       SimConfig const& config) const
+Vector2D Boid::compute_separation(const std::vector<Boid>& flock,
+                                  std::size_t self_index,
+                                  SimConfig const& config) const
 {
-  phy::Vector2D separation{0, 0};
+  Vector2D separation{0, 0};
 
   for (std::size_t i{0}; i < flock.size(); ++i) {
     if (i == self_index) {
@@ -38,11 +39,11 @@ phy::Vector2D Boid::compute_separation(const std::vector<Boid>& flock,
   return separation;
 }
 
-phy::Vector2D Boid::compute_alignment(const std::vector<Boid>& flock,
-                                      std::size_t self_index,
-                                      SimConfig const& config) const
+Vector2D Boid::compute_alignment(const std::vector<Boid>& flock,
+                                 std::size_t self_index,
+                                 SimConfig const& config) const
 {
-  phy::Vector2D mean_velocity{0, 0};
+  Vector2D mean_velocity{0, 0};
   int count{0};
 
   for (std::size_t i{0}; i < flock.size(); ++i) {
@@ -64,11 +65,11 @@ phy::Vector2D Boid::compute_alignment(const std::vector<Boid>& flock,
 
   return (mean_velocity - velocity_) * config.alignment_factor;
 }
-phy::Vector2D Boid::compute_cohesion(const std::vector<Boid>& flock,
-                                     std::size_t self_index,
-                                     SimConfig const& config) const
+Vector2D Boid::compute_cohesion(const std::vector<Boid>& flock,
+                                std::size_t self_index,
+                                SimConfig const& config) const
 {
-  phy::Vector2D center_of_mass{0, 0};
+  Vector2D center_of_mass{0, 0};
   int count{0};
 
   for (std::size_t i{0}; i < flock.size(); ++i) {
@@ -106,11 +107,11 @@ void Boid::limit_velocity()
 void Boid::update(const std::vector<Boid>& flock, std::size_t self_index,
                   SimConfig const& config)
 {
-  phy::Vector2D separation{compute_separation(flock, self_index, config)};
+  Vector2D separation{compute_separation(flock, self_index, config)};
 
-  phy::Vector2D alignment{compute_alignment(flock, self_index, config)};
+  Vector2D alignment{compute_alignment(flock, self_index, config)};
 
-  phy::Vector2D cohesion{compute_cohesion(flock, self_index, config)};
+  Vector2D cohesion{compute_cohesion(flock, self_index, config)};
 
   velocity_ += separation + alignment + cohesion;
 
@@ -154,8 +155,8 @@ void Boid::apply_window_boundary(SimConfig const& config)
   }
 }
 
-void Boid::apply_force(const phy::Vector2D& force_point,
-                       double influence_radius, double interaction_strength)
+void Boid::apply_force(const Vector2D& force_point, double influence_radius,
+                       double interaction_strength)
 {
   double dist{position_.distance(force_point)};
   if (dist < influence_radius && dist != 0) {
@@ -190,8 +191,8 @@ std::vector<Boid> entity_gen(SimConfig const& config)
   entities.reserve(static_cast<size_t>(config.n_entities));
 
   for (int i{0}; i < config.n_entities; ++i) {
-    phy::Vector2D pos{x(eng), y(eng)};
-    phy::Vector2D vel{v(eng), v(eng)};
+    Vector2D pos{x(eng), y(eng)};
+    Vector2D vel{v(eng), v(eng)};
 
     Boid e{pos, vel};
 

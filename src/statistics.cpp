@@ -6,8 +6,9 @@
 #include <stdexcept>
 #include <vector>
 
-namespace stats {
-StatResult avg_speed(std::vector<boids::Boid> const& flock)
+namespace boids {
+
+StatResult avg_speed(std::vector<Boid> const& flock)
 {
   if (flock.empty()) {
     return {0.0, 0.0};
@@ -15,14 +16,14 @@ StatResult avg_speed(std::vector<boids::Boid> const& flock)
   double const N{static_cast<double>(flock.size())};
   double mean_speed{std::transform_reduce(flock.begin(), flock.end(), 0.0,
                                           std::plus<>(),
-                                          [](boids::Boid const& b) {
+                                          [](Boid const& b) {
                                             return b.get_velocity().norm();
                                           })
                     / N};
 
   double variance{
       std::transform_reduce(flock.begin(), flock.end(), 0.0, std::plus<>(),
-                            [mean_speed](boids::Boid const& b) {
+                            [mean_speed](Boid const& b) {
                               double v{b.get_velocity().norm()};
                               return (v - mean_speed) * (v - mean_speed);
                             })
@@ -30,7 +31,7 @@ StatResult avg_speed(std::vector<boids::Boid> const& flock)
   return {mean_speed, std::sqrt(variance)};
 }
 
-StatResult avg_position(std::vector<boids::Boid> const& flock)
+StatResult avg_position(std::vector<Boid> const& flock)
 {
   if (flock.empty()) {
     return {0.0, 0.0};
@@ -38,14 +39,14 @@ StatResult avg_position(std::vector<boids::Boid> const& flock)
   double const N{static_cast<double>(flock.size())};
   double mean_position{std::transform_reduce(flock.begin(), flock.end(), 0.0,
                                              std::plus<>(),
-                                             [](boids::Boid const& b) {
+                                             [](Boid const& b) {
                                                return b.get_position().norm();
                                              })
                        / N};
 
   double variance{
       std::transform_reduce(flock.begin(), flock.end(), 0.0, std::plus<>(),
-                            [mean_position](boids::Boid const& b) {
+                            [mean_position](Boid const& b) {
                               double p{b.get_position().norm()};
                               return (p - mean_position) * (p - mean_position);
                             })
@@ -54,7 +55,7 @@ StatResult avg_position(std::vector<boids::Boid> const& flock)
 }
 
 std::vector<int>
-calculate_speed_histogram(std::vector<boids::Boid> const& flock,
+calculate_speed_histogram(std::vector<Boid> const& flock,
                           size_t num_bins, double max_val)
 {
   if (num_bins == 0) {
@@ -81,18 +82,18 @@ calculate_speed_histogram(std::vector<boids::Boid> const& flock,
   return bins;
 }
 
-phy::Vector2D get_flock_center(std::vector<boids::Boid> const& flock)
+Vector2D get_flock_center(std::vector<Boid> const& flock)
 {
   if (flock.empty()) {
     return {0.0, 0.0};
   }
   double const N{static_cast<double>(flock.size())};
-  phy::Vector2D flock_center{
+  Vector2D flock_center{
       std::transform_reduce(
-          flock.begin(), flock.end(), phy::Vector2D{0.0, 0.0}, std::plus<>(),
-          [](boids::Boid const& b) { return b.get_position(); })
+          flock.begin(), flock.end(), Vector2D{0.0, 0.0}, std::plus<>(),
+          [](Boid const& b) { return b.get_position(); })
       / N};
 
   return flock_center;
 }
-} // namespace stats
+} // namespace boids

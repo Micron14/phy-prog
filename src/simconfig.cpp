@@ -6,6 +6,7 @@
 #include <stdexcept>
 
 namespace boids {
+
 SimConfig get_user_config()
 {
   SimConfig config;
@@ -69,7 +70,7 @@ SimConfig get_user_config()
   return config;
 }
 
-SimConfig h_config_setter(boids::SimConfig const& config)
+SimConfig h_config_setter(SimConfig const& config)
 {
   SimConfig h_config{config};
   if (config.is_custom) {
@@ -90,4 +91,5 @@ SimConfig h_config_setter(boids::SimConfig const& config)
   h_config.max_vel          = 80.0;
   return h_config;
 }
+
 } // namespace boids

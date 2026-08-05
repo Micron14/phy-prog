@@ -1,7 +1,7 @@
 #ifndef VECTOR2D_HPP
 #define VECTOR2D_HPP
 
-namespace phy {
+namespace boids {
 struct Vector2D
 {
   double x_{0.0};
@@ -36,5 +36,5 @@ Vector2D operator/(Vector2D lhs, const double& scalare);
 
 Vector2D operator/(const double& scalare, Vector2D vec);
 
-} // namespace phy
+} // namespace boids
 #endif

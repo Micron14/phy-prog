@@ -9,8 +9,10 @@
 #include <string>
 #include <vector>
 
+namespace boids {
+
 void render_flock(sf::RenderWindow& window,
-                  std::vector<boids::Boid> const& flock)
+                  std::vector<Boid> const& flock)
 {
   static sf::ConvexShape boidShape;
   static bool initialized{false};
@@ -36,7 +38,7 @@ void render_flock(sf::RenderWindow& window,
 }
 
 void render_kettle(sf::RenderWindow& window,
-                   std::vector<boids::Boid> const& kettle)
+                   std::vector<Boid> const& kettle)
 {
   static sf::ConvexShape hunterShape;
   static bool initialized{false};
@@ -191,3 +193,5 @@ void handle_events(sf::RenderWindow& window, sf::RenderWindow& statsWindow,
     }
   }
 }
+
+} // namespace boids
