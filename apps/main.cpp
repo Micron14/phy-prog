@@ -28,6 +28,7 @@ int main()
     auto flock  = boids::entity_gen(config);
     auto kettle = boids::entity_gen(h_config);
     bool is_bounded{true};
+    int tic{1};
 
     while (window.isOpen()) {
       boids::handle_events(window, statsWindow, is_bounded);
@@ -58,8 +59,7 @@ int main()
         statsWindow.display();
       }
 
-      static int i{1};
-      if (i % 60 == 0) {
+      if (tic % 60 == 0) {
         boids::StatResult speed{boids::avg_speed(flock)};
         boids::StatResult position{boids::avg_position(flock)};
         std::cout << "Mean speed: " << speed.mean_
@@ -67,7 +67,7 @@ int main()
                   << " | Mean position: " << position.mean_
                   << " | Std. Dev.: " << position.std_dev_ << '\n';
       }
-      ++i;
+      ++tic;
     }
 
   } catch (std::exception const& e) {
