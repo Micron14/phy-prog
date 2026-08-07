@@ -24,7 +24,8 @@ struct SimConfig
   double max_vel{35.0};
 };
 
-boids::SimConfig get_user_config();
-SimConfig h_config_setter(boids::SimConfig const& config);
+SimConfig get_user_config();
+SimConfig h_config_setter(SimConfig const& config);
+
 } // namespace boids
 #endif

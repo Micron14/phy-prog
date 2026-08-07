@@ -6,7 +6,7 @@
 
 #include <vector>
 
-namespace stats {
+namespace boids {
 
 struct StatResult
 {
@@ -14,15 +14,15 @@ struct StatResult
   double std_dev_;
 };
 
-StatResult avg_speed(std::vector<boids::Boid> const& flock);
+StatResult avg_speed(std::vector<Boid> const& flock);
 
-StatResult avg_position(std::vector<boids::Boid> const& flock);
+StatResult avg_position(std::vector<Boid> const& flock);
 
 std::vector<int>
-calculate_speed_histogram(std::vector<boids::Boid> const& flock,
+calculate_speed_histogram(std::vector<Boid> const& flock,
                           size_t num_bins, double max_val);
 
-phy::Vector2D get_flock_center(std::vector<boids::Boid> const& flock);
+Vector2D get_flock_center(std::vector<Boid> const& flock);
 
-} // namespace stats
+} // namespace boids
 #endif

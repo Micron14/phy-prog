@@ -5,17 +5,16 @@
 #include <utility>
 #include <vector>
 
-namespace sim {
-void update_physics(std::vector<boids::Boid>& flock,
-                    std::vector<boids::Boid>& kettle,
-                    boids::SimConfig const& config,
-                    boids::SimConfig const& h_config, bool left_mouse,
-                    bool right_mouse, phy::Vector2D const& mouse_pos,
-                    bool is_bounded)
+namespace boids {
+
+void update_physics(std::vector<Boid>& flock, std::vector<Boid>& kettle,
+                    SimConfig const& config, SimConfig const& h_config,
+                    bool left_mouse, bool right_mouse,
+                    Vector2D const& mouse_pos, bool is_bounded)
 {
-  std::vector<boids::Boid> next_flock{flock};
-  std::vector<boids::Boid> next_kettle{kettle};
-  phy::Vector2D flock_center{stats::get_flock_center(flock)};
+  std::vector<Boid> next_flock{flock};
+  std::vector<Boid> next_kettle{kettle};
+  Vector2D flock_center{get_flock_center(flock)};
 
   for (std::size_t i{0}; i < next_kettle.size(); ++i) {
     next_kettle[i].apply_force(
@@ -36,7 +35,7 @@ void update_physics(std::vector<boids::Boid>& flock,
   for (std::size_t i{0}; i < next_flock.size(); ++i) {
     next_flock[i].update(flock, i, config);
 
-    for (const auto& hunter : kettle) {
+    for (auto const& hunter : kettle) {
       next_flock[i].apply_force(hunter.get_position(), config.influence_radius,
                                 config.interaction_strength);
     }
@@ -58,4 +57,5 @@ void update_physics(std::vector<boids::Boid>& flock,
   flock  = std::move(next_flock);
   kettle = std::move(next_kettle);
 }
-} // namespace sim
+
+} // namespace boids

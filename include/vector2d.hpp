@@ -1,21 +1,21 @@
 #ifndef VECTOR2D_HPP
 #define VECTOR2D_HPP
 
-namespace phy {
+namespace boids {
 struct Vector2D
 {
   double x_{0.0};
   double y_{0.0};
 
-  Vector2D operator+=(const Vector2D& vec);
+  Vector2D& operator+=(Vector2D const& vec);
 
-  Vector2D operator-=(const Vector2D& vec);
+  Vector2D& operator-=(Vector2D const& vec);
 
-  Vector2D operator*=(double scalare);
+  Vector2D& operator*=(double scalare);
 
-  Vector2D operator/=(double scalare);
+  Vector2D& operator/=(double scalare);
 
-  double distance(const Vector2D& vec) const;
+  double distance(Vector2D const& vec) const;
 
   double norm2() const;
 
@@ -24,17 +24,17 @@ struct Vector2D
   double angle() const;
 };
 
-Vector2D operator+(Vector2D lhs, const Vector2D& rhs);
+Vector2D operator+(Vector2D lhs, Vector2D const& rhs);
 
-Vector2D operator-(Vector2D lhs, const Vector2D& rhs);
+Vector2D operator-(Vector2D lhs, Vector2D const& rhs);
 
-Vector2D operator*(Vector2D lhs, const double& scalare);
+Vector2D operator*(Vector2D lhs, double scalare);
 
-Vector2D operator*(const double& scalare, Vector2D vec);
+Vector2D operator*(double scalare, Vector2D vec);
 
-Vector2D operator/(Vector2D lhs, const double& scalare);
+Vector2D operator/(Vector2D lhs, double scalare);
 
-Vector2D operator/(const double& scalare, Vector2D vec);
+Vector2D operator/(double scalare, Vector2D vec);
 
-} // namespace phy
+} // namespace boids
 #endif

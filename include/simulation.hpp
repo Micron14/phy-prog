@@ -7,13 +7,14 @@
 
 #include <vector>
 
-namespace sim {
-void update_physics(std::vector<boids::Boid>& flock,
-                    std::vector<boids::Boid>& kettle,
-                    boids::SimConfig const& config,
-                    boids::SimConfig const& h_config, bool left_mouse,
-                    bool right_mouse, phy::Vector2D const& mouse_pos,
-                    bool is_bounded);
-}
+namespace boids {
 
+void update_physics(std::vector<Boid>& flock,
+                    std::vector<Boid>& kettle,
+                    SimConfig const& config,
+                    SimConfig const& h_config, bool left_mouse,
+                    bool right_mouse, Vector2D const& mouse_pos,
+                    bool is_bounded);
+
+} // namespace boids
 #endif

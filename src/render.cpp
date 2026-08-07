@@ -9,8 +9,9 @@
 #include <string>
 #include <vector>
 
-void render_flock(sf::RenderWindow& window,
-                  std::vector<boids::Boid> const& flock)
+namespace boids {
+
+void render_flock(sf::RenderWindow& window, std::vector<Boid> const& flock)
 {
   static sf::ConvexShape boidShape;
   static bool initialized{false};
@@ -23,7 +24,7 @@ void render_flock(sf::RenderWindow& window,
     initialized = true;
   }
 
-  for (const auto& boid : flock) {
+  for (auto const& boid : flock) {
     float x_pos{static_cast<float>(boid.get_position().x_)};
     float y_pos{static_cast<float>(boid.get_position().y_)};
     boidShape.setPosition(x_pos, y_pos);
@@ -35,8 +36,7 @@ void render_flock(sf::RenderWindow& window,
   }
 }
 
-void render_kettle(sf::RenderWindow& window,
-                   std::vector<boids::Boid> const& kettle)
+void render_kettle(sf::RenderWindow& window, std::vector<Boid> const& kettle)
 {
   static sf::ConvexShape hunterShape;
   static bool initialized{false};
@@ -49,7 +49,7 @@ void render_kettle(sf::RenderWindow& window,
     initialized = true;
   }
 
-  for (const auto& hunter : kettle) {
+  for (auto const& hunter : kettle) {
     float x_pos{static_cast<float>(hunter.get_position().x_)};
     float y_pos{static_cast<float>(hunter.get_position().y_)};
     hunterShape.setPosition(x_pos, y_pos);
@@ -62,7 +62,7 @@ void render_kettle(sf::RenderWindow& window,
 }
 
 void render_histogram(sf::RenderWindow& window, std::vector<int> const& bins,
-                      sf::FloatRect bounds, double max_val)
+                      sf::FloatRect const& bounds, double max_val)
 {
   if (bins.empty()) {
     return;
@@ -191,3 +191,5 @@ void handle_events(sf::RenderWindow& window, sf::RenderWindow& statsWindow,
     }
   }
 }
+
+} // namespace boids
