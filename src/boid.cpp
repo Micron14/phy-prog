@@ -18,16 +18,14 @@ Vector2D Boid::get_velocity() const
 }
 
 Vector2D Boid::compute_separation(std::vector<Boid> const& flock,
-                                  std::size_t self_index,
                                   SimConfig const& config) const
 {
   Vector2D separation{0, 0};
 
-  for (std::size_t i{0}; i < flock.size(); ++i) {
-    if (i == self_index) {
+  for (auto const& b : flock) {
+    if (&b == this) {
       continue;
     }
-    auto const& b = flock[i];
 
     double dist{position_.distance(b.get_position())};
 
@@ -40,17 +38,16 @@ Vector2D Boid::compute_separation(std::vector<Boid> const& flock,
 }
 
 Vector2D Boid::compute_alignment(std::vector<Boid> const& flock,
-                                 std::size_t self_index,
                                  SimConfig const& config) const
 {
   Vector2D mean_velocity{0, 0};
   int count{0};
 
-  for (std::size_t i{0}; i < flock.size(); ++i) {
-    if (i == self_index) {
+  for (auto const& b : flock) {
+    if (&b == this) {
       continue;
     }
-    auto const& b = flock[i];
+
     if (position_.distance(b.get_position()) < config.visual_range) {
       mean_velocity += b.get_velocity();
       ++count;
@@ -66,17 +63,15 @@ Vector2D Boid::compute_alignment(std::vector<Boid> const& flock,
   return (mean_velocity - velocity_) * config.alignment_factor;
 }
 Vector2D Boid::compute_cohesion(std::vector<Boid> const& flock,
-                                std::size_t self_index,
                                 SimConfig const& config) const
 {
   Vector2D center_of_mass{0, 0};
   int count{0};
 
-  for (std::size_t i{0}; i < flock.size(); ++i) {
-    if (i == self_index) {
+  for (auto const& b : flock) {
+    if (&b == this) {
       continue;
     }
-    auto const& b = flock[i];
 
     if (position_.distance(b.get_position()) < config.visual_range) {
       center_of_mass += b.get_position();
@@ -104,14 +99,13 @@ void Boid::limit_velocity()
   }
 }
 
-void Boid::update(std::vector<Boid> const& flock, std::size_t self_index,
-                  SimConfig const& config)
+void Boid::update(std::vector<Boid> const& flock, SimConfig const& config)
 {
-  Vector2D separation{compute_separation(flock, self_index, config)};
+  Vector2D separation{compute_separation(flock, config)};
 
-  Vector2D alignment{compute_alignment(flock, self_index, config)};
+  Vector2D alignment{compute_alignment(flock, config)};
 
-  Vector2D cohesion{compute_cohesion(flock, self_index, config)};
+  Vector2D cohesion{compute_cohesion(flock, config)};
 
   velocity_ += separation + alignment + cohesion;
 

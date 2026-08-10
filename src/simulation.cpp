@@ -29,11 +29,11 @@ void update_physics(std::vector<Boid>& flock, std::vector<Boid>& kettle,
     } else {
       next_kettle[i].apply_toroidal_boundary(h_config);
     }
-    next_kettle[i].update(kettle, i, h_config);
+    next_kettle[i].update(kettle, h_config);
   }
 
   for (std::size_t i{0}; i < next_flock.size(); ++i) {
-    next_flock[i].update(flock, i, config);
+    next_flock[i].update(flock, config);
 
     for (auto const& hunter : kettle) {
       next_flock[i].apply_force(hunter.get_position(), config.influence_radius,
