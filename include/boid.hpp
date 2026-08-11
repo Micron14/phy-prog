@@ -28,21 +28,17 @@ class Boid
   Vector2D get_velocity() const;
 
   Vector2D compute_separation(std::vector<Boid> const& flock,
-                              std::size_t self_index,
                               SimConfig const& config) const;
 
   Vector2D compute_alignment(std::vector<Boid> const& flock,
-                             std::size_t self_index,
                              SimConfig const& config) const;
 
   Vector2D compute_cohesion(std::vector<Boid> const& flock,
-                            std::size_t self_index,
                             SimConfig const& config) const;
 
   void limit_velocity();
 
-  void update(std::vector<Boid> const& flock, std::size_t self_index,
-              SimConfig const& config);
+  void update(std::vector<Boid> const& flock, SimConfig const& config);
 
   void apply_toroidal_boundary(SimConfig const& config);
   void apply_window_boundary(SimConfig const& config);
