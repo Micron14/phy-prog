@@ -16,42 +16,41 @@ void update_physics(std::vector<Boid>& flock, std::vector<Boid>& kettle,
   std::vector<Boid> next_kettle{kettle};
   Vector2D flock_center{get_flock_center(flock)};
 
-  for (std::size_t i{0}; i < next_kettle.size(); ++i) {
-    next_kettle[i].apply_force(
-        next_kettle[i].get_position() + 4.0 * next_kettle[i].get_velocity(),
-        h_config.border_width,
-        h_config.interaction_strength); // "inertial force"
-    next_kettle[i].apply_force(
+  for (auto& hunter : next_kettle) {
+    hunter.apply_force(hunter.get_position() + 4.0 * hunter.get_velocity(),
+                       h_config.border_width,
+                       h_config.interaction_strength); // "inertial force"
+    hunter.apply_force(
         flock_center, h_config.border_width,
         -0.5 * h_config.interaction_strength); // "centripetal force"
     if (is_bounded) {
-      next_kettle[i].apply_window_boundary(h_config);
+      hunter.apply_window_boundary(h_config);
     } else {
-      next_kettle[i].apply_toroidal_boundary(h_config);
+      hunter.apply_toroidal_boundary(h_config);
     }
-    next_kettle[i].update(kettle, h_config);
+    hunter.update(kettle, h_config);
   }
 
-  for (std::size_t i{0}; i < next_flock.size(); ++i) {
-    next_flock[i].update(flock, config);
+  for (auto& boid : next_flock) {
+    boid.update(flock, config);
 
     for (auto const& hunter : kettle) {
-      next_flock[i].apply_force(hunter.get_position(), config.influence_radius,
-                                config.interaction_strength);
+      boid.apply_force(hunter.get_position(), config.influence_radius,
+                       config.interaction_strength);
     }
 
     if (left_mouse) {
-      next_flock[i].apply_force(mouse_pos, config.influence_radius,
-                                config.interaction_strength);
+      boid.apply_force(mouse_pos, config.influence_radius,
+                       config.interaction_strength);
     } else if (right_mouse) {
-      next_flock[i].apply_force(mouse_pos, config.influence_radius,
-                                -config.interaction_strength);
+      boid.apply_force(mouse_pos, config.influence_radius,
+                       -config.interaction_strength);
     }
 
     if (is_bounded) {
-      next_flock[i].apply_window_boundary(config);
+      boid.apply_window_boundary(config);
     } else {
-      next_flock[i].apply_toroidal_boundary(config);
+      boid.apply_toroidal_boundary(config);
     }
   }
   flock  = std::move(next_flock);
