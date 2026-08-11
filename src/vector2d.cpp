@@ -4,7 +4,7 @@
 #include <numbers>
 #include <stdexcept>
 
-namespace boids {
+namespace bs {
 
 Vector2D& Vector2D::operator+=(Vector2D const& vec)
 {
@@ -90,4 +90,4 @@ double Vector2D::angle() const
   return degrees;
 }
 
-} // namespace boids
+} // namespace bs

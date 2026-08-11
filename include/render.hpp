@@ -6,7 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-namespace boids {
+namespace bs {
 
 class Assets
 {
@@ -44,5 +44,5 @@ void render_histogram(sf::RenderWindow& window, std::vector<int> const& bins,
 void handle_events(sf::RenderWindow& window, sf::RenderWindow& statsWindow,
                    bool& is_bounded);
 
-} // namespace boids
+} // namespace bs
 #endif

@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-namespace boids {
+namespace bs {
 
 Assets::Assets()
 {
@@ -200,4 +200,4 @@ void handle_events(sf::RenderWindow& window, sf::RenderWindow& statsWindow,
   }
 }
 
-} // namespace boids
+} // namespace bs
