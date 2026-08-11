@@ -7,7 +7,7 @@
 #include <cstddef>
 #include <vector>
 
-namespace boids {
+namespace bs {
 
 class Boid
 {
@@ -28,16 +28,16 @@ class Boid
   Vector2D get_velocity() const;
 
   Vector2D compute_separation(std::vector<Boid> const& flock,
-                                   std::size_t self_index,
-                                   SimConfig const& config) const;
+                              std::size_t self_index,
+                              SimConfig const& config) const;
 
   Vector2D compute_alignment(std::vector<Boid> const& flock,
-                                  std::size_t self_index,
-                                  SimConfig const& config) const;
+                             std::size_t self_index,
+                             SimConfig const& config) const;
 
   Vector2D compute_cohesion(std::vector<Boid> const& flock,
-                                 std::size_t self_index,
-                                 SimConfig const& config) const;
+                            std::size_t self_index,
+                            SimConfig const& config) const;
 
   void limit_velocity();
 
@@ -56,5 +56,5 @@ class Boid
 
 std::vector<Boid> entity_gen(SimConfig const& config);
 
-} // namespace boids
+} // namespace bs
 #endif

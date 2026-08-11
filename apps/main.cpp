@@ -14,8 +14,8 @@
 int main()
 {
   try {
-    boids::SimConfig config{boids::get_user_config()};
-    boids::SimConfig h_config{boids::h_config_setter(config)};
+    bs::SimConfig config{bs::get_user_config()};
+    bs::SimConfig h_config{bs::h_config_setter(config)};
 
     sf::RenderWindow window(
         sf::VideoMode(static_cast<unsigned int>(config.border_width),
@@ -25,43 +25,43 @@ int main()
 
     sf::RenderWindow statsWindow;
 
-    auto flock  = boids::entity_gen(config);
-    auto kettle = boids::entity_gen(h_config);
+    auto flock  = bs::entity_gen(config);
+    auto kettle = bs::entity_gen(h_config);
     bool is_bounded{true};
     int tic{1};
 
     while (window.isOpen()) {
-      boids::handle_events(window, statsWindow, is_bounded);
+      bs::handle_events(window, statsWindow, is_bounded);
 
       sf::Vector2i mouse_px{sf::Mouse::getPosition(window)};
       sf::Vector2f mouse_px_corrected =
           window.mapPixelToCoords(mouse_px); // correction to window scale
-      boids::Vector2D mouse_pos{static_cast<double>(mouse_px_corrected.x),
-                                static_cast<double>(mouse_px_corrected.y)};
+      bs::Vector2D mouse_pos{static_cast<double>(mouse_px_corrected.x),
+                             static_cast<double>(mouse_px_corrected.y)};
       bool left_mouse{sf::Mouse::isButtonPressed(sf::Mouse::Left)};
       bool right_mouse{sf::Mouse::isButtonPressed(sf::Mouse::Right)};
 
-      boids::update_physics(flock, kettle, config, h_config, left_mouse,
-                            right_mouse, mouse_pos, is_bounded);
+      bs::update_physics(flock, kettle, config, h_config, left_mouse,
+                         right_mouse, mouse_pos, is_bounded);
 
       std::vector<int> speed_histogram{
-          boids::calculate_speed_histogram(flock, 25, 50.0)};
+          bs::calculate_speed_histogram(flock, 25, 50.0)};
 
       window.clear(sf::Color::White);
-      boids::render_flock(window, flock);
-      boids::render_kettle(window, kettle);
+      bs::render_flock(window, flock);
+      bs::render_kettle(window, kettle);
       window.display();
 
       if (statsWindow.isOpen()) {
         statsWindow.clear(sf::Color(25, 25, 25));
         sf::FloatRect graph_area(50.f, 50.f, 500.f, 280.f);
-        boids::render_histogram(statsWindow, speed_histogram, graph_area, 50.0);
+        bs::render_histogram(statsWindow, speed_histogram, graph_area, 50.0);
         statsWindow.display();
       }
 
       if (tic % 60 == 0) {
-        boids::StatResult speed{boids::avg_speed(flock)};
-        boids::StatResult position{boids::avg_position(flock)};
+        bs::StatResult speed{bs::avg_speed(flock)};
+        bs::StatResult position{bs::avg_position(flock)};
         std::cout << "Mean speed: " << speed.mean_
                   << " | Std. Dev.: " << speed.std_dev_
                   << " | Mean position: " << position.mean_

@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-namespace boids {
+namespace bs {
 
 void render_flock(sf::RenderWindow& window, std::vector<Boid> const& flock)
 {
@@ -192,4 +192,4 @@ void handle_events(sf::RenderWindow& window, sf::RenderWindow& statsWindow,
   }
 }
 
-} // namespace boids
+} // namespace bs

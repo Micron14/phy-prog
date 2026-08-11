@@ -5,7 +5,7 @@
 #include <utility>
 #include <vector>
 
-namespace boids {
+namespace bs {
 
 void update_physics(std::vector<Boid>& flock, std::vector<Boid>& kettle,
                     SimConfig const& config, SimConfig const& h_config,
@@ -58,4 +58,4 @@ void update_physics(std::vector<Boid>& flock, std::vector<Boid>& kettle,
   kettle = std::move(next_kettle);
 }
 
-} // namespace boids
+} // namespace bs
