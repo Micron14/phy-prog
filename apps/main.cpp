@@ -24,7 +24,7 @@ int main()
     window.setFramerateLimit(60);
 
     sf::RenderWindow statsWindow;
-    boids::Assets assets;
+    bs::Assets assets;
 
     auto flock  = bs::entity_gen(config);
     auto kettle = bs::entity_gen(h_config);
@@ -56,7 +56,8 @@ int main()
       if (statsWindow.isOpen()) {
         statsWindow.clear(sf::Color(25, 25, 25));
         sf::FloatRect graph_area(50.f, 50.f, 500.f, 280.f);
-        bs::render_histogram(statsWindow, speed_histogram, graph_area, 50.0, assets);
+        bs::render_histogram(statsWindow, speed_histogram, graph_area, 50.0,
+                             assets);
         statsWindow.display();
       }
 

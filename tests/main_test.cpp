@@ -95,7 +95,7 @@ TEST_CASE("Testing Boid class")
   bs::Boid b_overlap2({0.0, 0.0}, {-1.0, -1.0});
   std::vector<bs::Boid> overlap_flock = {b_overlap1, b_overlap2};
 
-  boids::Vector2D sep_overlap =
+  bs::Vector2D sep_overlap =
       b_overlap1.compute_separation(overlap_flock, test_config);
   CHECK_FALSE(std::isnan(sep_overlap.x_));
   CHECK_FALSE(std::isnan(sep_overlap.y_));
@@ -112,17 +112,17 @@ TEST_CASE("Testing Boid class")
   test_config.separation_factor = 0.5;
   test_config.cohesion_factor   = 0.1;
 
-  boids::Vector2D sep = flock1[0].compute_separation(flock1, test_config);
+  bs::Vector2D sep = flock1[0].compute_separation(flock1, test_config);
   // (b2.pos - b1.pos) = (10, 0); separation = -(10, 0) * 0.5 = (-5, 0)
   CHECK(sep.x_ == doctest::Approx(-5.0));
   CHECK(sep.y_ == doctest::Approx(0.0));
 
-  boids::Vector2D ali = flock1[0].compute_alignment(flock1, test_config);
+  bs::Vector2D ali = flock1[0].compute_alignment(flock1, test_config);
   // mean_vel = (0, 1); diff = (0, 1) - (1, 0) = (-1, 1); ali = (-0.5, 0.5)
   CHECK(ali.x_ == doctest::Approx(-0.5));
   CHECK(ali.y_ == doctest::Approx(0.5));
 
-  boids::Vector2D coh1 = flock1[0].compute_cohesion(flock1, test_config);
+  bs::Vector2D coh1 = flock1[0].compute_cohesion(flock1, test_config);
   // center = (10, 0); diff = (10, 0) - (0, 0); coh = (1, 0)
   CHECK(coh1.x_ == doctest::Approx(1.0));
   CHECK(coh1.y_ == doctest::Approx(0.0));
@@ -169,13 +169,12 @@ TEST_CASE("Testing Boid class")
   test_config.alignment_factor = 0.5;
 
   // mass_center = (5, 5), c*mass_center = 0.1 * (5, 5) = (0.5, 0.5)
-  boids::Vector2D coh_big =
-      next_flock[0].compute_cohesion(big_flock, test_config);
+  bs::Vector2D coh_big = next_flock[0].compute_cohesion(big_flock, test_config);
   CHECK(coh_big.x_ == doctest::Approx(0.5));
   CHECK(coh_big.y_ == doctest::Approx(0.5));
   // mean_speed (between f2 and f3) = (-0.5, -0.5), mean_speed - f1.vel = (-1.5,
   // 0.5) -> a*(-1.5, 0.5) = (-0.75, 0.25)
-  boids::Vector2D ali_big =
+  bs::Vector2D ali_big =
       next_flock[0].compute_alignment(big_flock, test_config);
   CHECK(ali_big.x_ == doctest::Approx(-0.75));
   CHECK(ali_big.y_ == doctest::Approx(0.25));
@@ -187,7 +186,7 @@ TEST_CASE("Testing Boid class")
   config1.visual_range    = 50.0;
   config1.cohesion_factor = 1.0;
 
-  boids::Vector2D coh2 = flock2[0].compute_cohesion(flock2, config1);
+  bs::Vector2D coh2 = flock2[0].compute_cohesion(flock2, config1);
 
   CHECK(coh2.x_ == doctest::Approx(2.0));
   CHECK(coh2.y_ == doctest::Approx(2.0));
