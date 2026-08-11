@@ -23,13 +23,8 @@ Vector2D Boid::compute_separation(std::vector<Boid> const& flock,
   Vector2D separation{0, 0};
 
   for (auto const& b : flock) {
-    if (&b == this) {
-      continue;
-    }
-
     double dist{position_.distance(b.get_position())};
-
-    if (dist < config.separation_radius) {
+    if (dist > 0.0 && dist < config.separation_radius) {
       separation -= (b.get_position() - position_) * config.separation_factor;
     }
   }
@@ -44,11 +39,9 @@ Vector2D Boid::compute_alignment(std::vector<Boid> const& flock,
   int count{0};
 
   for (auto const& b : flock) {
-    if (&b == this) {
-      continue;
-    }
+    double dist{position_.distance(b.get_position())};
 
-    if (position_.distance(b.get_position()) < config.visual_range) {
+    if (dist > 0.0 && dist < config.visual_range) {
       mean_velocity += b.get_velocity();
       ++count;
     }
@@ -62,6 +55,7 @@ Vector2D Boid::compute_alignment(std::vector<Boid> const& flock,
 
   return (mean_velocity - velocity_) * config.alignment_factor;
 }
+
 Vector2D Boid::compute_cohesion(std::vector<Boid> const& flock,
                                 SimConfig const& config) const
 {
@@ -69,11 +63,9 @@ Vector2D Boid::compute_cohesion(std::vector<Boid> const& flock,
   int count{0};
 
   for (auto const& b : flock) {
-    if (&b == this) {
-      continue;
-    }
+    double dist{position_.distance(b.get_position())};
 
-    if (position_.distance(b.get_position()) < config.visual_range) {
+    if (dist > 0.0 && dist < config.visual_range) {
       center_of_mass += b.get_position();
       ++count;
     }

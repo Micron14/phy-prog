@@ -11,70 +11,91 @@
 
 namespace boids {
 
-void render_flock(sf::RenderWindow& window, std::vector<Boid> const& flock)
+Assets::Assets()
 {
-  static sf::ConvexShape boidShape;
-  static bool initialized{false};
-  if (!initialized) {
-    boidShape.setPointCount(3);
-    boidShape.setPoint(0, sf::Vector2f(6.f, 0.f));
-    boidShape.setPoint(1, sf::Vector2f(-8.f, -6.f));
-    boidShape.setPoint(2, sf::Vector2f(-8.f, 6.f));
-    boidShape.setFillColor(sf::Color::Red);
-    initialized = true;
+  boid_shape_.setPointCount(3);
+  boid_shape_.setPoint(0, sf::Vector2f(6.f, 0.f));
+  boid_shape_.setPoint(1, sf::Vector2f(-8.f, -6.f));
+  boid_shape_.setPoint(2, sf::Vector2f(-8.f, 6.f));
+  boid_shape_.setFillColor(sf::Color::Red);
+
+  hunter_shape_.setPointCount(3);
+  hunter_shape_.setPoint(0, sf::Vector2f(10.f, 0.f));
+  hunter_shape_.setPoint(1, sf::Vector2f(-12.f, -8.f));
+  hunter_shape_.setPoint(2, sf::Vector2f(-12.f, 8.f));
+  hunter_shape_.setFillColor(sf::Color::Cyan);
+
+  if (!font_.loadFromFile("font/arial.ttf")) {
+    throw std::runtime_error("Can't load font 'arial.ttf'");
   }
 
+  bar_.setFillColor(sf::Color(70, 130, 180));
+
+  text_.setFont(font_);
+  text_.setCharacterSize(12);
+  text_.setFillColor(sf::Color::White);
+
+  label_.setFont(font_);
+  label_.setCharacterSize(10);
+  label_.setFillColor(sf::Color::White);
+}
+
+sf::ConvexShape& Assets::get_boid_shape()
+{
+  return boid_shape_;
+}
+sf::ConvexShape& Assets::get_hunter_shape()
+{
+  return hunter_shape_;
+}
+sf::RectangleShape& Assets::get_bar()
+{
+  return bar_;
+}
+sf::Text& Assets::get_text()
+{
+  return text_;
+}
+sf::Text& Assets::get_label()
+{
+  return label_;
+}
+
+void Assets::draw_entity(sf::RenderWindow& window, sf::ConvexShape& shape,
+                         Boid const& entity)
+{
+  float x_pos{static_cast<float>(entity.get_position().x_)};
+  float y_pos{static_cast<float>(entity.get_position().y_)};
+  shape.setPosition(x_pos, y_pos);
+
+  float angle{static_cast<float>(entity.get_velocity().angle())};
+  shape.setRotation(angle);
+
+  window.draw(shape);
+}
+
+void render_flock(sf::RenderWindow& window, std::vector<Boid> const& flock,
+                  Assets& assets)
+{
   for (auto const& boid : flock) {
-    float x_pos{static_cast<float>(boid.get_position().x_)};
-    float y_pos{static_cast<float>(boid.get_position().y_)};
-    boidShape.setPosition(x_pos, y_pos);
-
-    float angle{static_cast<float>(boid.get_velocity().angle())};
-    boidShape.setRotation(angle);
-
-    window.draw(boidShape);
+    assets.draw_entity(window, assets.get_boid_shape(), boid);
   }
 }
 
-void render_kettle(sf::RenderWindow& window, std::vector<Boid> const& kettle)
+void render_kettle(sf::RenderWindow& window, std::vector<Boid> const& kettle,
+                   Assets& assets)
 {
-  static sf::ConvexShape hunterShape;
-  static bool initialized{false};
-  if (!initialized) {
-    hunterShape.setPointCount(3);
-    hunterShape.setPoint(0, sf::Vector2f(10.f, 0.f));
-    hunterShape.setPoint(1, sf::Vector2f(-12.f, -8.f));
-    hunterShape.setPoint(2, sf::Vector2f(-12.f, 8.f));
-    hunterShape.setFillColor(sf::Color::Cyan);
-    initialized = true;
-  }
-
   for (auto const& hunter : kettle) {
-    float x_pos{static_cast<float>(hunter.get_position().x_)};
-    float y_pos{static_cast<float>(hunter.get_position().y_)};
-    hunterShape.setPosition(x_pos, y_pos);
-
-    float angle{static_cast<float>(hunter.get_velocity().angle())};
-    hunterShape.setRotation(angle);
-
-    window.draw(hunterShape);
+    assets.draw_entity(window, assets.get_hunter_shape(), hunter);
   }
 }
 
 void render_histogram(sf::RenderWindow& window, std::vector<int> const& bins,
-                      sf::FloatRect const& bounds, double max_val)
+                      sf::FloatRect const& bounds, double max_val,
+                      Assets& assets)
 {
   if (bins.empty()) {
     return;
-  }
-
-  static sf::Font font;
-  static bool font_loaded{false};
-  if (!font_loaded) {
-    if (!font.loadFromFile("font/arial.ttf")) {
-      throw std::runtime_error("Can't load font 'arial.ttf'");
-    }
-    font_loaded = true;
   }
 
   int max_count{*std::max_element(bins.begin(), bins.end())};
@@ -84,22 +105,9 @@ void render_histogram(sf::RenderWindow& window, std::vector<int> const& bins,
 
   float bin_width{bounds.width / static_cast<float>(bins.size())};
 
-  static sf::RectangleShape bar;
-  bar.setFillColor(sf::Color(70, 130, 180));
-
-  static sf::Text text;
-  text.setFont(font);
-  text.setCharacterSize(12);
-  text.setFillColor(sf::Color::White);
-
-  static sf::Text label;
-  static bool font_initialized{false};
-  if (!font_initialized) {
-    label.setFont(font);
-    label.setCharacterSize(10);
-    label.setFillColor(sf::Color::White);
-    font_initialized = true;
-  }
+  sf::RectangleShape& bar{assets.get_bar()};
+  sf::Text& text{assets.get_text()};
+  sf::Text& label{assets.get_label()};
 
   for (size_t i{0}; i < bins.size(); ++i) {
     float normalized_height{

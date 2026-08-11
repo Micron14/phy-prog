@@ -24,6 +24,7 @@ int main()
     window.setFramerateLimit(60);
 
     sf::RenderWindow statsWindow;
+    boids::Assets assets;
 
     auto flock  = boids::entity_gen(config);
     auto kettle = boids::entity_gen(h_config);
@@ -48,14 +49,14 @@ int main()
           boids::calculate_speed_histogram(flock, 25, 50.0)};
 
       window.clear(sf::Color::White);
-      boids::render_flock(window, flock);
-      boids::render_kettle(window, kettle);
+      boids::render_flock(window, flock, assets);
+      boids::render_kettle(window, kettle, assets);
       window.display();
 
       if (statsWindow.isOpen()) {
         statsWindow.clear(sf::Color(25, 25, 25));
         sf::FloatRect graph_area(50.f, 50.f, 500.f, 280.f);
-        boids::render_histogram(statsWindow, speed_histogram, graph_area, 50.0);
+        boids::render_histogram(statsWindow, speed_histogram, graph_area, 50.0, assets);
         statsWindow.display();
       }
 
