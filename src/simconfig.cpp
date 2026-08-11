@@ -5,7 +5,7 @@
 #include <limits>
 #include <stdexcept>
 
-namespace boids {
+namespace bs {
 
 SimConfig get_user_config()
 {
@@ -92,4 +92,4 @@ SimConfig h_config_setter(SimConfig const& config)
   return h_config;
 }
 
-} // namespace boids
+} // namespace bs

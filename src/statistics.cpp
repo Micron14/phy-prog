@@ -6,7 +6,7 @@
 #include <stdexcept>
 #include <vector>
 
-namespace boids {
+namespace bs {
 
 StatResult avg_speed(std::vector<Boid> const& flock)
 {
@@ -14,11 +14,9 @@ StatResult avg_speed(std::vector<Boid> const& flock)
     return {0.0, 0.0};
   }
   double const N{static_cast<double>(flock.size())};
-  double mean_speed{std::transform_reduce(flock.begin(), flock.end(), 0.0,
-                                          std::plus<>(),
-                                          [](Boid const& b) {
-                                            return b.get_velocity().norm();
-                                          })
+  double mean_speed{std::transform_reduce(
+                        flock.begin(), flock.end(), 0.0, std::plus<>(),
+                        [](Boid const& b) { return b.get_velocity().norm(); })
                     / N};
 
   double variance{
@@ -54,9 +52,8 @@ StatResult avg_position(std::vector<Boid> const& flock)
   return {mean_position, std::sqrt(variance)};
 }
 
-std::vector<int>
-calculate_speed_histogram(std::vector<Boid> const& flock,
-                          size_t num_bins, double max_val)
+std::vector<int> calculate_speed_histogram(std::vector<Boid> const& flock,
+                                           size_t num_bins, double max_val)
 {
   if (num_bins == 0) {
     throw std::runtime_error("Histogram must have at least 1 bin.");
@@ -89,11 +86,11 @@ Vector2D get_flock_center(std::vector<Boid> const& flock)
   }
   double const N{static_cast<double>(flock.size())};
   Vector2D flock_center{
-      std::transform_reduce(
-          flock.begin(), flock.end(), Vector2D{0.0, 0.0}, std::plus<>(),
-          [](Boid const& b) { return b.get_position(); })
+      std::transform_reduce(flock.begin(), flock.end(), Vector2D{0.0, 0.0},
+                            std::plus<>(),
+                            [](Boid const& b) { return b.get_position(); })
       / N};
 
   return flock_center;
 }
-} // namespace boids
+} // namespace bs

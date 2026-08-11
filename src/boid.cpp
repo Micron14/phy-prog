@@ -5,7 +5,7 @@
 #include <random>
 #include <vector>
 
-namespace boids {
+namespace bs {
 
 Vector2D Boid::get_position() const
 {
@@ -201,4 +201,4 @@ std::vector<Boid> entity_gen(SimConfig const& config)
   return entities;
 }
 
-} // namespace boids
+} // namespace bs

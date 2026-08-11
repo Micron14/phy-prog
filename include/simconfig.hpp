@@ -1,7 +1,7 @@
 #ifndef SIM_CONFIG_HPP
 #define SIM_CONFIG_HPP
 
-namespace boids {
+namespace bs {
 
 struct SimConfig
 {
@@ -27,5 +27,5 @@ struct SimConfig
 SimConfig get_user_config();
 SimConfig h_config_setter(SimConfig const& config);
 
-} // namespace boids
+} // namespace bs
 #endif

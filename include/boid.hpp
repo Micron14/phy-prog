@@ -7,7 +7,7 @@
 #include <cstddef>
 #include <vector>
 
-namespace boids {
+namespace bs {
 
 class Boid
 {
@@ -52,5 +52,5 @@ class Boid
 
 std::vector<Boid> entity_gen(SimConfig const& config);
 
-} // namespace boids
+} // namespace bs
 #endif
