@@ -60,7 +60,7 @@ std::vector<int> calculate_speed_histogram(std::vector<Boid> const& flock,
   }
   if (max_val <= 0.0) {
     throw std::runtime_error(
-        "Maximum value for histogram must be striclty positive.");
+        "Maximum value for histogram must be strictly positive.");
   }
 
   std::vector<int> bins(num_bins, 0);
