@@ -70,10 +70,9 @@ SimConfig get_user_config()
   return config;
 }
 
-SimConfig h_config_setter(SimConfig const& config)
+SimConfig h_config_setter(SimConfig h_config)
 {
-  SimConfig h_config{config};
-  if (config.is_custom) {
+  if (h_config.is_custom) {
     std::cout << "Enter number of hunters: ";
     if (!(std::cin >> h_config.n_entities) || h_config.n_entities < 0) {
       throw std::runtime_error(
