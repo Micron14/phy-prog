@@ -38,15 +38,15 @@ SimConfig get_user_config()
 
   std::cout << "Enter the visual range (d): ";
   if (!(std::cin >> config.visual_range) || config.visual_range <= 0) {
-    throw std::runtime_error("Invalid input: The visual range must be an "
-                             "integer greater than zero.");
+    throw std::runtime_error("Invalid input: The visual range must be a "
+                             "positive number.");
   }
 
   std::cout << "Enter the separation radius (ds): ";
   if (!(std::cin >> config.separation_radius)
       || config.separation_radius <= 0) {
-    throw std::runtime_error("Invalid input: The separation radius must be an "
-                             "integer greater than zero.");
+    throw std::runtime_error("Invalid input: The separation radius must be a "
+                             "positive number.");
   }
 
   std::cout << "Enter the separation factor (s): ";
