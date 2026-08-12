@@ -167,11 +167,13 @@ std::vector<Boid> entity_gen(SimConfig const& config)
     throw std::runtime_error("Invalid number of boids (must be > 0).");
   }
 
-  std::random_device r;
-  std::default_random_engine eng{r()};
-  std::uniform_real_distribution<double> x{100.0, config.border_width - 100.0};
-  std::uniform_real_distribution<double> y{100.0, config.border_height - 100.0};
-  std::uniform_real_distribution<double> v{-35.0, 35.0};
+  static std::random_device r;
+  static std::default_random_engine eng{r()};
+  static std::uniform_real_distribution<double> x{100.0,
+                                                  config.border_width - 100.0};
+  static std::uniform_real_distribution<double> y{100.0,
+                                                  config.border_height - 100.0};
+  static std::uniform_real_distribution<double> v{-35.0, 35.0};
 
   std::vector<Boid> entities;
   entities.reserve(static_cast<size_t>(config.n_entities));
