@@ -133,7 +133,7 @@ void render_histogram(sf::RenderWindow& window, std::vector<int> const& bins,
 
       if (i % 5 == 0) {
         label.setString(std::to_string(static_cast<int>(v_min)));
-        sf::FloatRect labelRect = label.getLocalBounds();
+        sf::FloatRect labelRect{label.getLocalBounds()};
         label.setOrigin(labelRect.left + labelRect.width / 2.0f,
                         labelRect.top + labelRect.height / 2.0f);
         label.setPosition(x_pos + bin_width / 2.0f,
@@ -146,7 +146,7 @@ void render_histogram(sf::RenderWindow& window, std::vector<int> const& bins,
   bar.setOutlineThickness(-1.f);
   bar.setOutlineColor(sf::Color(40, 40, 40));
 
-  sf::RectangleShape xAxis(sf::Vector2f(bounds.width, 2.f));
+  sf::RectangleShape xAxis{sf::Vector2f(bounds.width, 2.f)};
   xAxis.setPosition(bounds.left, bounds.top + bounds.height);
   xAxis.setFillColor(sf::Color::White);
   window.draw(xAxis);
