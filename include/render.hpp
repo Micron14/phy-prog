@@ -18,17 +18,17 @@ class Assets
   sf::Text text_;
   sf::Text label_;
 
+  void draw_entity(sf::RenderWindow& window, sf::ConvexShape& shape,
+                   Boid const& entity);
+
  public:
   Assets();
 
-  sf::ConvexShape& get_boid_shape();
-  sf::ConvexShape& get_hunter_shape();
-  sf::RectangleShape& get_bar();
-  sf::Text& get_text();
-  sf::Text& get_label();
+  void draw_boid(sf::RenderWindow& window, Boid const& boid);
+  void draw_hunter(sf::RenderWindow& window, Boid const& hunter);
 
-  void draw_entity(sf::RenderWindow& window, sf::ConvexShape& shape,
-                   Boid const& entity);
+  void draw_histogram(sf::RenderWindow& window, std::vector<int> const& bins,
+                      sf::FloatRect const& bounds, double max_val);
 };
 
 void render_flock(sf::RenderWindow& window, std::vector<Boid> const& flock,
@@ -36,10 +36,6 @@ void render_flock(sf::RenderWindow& window, std::vector<Boid> const& flock,
 
 void render_kettle(sf::RenderWindow& window, std::vector<Boid> const& kettle,
                    Assets& assets);
-
-void render_histogram(sf::RenderWindow& window, std::vector<int> const& bins,
-                      sf::FloatRect const& bounds, double max_val,
-                      Assets& assets);
 
 void handle_events(sf::RenderWindow& window, sf::RenderWindow& statsWindow,
                    bool& is_bounded);

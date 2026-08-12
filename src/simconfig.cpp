@@ -38,21 +38,21 @@ SimConfig get_user_config()
 
   std::cout << "Enter the visual range (d): ";
   if (!(std::cin >> config.visual_range) || config.visual_range <= 0) {
-    throw std::runtime_error("Invalid input: The visual range must be an "
-                             "integer greater than zero.");
+    throw std::runtime_error("Invalid input: The visual range must be a "
+                             "positive number.");
   }
 
   std::cout << "Enter the separation radius (ds): ";
   if (!(std::cin >> config.separation_radius)
       || config.separation_radius <= 0) {
-    throw std::runtime_error("Invalid input: The separation radius must be an "
-                             "integer greater than zero.");
+    throw std::runtime_error("Invalid input: The separation radius must be a "
+                             "positive number.");
   }
 
   std::cout << "Enter the separation factor (s): ";
   if (!(std::cin >> config.separation_factor) || config.separation_factor < 0) {
     throw std::runtime_error(
-        "Invalid input: The separation strenght cannot be negative.");
+        "Invalid input: The separation strength cannot be negative.");
   }
 
   std::cout << "Enter the alignment factor (a): ";
@@ -70,10 +70,9 @@ SimConfig get_user_config()
   return config;
 }
 
-SimConfig h_config_setter(SimConfig const& config)
+SimConfig create_hunter_config(SimConfig h_config)
 {
-  SimConfig h_config{config};
-  if (config.is_custom) {
+  if (h_config.is_custom) {
     std::cout << "Enter number of hunters: ";
     if (!(std::cin >> h_config.n_entities) || h_config.n_entities < 0) {
       throw std::runtime_error(

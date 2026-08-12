@@ -40,27 +40,6 @@ Assets::Assets()
   label_.setFillColor(sf::Color::White);
 }
 
-sf::ConvexShape& Assets::get_boid_shape()
-{
-  return boid_shape_;
-}
-sf::ConvexShape& Assets::get_hunter_shape()
-{
-  return hunter_shape_;
-}
-sf::RectangleShape& Assets::get_bar()
-{
-  return bar_;
-}
-sf::Text& Assets::get_text()
-{
-  return text_;
-}
-sf::Text& Assets::get_label()
-{
-  return label_;
-}
-
 void Assets::draw_entity(sf::RenderWindow& window, sf::ConvexShape& shape,
                          Boid const& entity)
 {
@@ -74,25 +53,19 @@ void Assets::draw_entity(sf::RenderWindow& window, sf::ConvexShape& shape,
   window.draw(shape);
 }
 
-void render_flock(sf::RenderWindow& window, std::vector<Boid> const& flock,
-                  Assets& assets)
+void Assets::draw_boid(sf::RenderWindow& window, Boid const& boid)
 {
-  for (auto const& boid : flock) {
-    assets.draw_entity(window, assets.get_boid_shape(), boid);
-  }
+  draw_entity(window, boid_shape_, boid);
 }
 
-void render_kettle(sf::RenderWindow& window, std::vector<Boid> const& kettle,
-                   Assets& assets)
+void Assets::draw_hunter(sf::RenderWindow& window, Boid const& hunter)
 {
-  for (auto const& hunter : kettle) {
-    assets.draw_entity(window, assets.get_hunter_shape(), hunter);
-  }
+  draw_entity(window, hunter_shape_, hunter);
 }
 
-void render_histogram(sf::RenderWindow& window, std::vector<int> const& bins,
-                      sf::FloatRect const& bounds, double max_val,
-                      Assets& assets)
+void Assets::draw_histogram(sf::RenderWindow& window,
+                            std::vector<int> const& bins,
+                            sf::FloatRect const& bounds, double max_val)
 {
   if (bins.empty()) {
     return;
@@ -105,10 +78,6 @@ void render_histogram(sf::RenderWindow& window, std::vector<int> const& bins,
 
   float bin_width{bounds.width / static_cast<float>(bins.size())};
 
-  sf::RectangleShape& bar{assets.get_bar()};
-  sf::Text& text{assets.get_text()};
-  sf::Text& label{assets.get_label()};
-
   for (size_t i{0}; i < bins.size(); ++i) {
     float normalized_height{
         (static_cast<float>(bins[i]) / static_cast<float>(max_count))
@@ -116,40 +85,56 @@ void render_histogram(sf::RenderWindow& window, std::vector<int> const& bins,
     float x_pos{bounds.left + static_cast<float>(i) * bin_width};
     float y_pos{bounds.top + bounds.height - normalized_height};
 
-    bar.setSize(sf::Vector2f(bin_width - 1.f, normalized_height));
-    bar.setPosition(x_pos, y_pos);
-    window.draw(bar);
+    bar_.setSize(sf::Vector2f{bin_width - 1.f, normalized_height});
+    bar_.setPosition(x_pos, y_pos);
+    window.draw(bar_);
 
     if (bins[i] > 0) {
-      text.setString(std::to_string(bins[i]));
-      sf::FloatRect textRect{text.getLocalBounds()};
-      text.setOrigin(textRect.left + textRect.width / 2.0f,
-                     textRect.top + textRect.height / 2.0f);
-      text.setPosition(x_pos + bin_width / 2.0f, y_pos - 10.f);
-      window.draw(text);
+      text_.setString(std::to_string(bins[i]));
+      sf::FloatRect textRect{text_.getLocalBounds()};
+      text_.setOrigin(textRect.left + textRect.width / 2.0f,
+                      textRect.top + textRect.height / 2.0f);
+      text_.setPosition(x_pos + bin_width / 2.0f, y_pos - 10.f);
+      window.draw(text_);
 
       float v_min{(static_cast<float>(i) / static_cast<float>(bins.size()))
                   * static_cast<float>(max_val)};
 
       if (i % 5 == 0) {
-        label.setString(std::to_string(static_cast<int>(v_min)));
-        sf::FloatRect labelRect = label.getLocalBounds();
-        label.setOrigin(labelRect.left + labelRect.width / 2.0f,
-                        labelRect.top + labelRect.height / 2.0f);
-        label.setPosition(x_pos + bin_width / 2.0f,
-                          bounds.top + bounds.height + 10.f);
-        window.draw(label);
+        label_.setString(std::to_string(static_cast<int>(v_min)));
+        sf::FloatRect labelRect{label_.getLocalBounds()};
+        label_.setOrigin(labelRect.left + labelRect.width / 2.0f,
+                         labelRect.top + labelRect.height / 2.0f);
+        label_.setPosition(x_pos + bin_width / 2.0f,
+                           bounds.top + bounds.height + 10.f);
+        window.draw(label_);
       }
     }
   }
 
-  bar.setOutlineThickness(-1.f);
-  bar.setOutlineColor(sf::Color(40, 40, 40));
+  bar_.setOutlineThickness(-1.f);
+  bar_.setOutlineColor(sf::Color(40, 40, 40));
 
-  sf::RectangleShape xAxis(sf::Vector2f(bounds.width, 2.f));
+  sf::RectangleShape xAxis{sf::Vector2f{bounds.width, 2.f}};
   xAxis.setPosition(bounds.left, bounds.top + bounds.height);
   xAxis.setFillColor(sf::Color::White);
   window.draw(xAxis);
+}
+
+void render_flock(sf::RenderWindow& window, std::vector<Boid> const& flock,
+                  Assets& assets)
+{
+  for (auto const& boid : flock) {
+    assets.draw_boid(window, boid);
+  }
+}
+
+void render_kettle(sf::RenderWindow& window, std::vector<Boid> const& kettle,
+                   Assets& assets)
+{
+  for (auto const& hunter : kettle) {
+    assets.draw_hunter(window, hunter);
+  }
 }
 
 void handle_events(sf::RenderWindow& window, sf::RenderWindow& statsWindow,

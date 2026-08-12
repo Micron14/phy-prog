@@ -30,7 +30,7 @@ Vector2D& Vector2D::operator*=(double scalare)
 Vector2D& Vector2D::operator/=(double scalare)
 {
   if (scalare == 0.0) {
-    throw std::runtime_error("Division by_ zero in Vector2D::operator/=");
+    throw std::runtime_error("Division by zero in Vector2D::operator/=");
   }
   x_ /= scalare;
   y_ /= scalare;

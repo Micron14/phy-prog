@@ -34,7 +34,5 @@ Vector2D operator*(double scalare, Vector2D vec);
 
 Vector2D operator/(Vector2D lhs, double scalare);
 
-Vector2D operator/(double scalare, Vector2D vec);
-
 } // namespace bs
 #endif
