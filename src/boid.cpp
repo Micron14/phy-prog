@@ -7,12 +7,12 @@
 
 namespace bs {
 
-Vector2D Boid::get_position() const
+Vector2D const& Boid::get_position() const
 {
   return position_;
 }
 
-Vector2D Boid::get_velocity() const
+Vector2D const& Boid::get_velocity() const
 {
   return velocity_;
 }

@@ -23,9 +23,9 @@ class Boid
       , velocity_{vel}
   {}
 
-  Vector2D get_position() const;
+  Vector2D const& get_position() const;
 
-  Vector2D get_velocity() const;
+  Vector2D const& get_velocity() const;
 
   Vector2D compute_separation(std::vector<Boid> const& flock,
                               SimConfig const& config) const;
