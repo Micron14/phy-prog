@@ -70,7 +70,7 @@ SimConfig get_user_config()
   return config;
 }
 
-SimConfig h_config_setter(SimConfig h_config)
+SimConfig create_hunter_config(SimConfig h_config)
 {
   if (h_config.is_custom) {
     std::cout << "Enter number of hunters: ";

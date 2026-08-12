@@ -15,7 +15,7 @@ int main()
 {
   try {
     bs::SimConfig config{bs::get_user_config()};
-    bs::SimConfig h_config{bs::h_config_setter(config)};
+    bs::SimConfig h_config{bs::create_hunter_config(config)};
 
     sf::RenderWindow window(
         sf::VideoMode(static_cast<unsigned int>(config.border_width),
