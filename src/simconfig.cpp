@@ -52,7 +52,7 @@ SimConfig get_user_config()
   std::cout << "Enter the separation factor (s): ";
   if (!(std::cin >> config.separation_factor) || config.separation_factor < 0) {
     throw std::runtime_error(
-        "Invalid input: The separation strenght cannot be negative.");
+        "Invalid input: The separation strength cannot be negative.");
   }
 
   std::cout << "Enter the alignment factor (a): ";
