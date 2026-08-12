@@ -12,8 +12,12 @@ void update_physics(std::vector<Boid>& flock, std::vector<Boid>& kettle,
                     bool left_mouse, bool right_mouse,
                     Vector2D const& mouse_pos, bool is_bounded)
 {
-  std::vector<Boid> next_flock{flock};
-  std::vector<Boid> next_kettle{kettle};
+  static std::vector<Boid> next_flock;
+  static std::vector<Boid> next_kettle;
+
+  next_flock  = flock;
+  next_kettle = kettle;
+
   Vector2D flock_center{get_flock_center(flock)};
 
   for (auto& hunter : next_kettle) {
