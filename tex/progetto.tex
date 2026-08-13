@@ -32,18 +32,26 @@
     \vspace{0.3cm}
     \large Simulazione dinamica ed emergenza collettiva del comportamento di stormi nel modello dei Boids con SFML
 }
-\author{Borchetta Simone, Genovesi Antonio, Granieri Ginevra}
-\date{5 luglio 2026}
+\author{Borchetta Simone, Genovesi Antonio}
+\date{28 agosto 2026}
 
 \begin{document}
-
 \maketitle
-
-\begin{center}
-\small\textbf{Modifiche dalla consegna precedente:} Prima consegna ufficiale del progetto completo.
-\end{center}
 \hrule
 \vspace{0.5cm}
+\section{Modifiche dalla consegna precedente}
+Rispetto alla consegna del 15 luglio 2026 il progetto è stato sottoposto a modifiche e revisioni. Riportiamo di seguito i cambiamenti salienti:
+\begin{itemize}
+    \item \textbf{Unificazione del namespace: }Nella stesura precedente, per evitare conflitti di nomi, il codice era stato ripartito in diversi namespace indipendenti 
+    (\texttt{phy}, \texttt{boids}, \texttt{stats}, \texttt{sim}). Per rispettare rigorosamente le specifiche del progetto, tutte le entità del programma (tipi, funzioni, classi) sono state ora migrate e dichiarate all'interno di un unico namespace (\texttt{bs}) dedicato alla simulazione
+    \item \textbf{Strumento di Formattazione: }Come richiesto dalle linee guida, il file di configurazione \texttt{.clang-format} utilizzato per definire le regole stilistiche del codice è stato esplicitamente incluso nell'archivio di consegna, insieme al file \texttt{CMakeLists.txt} e alle altre dipendenze.  
+    \item \textbf{Ottimizzazione delle dichiarazioni e delle definizioni delle Funzioni (Parametri e Return Types): }È stata condotta una revisione sistematica delle interfacce delle funzioni. Si è prestata particolare attenzione al passaggio appropriato dei parametri, implementando il passaggio per const reference (\texttt{const T\&}) 
+    per gli oggetti complessi (es. le strutture dati della configurazione o vettori di grandi dimensioni) e mantenendo il passaggio per valore (by value) per i tipi primitivi. Parallelamente, sono stati ottimizzati i return types per prevenire copie non necessarie.
+    \item \textbf{Uso di this e rimozione di self\_index: }Sono stati implementati dei range-for loop nelle funzioni di aggiornamento della simulazione. È stata modificata la logica di riconoscimento dello stesso boid attraverso la distanza (uguale a zero).
+    \item \textbf{Uso appropriato di static: }Abbiamo modificato l'utilizzo di \texttt{static} nel codice, limitandolo alle variabili che ne necessitavano l'uso (al fine di rendere più efficiente il codice).
+    \item \textbf{Modifiche relative alla relazione: }Dati i cambiamenti del codice abbiamo provveduto a perfezionare la descrizione di quest ultimo nella relazione da consegnare. Abbiamo inoltre aggiunto nuove spiegazioni in quest'ultima relative alle configurazioni iniziali della simulazione. 
+
+\end{itemize}
 
 \section*{Riassunto}
 Il progetto implementa una simulazione numerica del modello dei \textit{Boids}, introdotto da Craig Reynolds nel 1986 per descrivere il comportamento collettivo e coordinato (\textit{flocking}) di stormi di uccelli o banchi di pesci. Ogni agente evolve nel tempo seguendo semplici regole locali geometriche e cinematiche. La simulazione è interamente realizzata in C++ ed integra la libreria grafica SFML per la visualizzazione bidimensionale in tempo reale, una componente statistica per l'analisi dei dati in esecuzione e un modulo interattivo che prevede la presenza di agenti predatori (\textit{hunters}) e forze esterne pilotabili dall'utente tramite mouse.
