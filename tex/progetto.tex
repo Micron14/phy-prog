@@ -10,6 +10,7 @@
 \usepackage{hyperref}
 \usepackage{booktabs}
 \usepackage{listings}
+\usepackage[most]{tcolorbox}
 \usepackage{xcolor}
 
 \geometry{a4paper, margin=2.3cm}
@@ -116,18 +117,18 @@ I boids avvertono il pericolo del predatore: non appena un \textit{hunter} entra
 Il codice è scritto in C++ seguendo la programmazione a oggetti ed è diviso in diversi file separati per mantenere il lavoro ordinato e modulare. Abbiamo inoltre impiegato l'utilizzo di diversi namespace in modo da evitare conflitti di nomi.
 
 \begin{itemize}
-    \item \textbf{\texttt{vector2d.hpp}} (\texttt{namespace phy}): contiene le definizioni dell'interfaccia per la struttura dati \texttt{Vector2D}, progettata per la gestione di vettori nello spazio bidimensionale $\mathbb{R}^2$.
-    \item \textbf{\texttt{vector2d.cpp}} (\texttt{namespace phy}): contiene le definizioni delle funzioni della struttura dati dichiarata nell'header \texttt{vector2d.hpp}. Inoltre sono presenti gli overload degli operatori dichiarati in esso.
-    \item \textbf{\texttt{boid.hpp}} (\texttt{namespace boids}): definisce la classe \texttt{Boid}, che modella l'agente fondamentale della simulazione. Questa classe incapsula lo stato fisico dell'entità (posizione e velocità) e i metodi necessari per implementare il comportamento collettivo basato sul modello di Reynolds (separazione, allineamento e coesione).
-    \item \textbf{\texttt{boid.cpp}} (\texttt{namespace boids}): implementa la logica comportamentale e cinetica della classe \texttt{Boid}. Basandosi sul modello di Reynolds, il codice traduce le interazioni locali tra le entità in vettori di forza, determinando il movimento fluido e collettivo tipico di uno stormo.
-    \item \textbf{\texttt{statistics.hpp}} (\texttt{namespace stats}): contiene le dichiarazioni dell'interfaccia per il modulo di analisi statistica, progettato per elaborare i dati relativi a un gruppo di oggetti di tipo \texttt{Boid} (tipicamente rappresentanti una simulazione di stormo).
-    \item \textbf{\texttt{statistics.cpp}} (\texttt{namespace stats}): fornisce l'implementazione logica delle funzioni di analisi statistica per lo stormo di Boid. Utilizza algoritmi della libreria standard C++ (\texttt{<algorithm>}, \texttt{<numeric>}) per elaborare in modo efficiente le proprietà del vettore flock.
-    \item \textbf{\texttt{simconfig.hpp}} (\texttt{namespace boids}): definisce la struttura dati \texttt{SimConfig}, che centralizza tutti i parametri di configurazione necessari al motore di simulazione. Tale approccio permette di separare la logica dei parametri dai componenti dinamici (i \textit{Boid}), facilitando la gestione delle impostazioni sia globali che specifiche per eventuali sottogruppi (es. predatori o \textit{kettle}). Abbiamo implementato questo \textit{header file}, incluso ad esempio in \texttt{boid.cpp} e in \texttt{boid.hpp}, in modo da poter dichiarare e definire delle funzioni che accettassero in input una singola struct, al posto di svariati parametri. Sono state dichiarate delle funzioni necessarie alla configurazione della simulazione, qualora si volessero utilizzare dei parametri da passare attraverso \texttt{std::cin}.
-    \item \textbf{\texttt{simconfig.cpp}} (\texttt{namespace boids}): implementa la logica di inizializzazione e configurazione dinamica dei parametri di simulazione. Gestisce l'interazione con l'utente tramite standard input per definire le caratteristiche dello stormo e dei predatori (\textit{hunter}), includendo meccanismi di validazione dei dati in ingresso.
-    \item \textbf{\texttt{simulation.hpp}} (\texttt{namespace sim}): contiene le dichiarazioni dell'interfaccia per il modulo di aggiornamento fisico della simulazione. In esso è presente la dichiarazione della funzione \texttt{update\_physics}, che gestisce l'evoluzione temporale dello stormo (\textit{flock}) e di eventuali sotto-gruppi (\textit{kettle}), applicando le regole di comportamento (\textit{flocking}) basate sulle configurazioni (\texttt{SimConfig}) e sugli input dell'utente (posizione del mouse e stati dei tasti).
-    \item \textbf{\texttt{simulation.cpp}} (\texttt{namespace sim}): implementa la logica di aggiornamento temporale della simulazione (\texttt{update\_physics}). Esso funge da motore principale, coordinando il calcolo delle forze, l'applicazione delle regole di comportamento (\textit{flocking}) e la gestione dei vincoli spaziali per le entità (\textit{Boid}) presenti sia nello stormo principale che nel sotto-gruppo dei predatori (\textit{kettle}).
-    \item \textbf{\texttt{render.hpp}}: viene dichiarata l'interfaccia per il modulo di visualizzazione grafica, che utilizza la libreria SFML (\textit{Simple and Fast Multimedia Library}) per l'interfacciamento con l'hardware grafico. Il modulo si occupa della traduzione dello stato logico della simulazione (vettori di entità e dati statistici) in rappresentazioni visive su finestra.
-    \item \textbf{\texttt{render.cpp}}: contiene l'implementazione del motore grafico del progetto, che traduce lo stato numerico della simulazione (posizioni, velocità e dati statistici) in un output visivo mediante la libreria \textit{SFML}. Il modulo segue un pattern di rendering immediato, ottimizzato per l'aggiornamento costante durante il ciclo di gioco (\textit{game loop}).
+    \item \textbf{\texttt{vector2d.hpp}}: Contiene le definizioni dell'interfaccia per la struttura dati \texttt{Vector2D}, progettata per la gestione di vettori nello spazio bidimensionale $\mathbb{R}^2$.
+    \item \textbf{\texttt{vector2d.cpp}}: Contiene le definizioni delle funzioni della struttura dati dichiarata nell'header \texttt{vector2d.hpp}. Inoltre sono presenti gli overload degli operatori dichiarati in esso.
+    \item \textbf{\texttt{boid.hpp}}: Definisce la classe \texttt{Boid}, che modella l'agente fondamentale della simulazione. Questa classe incapsula lo stato fisico dell'entità (posizione e velocità) e i metodi necessari per implementare il comportamento collettivo basato sul modello di Reynolds (separazione, allineamento e coesione).
+    \item \textbf{\texttt{boid.cpp}}: Implementa la logica comportamentale e cinetica della classe \texttt{Boid}. Basandosi sul modello di Reynolds, il codice traduce le interazioni locali tra le entità in vettori di forza, determinando il movimento fluido e collettivo tipico di uno stormo.
+    \item \textbf{\texttt{statistics.hpp}}: Contiene le dichiarazioni dell'interfaccia per il modulo di analisi statistica, progettato per elaborare i dati relativi a un gruppo di oggetti di tipo \texttt{Boid} (tipicamente rappresentanti una simulazione di stormo).
+    \item \textbf{\texttt{statistics.cpp}}: Fornisce l'implementazione logica delle funzioni di analisi statistica per lo stormo di Boid. Utilizza algoritmi della libreria standard C++ (\texttt{<algorithm>}, \texttt{<numeric>}) per elaborare in modo efficiente le proprietà del vettore flock.
+    \item \textbf{\texttt{simconfig.hpp}}: Definisce la struttura dati \texttt{SimConfig}, che centralizza tutti i parametri di configurazione necessari al motore di simulazione. Tale approccio permette di separare la logica dei parametri dai componenti dinamici (i \textit{Boid}), facilitando la gestione delle impostazioni sia globali che specifiche per eventuali sottogruppi (es. predatori o \textit{kettle}). Abbiamo implementato questo \textit{header file}, incluso ad esempio in \texttt{boid.cpp} e in \texttt{boid.hpp}, in modo da poter dichiarare e definire delle funzioni che accettassero in input una singola struct, al posto di svariati parametri. Sono state dichiarate delle funzioni necessarie alla configurazione della simulazione, qualora si volessero utilizzare dei parametri da passare attraverso \texttt{std::cin}.
+    \item \textbf{\texttt{simconfig.cpp}}: Implementa la logica di inizializzazione e configurazione dinamica dei parametri di simulazione. Gestisce l'interazione con l'utente tramite standard input per definire le caratteristiche dello stormo e dei predatori (\textit{hunter}), includendo meccanismi di validazione dei dati in ingresso.
+    \item \textbf{\texttt{simulation.hpp}}: Contiene le dichiarazioni dell'interfaccia per il modulo di aggiornamento fisico della simulazione. In esso è presente la dichiarazione della funzione \texttt{update\_physics}, che gestisce l'evoluzione temporale dello stormo (\textit{flock}) e di eventuali sotto-gruppi (\textit{kettle}), applicando le regole di comportamento (\textit{flocking}) basate sulle configurazioni (\texttt{SimConfig}) e sugli input dell'utente (posizione del mouse e stati dei tasti).
+    \item \textbf{\texttt{simulation.cpp}}: Implementa la logica di aggiornamento temporale della simulazione (\texttt{update\_physics}). Esso funge da motore principale, coordinando il calcolo delle forze, l'applicazione delle regole di comportamento (\textit{flocking}) e la gestione dei vincoli spaziali per le entità (\textit{Boid}) presenti sia nello stormo principale che nel sotto-gruppo dei predatori (\textit{kettle}).
+    \item \textbf{\texttt{render.hpp}}: Viene dichiarata l'interfaccia per il modulo di visualizzazione grafica, che utilizza la libreria SFML (\textit{Simple and Fast Multimedia Library}) per l'interfacciamento con l'hardware grafico. Il modulo si occupa della traduzione dello stato logico della simulazione (vettori di entità e dati statistici) in rappresentazioni visive su finestra.
+    \item \textbf{\texttt{render.cpp}}: Contiene l'implementazione del motore grafico del progetto, che traduce lo stato numerico della simulazione (posizioni, velocità e dati statistici) in un output visivo mediante la libreria \textit{SFML}. Il modulo segue un pattern di rendering immediato, ottimizzato per l'aggiornamento costante durante il ciclo di gioco (\textit{game loop}).
 \end{itemize}
 Nell'archivio inviato sono presenti file come \texttt{CMakeLists.txt}, \texttt{.clang-format}, \texttt{doctest.h}, \texttt{arial.ttf} utilizati nello sviluppo del progetto.
 \subsection{Scelte Algoritmiche e Dinamica delle Forze}
@@ -137,6 +138,29 @@ Per garantire flessibilità nell'analisi della simulazione, la funzione \texttt{
     \item \textbf{Configurazione Predefinita:} Avvia immediatamente la simulazione caricando un set di parametri fisici standard (velocità massime, coefficienti delle tre regole e raggi di influenza) pre-impostati per garantire uno stormo stabile e visivamente coerente.
     \item \textbf{Configurazione Personalizzata:} Consente all'utente di modificare manualmente i singoli coefficienti per studiare comportamenti alternativi e fluttuazioni del sistema.
 \end{itemize}
+Per agevolare le procedure di configurazione della simulazione ed evitare l'inserimento manuale interattivo a ogni avvio, l'acquisizione dei parametri tramite \texttt{std::cin} è stata progettata per supportare la redirezione dell'input da un file di testo. È sufficiente creare un file (ad esempio quello da noi consegnato nell'archivio \texttt{configuration.txt}) contenente i valori disposti sequenzialmente, separati da ritorni a capo, nello stesso ordine in cui vengono richiesti dal prompt del programma.
+
+A titolo di esempio, il contenuto del file per una configurazione personalizzata massiva con 900 boids e 2 predatori si presenta in questo modo:
+\begin{tcolorbox}[
+  colback=gray!5!white,
+  colframe=gray!75!black,
+  title=Esempio di \texttt{configuration.txt} commentato,
+  arc=1mm
+]
+\small\ttfamily
+\begin{tabular}{ll}
+n       & \textcolor{gray}{\% Impostazione configurazione personalizzata} \\
+        & \textcolor{gray}{\% (Riga vuota)} \\
+900     & \textcolor{gray}{\% Numero di boids} \\
+60      & \textcolor{gray}{\% Visual range (d)} \\
+20      & \textcolor{gray}{\% Separation radius (ds)} \\
+0.8     & \textcolor{gray}{\% Separation factor (s)} \\
+0.5     & \textcolor{gray}{\% Alignment factor (a)} \\
+0.01    & \textcolor{gray}{\% Cohesion factor (c)} \\
+        & \textcolor{gray}{\% (Riga vuota)} \\
+2       & \textcolor{gray}{\% Numero di hunters}
+\end{tabular}
+\end{tcolorbox}
 Indipendentemente dalla modalità scelta, il sistema richiede esplicitamente l'inserimento del \textbf{numero di cacciatori (\textit{hunters})} da generare nella mappa. Questo permette di testare la risposta dinamica dello stormo a diversi livelli di pressione predatoria, osservando l'impatto sulla stabilità globale.
 \paragraph{Esempio di esecuzione con configurazione personalizzata}
 Di seguito si riporta un esempio di input interattivo consigliato per la valutazione del comportamento collettivo:
