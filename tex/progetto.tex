@@ -254,7 +254,7 @@ La simulazione si biforca in tre canali di output simultanei:
 \begin{enumerate}
     \item \textbf{Visualizzazione Grafica Principale:} Una finestra SFML renderizza i boids sotto forma di triangoli rossi orientati lungo il proprio vettore velocità e i cacciatori come triangoli di colore azzurro.
     \item \textbf{Finestra Statistica Ausiliaria:} Premendo il tasto \textbf{\texttt{S}} sulla tastiera, viene istanziata una seconda finestra grafica indipendente che disegna l'istogramma dinamico delle frequenze di velocità del sistema, discretizzato in 25 bin calibrati su una velocità massima di $50.0$.
-    \item \textbf{Output di Diagnostica da Terminale:} Lo standard output (\texttt{std::cout}) stampa continuativamente ad ogni ciclo le grandezze fisiche medie e le deviazioni standard dello stormo nel seguente formato:
+    \item \textbf{Output di Diagnostica da Terminale:} Lo standard output (\texttt{std::cout}) stampa ogni 60 cicli le grandezze fisiche medie e le deviazioni standard dello stormo nel seguente formato:
 \begin{lstlisting}
 Velocita' media: 27.42 | Dev.Std: 3.12 | Posizione media: 580.11 | Dev.Std: 142.34
 Velocita' media: 27.51 | Dev.Std: 2.98 | Posizione media: 581.45 | Dev.Std: 139.88
