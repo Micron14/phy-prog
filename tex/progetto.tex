@@ -209,6 +209,23 @@ Il modulo di rendering grafico è stato sviluppato, come anticipato, nel file \t
     \item Rappresentazione dei dati: la funzione \texttt{render\_histogram} trasforma un insieme di dati statistici (bins di velocità) in un istogramma grafico. L'altezza di ogni barra viene calcolata proporzionalmente al valore massimo presente nel dataset (\texttt{max\_count}) rispetto all'altezza totale disponibile(\texttt{bounds.height}). Il ciclo \texttt{for} crea rettangoli (\texttt{sf::RectangleShape}) per ogni bin, posizionandoli orizzontalmente in modo equispaziato. Vengono utilizzate \texttt{sf::Text} per visualizzare i valori numerici e le etichette dell'asse X. Il font viene caricato una sola volta staticamente, evitando operazioni di I/O disco onerose a ogni fotogramma.
     \item Gestione degli Eventi: la funzione \texttt{handle\_events} funge da interfaccia di controllo tra l'utente e la simulazione. Si utilizza \texttt{window.pollEvent} per monitorare costantemente le azioni dell'utente, come la chiusura delle finestre. La pressione di tasti specifici modifica lo stato della simulazione in tempo reale: premendo il tasto 'B' si cambia la modalità dei confini (toroidal $\leftrightarrow$ bounded), premendo il tasto 'S' apre o chiude la finestra secondaria dedicata alle statistiche, gestendo dinamicamente il ciclo di vita della \texttt{statsWindow} (creazione e distruzione).
 \end{enumerate}
+\subsection{Strategia di Test e Verifica del Codice}
+Per garantire l'affidabilità del simulatore e la correttezza delle equazioni fisiche implementate, si è adottato il framework di unit testing \texttt{doctest}. La suite automatizzata è suddivisa in tre macro-aree che validano le componenti critiche del sistema:
+
+\begin{itemize}
+    \item \textbf{Algebra vettoriale (\texttt{Vector2D}):} 
+    I test verificano la rigorosa correttezza aritmetica degli overload degli operatori ($+$, $-$, $*$, $/$, ecc.). Oltre al calcolo della norma euclidea e della distanza, viene validata la funzione \texttt{angle()} rispetto ai quattro punti cardinali. È stata inoltre testata la robustezza del codice contro operazioni matematicamente non definite, accertandosi che la divisione per zero (es. \texttt{v / 0.0}) sollevi correttamente un'eccezione \texttt{std::runtime\_error}.
+
+    \item \textbf{Logica e cinematica degli agenti (\texttt{Boid}):}
+    \begin{itemize}
+        \item \textit{Vincoli cinematici:} Verifica del corretto troncamento del modulo della velocità quando questo supera \texttt{max\_vel} o scende sotto \texttt{min\_vel}.
+        \item \textit{Regole di Reynolds:} Calcolo manuale incrociato: i test istanziano stormi di dimensioni ridotte (2 o 3 boids) con coordinate note, verificando che i vettori restituiti da \texttt{compute\_separation}, \texttt{compute\_alignment} e \texttt{compute\_cohesion} coincidano esattamente (tramite \texttt{doctest::Approx}) con i risultati teorici. Sono stati testati anche i casi limite (stormi vuoti o composti da un solo boid, e raggio visivo nullo) per escludere la generazione di valori \texttt{NaN}.
+        \item \textit{Forze e Confini:} Validazione delle condizioni al contorno: i test assicurano il corretto riposizionamento delle entità in modalità toroidale (wrap-around) e il calcolo esatto della forza repulsiva elastica ai margini della finestra. Infine, viene verificato il corretto funzionamento di \texttt{apply\_force} nel generare vettori di fuga/inseguimento (es. rispetto alla posizione di un \textit{hunter}).
+    \end{itemize}
+
+    \item \textbf{Modulo Statistico (\texttt{stats}):}
+    Si verifica la correttezza del calcolo della media e della deviazione standard per posizione e velocità. Oltre ai campioni standard, il sistema è testato per gestire stormi vuoti restituendo vettori nulli, evitando così crash a runtime. Per quanto riguarda l'istogramma, i test convalidano la corretta allocazione delle entità nei \textit{bin} (inclusa la convergenza delle velocità fuori scala nell'ultimo bin disponibile) e la corretta gestione delle eccezioni in caso di input non validi (es. numero di bin nullo o velocità massima negativa).
+\end{itemize}
 \section{Guida all'Uso e Parametri di Input}
 \label{sec:guida}
 
