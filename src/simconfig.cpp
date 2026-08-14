@@ -4,8 +4,28 @@
 #include <iostream>
 #include <limits>
 #include <stdexcept>
+#include <string>
 
 namespace bs {
+
+static void clear_cin_buffer()
+{
+  std::cin.clear();
+  std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+template<typename T, typename Predicate>
+static T read_param(std::string const& prompt, std::string const& error_msg,
+                    Predicate is_valid)
+{
+  T value{};
+  std::cout << prompt;
+  if (!(std::cin >> value) || !is_valid(value)) {
+    clear_cin_buffer();
+    throw std::runtime_error(error_msg);
+  }
+  return value;
+}
 
 SimConfig get_user_config()
 {
@@ -15,57 +35,59 @@ SimConfig get_user_config()
   while (true) {
     std::cout << "Would you like to start the boid simulation with the default "
                  "parameters? (y/n): ";
-    std::cin >> choice;
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    if (choice == 'y' || choice == 'Y') {
-      std::cout << "Starting with the default parameters...\n";
-      return config;
-    } else if (choice == 'n' || choice == 'N') {
-      config.is_custom = true;
-      break;
+    if (std::cin >> choice) {
+      clear_cin_buffer();
+      if (choice == 'y' || choice == 'Y') {
+        std::cout << "Starting with the default parameters...\n";
+        return config;
+      }
+      if (choice == 'n' || choice == 'N') {
+        config.is_custom = true;
+        break;
+      }
+      std::cout << "Not valid. Please enter 'y' or 'n'.\n";
     } else {
-      std::cout << "Not valid.\n";
+      clear_cin_buffer();
+      std::cout << "Input error. Please try again.\n";
     }
   }
 
   std::cout << "\n--- Custom Parameter Input ---\n";
 
-  std::cout << "Enter number of boids: ";
-  if (!(std::cin >> config.n_entities) || config.n_entities <= 0) {
-    throw std::runtime_error("Invalid input: The number of boids must be an "
-                             "integer greater than zero.");
+  config.n_entities = read_param<int>("Enter number of boids: ",
+                                      "Invalid input: The number of boids must "
+                                      "be an integer greater than zero.",
+                                      [](int v) { return v > 0; });
+
+  config.visual_range = read_param<double>(
+      "Enter the visual range (d): ",
+      "Invalid input: The visual range must be a positive number.",
+      [](double v) { return v > 0.0; });
+
+  config.separation_radius = read_param<double>(
+      "Enter the separation radius (ds): ",
+      "Invalid input: The separation radius must be a positive number.",
+      [](double v) { return v > 0.0; });
+
+  if (config.separation_radius > config.visual_range) {
+    throw std::runtime_error("Invalid input: The separation radius cannot be "
+                             "greater than the visual range.");
   }
 
-  std::cout << "Enter the visual range (d): ";
-  if (!(std::cin >> config.visual_range) || config.visual_range <= 0) {
-    throw std::runtime_error("Invalid input: The visual range must be a "
-                             "positive number.");
-  }
+  config.separation_factor = read_param<double>(
+      "Enter the separation factor (s): ",
+      "Invalid input: The separation strength cannot be negative.",
+      [](double v) { return v >= 0.0; });
 
-  std::cout << "Enter the separation radius (ds): ";
-  if (!(std::cin >> config.separation_radius)
-      || config.separation_radius <= 0) {
-    throw std::runtime_error("Invalid input: The separation radius must be a "
-                             "positive number.");
-  }
+  config.alignment_factor = read_param<double>(
+      "Enter the alignment factor (a): ",
+      "Invalid input: The alignment factor cannot be negative.",
+      [](double v) { return v >= 0.0; });
 
-  std::cout << "Enter the separation factor (s): ";
-  if (!(std::cin >> config.separation_factor) || config.separation_factor < 0) {
-    throw std::runtime_error(
-        "Invalid input: The separation strength cannot be negative.");
-  }
-
-  std::cout << "Enter the alignment factor (a): ";
-  if (!(std::cin >> config.alignment_factor) || config.alignment_factor < 0) {
-    throw std::runtime_error(
-        "Invalid input: The alignment factor cannot be negative.");
-  }
-
-  std::cout << "Enter the cohesion factor (c): ";
-  if (!(std::cin >> config.cohesion_factor) || config.cohesion_factor < 0) {
-    throw std::runtime_error(
-        "Invalid input: The cohesion factor cannot be negative.");
-  }
+  config.cohesion_factor = read_param<double>(
+      "Enter the cohesion factor (c): ",
+      "Invalid input: The cohesion factor cannot be negative.",
+      [](double v) { return v >= 0.0; });
 
   return config;
 }
@@ -73,14 +95,14 @@ SimConfig get_user_config()
 SimConfig create_hunter_config(SimConfig h_config)
 {
   if (h_config.is_custom) {
-    std::cout << "Enter number of hunters: ";
-    if (!(std::cin >> h_config.n_entities) || h_config.n_entities < 0) {
-      throw std::runtime_error(
-          "Invalid input: The number of hunters cannot be negative");
-    }
+    h_config.n_entities = read_param<int>(
+        "Enter number of hunters: ",
+        "Invalid input: The number of hunters cannot be negative.",
+        [](int v) { return v >= 0; });
   } else {
     h_config.n_entities = 3;
   }
+
   h_config.is_hunter = true;
   h_config.separation_factor *= 0.5;
   h_config.separation_radius *= 3;
@@ -88,6 +110,7 @@ SimConfig create_hunter_config(SimConfig h_config)
   h_config.cohesion_factor  = 0;
   h_config.min_vel          = 40.0;
   h_config.max_vel          = 80.0;
+
   return h_config;
 }
 
