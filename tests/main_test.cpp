@@ -361,28 +361,28 @@ TEST_CASE("Testing update_physics simulation loop")
   CHECK(flock1[0].get_position().x_ == doctest::Approx(expected_x));
   CHECK_FALSE(kettle1[0].get_position().x_ == doctest::Approx(100.0));
 
-  bs::Boid b_attract({500.0, 500.0}, {0.0, 10.0});
-  b_attract.set_min_vel(1.0);
-  b_attract.set_max_vel(50.0);
-
-  std::vector<bs::Boid> flock_attract = {b_attract};
-  std::vector<bs::Boid> kettle_empty1 = {};
-  bs::Vector2D mouse_pos_right{600.0, 500.0};
-
-  bs::update_physics(flock_attract, kettle_empty1, config, h_config, true,
-                     false, mouse_pos_right, true);
-
-  CHECK(flock_attract[0].get_velocity().x_ < 0.0);
-
   bs::Boid b_repel({500.0, 500.0}, {0.0, 10.0});
   b_repel.set_min_vel(1.0);
   b_repel.set_max_vel(50.0);
 
   std::vector<bs::Boid> flock_repel   = {b_repel};
-  std::vector<bs::Boid> kettle_empty2 = {};
+  std::vector<bs::Boid> kettle_empty1 = {};
+  bs::Vector2D mouse_pos_right{600.0, 500.0};
 
-  bs::update_physics(flock_repel, kettle_empty2, config, h_config, false, true,
+  bs::update_physics(flock_repel, kettle_empty1, config, h_config, true, false,
                      mouse_pos_right, true);
 
-  CHECK(flock_repel[0].get_velocity().x_ > 0.0);
+  CHECK(flock_repel[0].get_velocity().x_ < 0.0);
+
+  bs::Boid b_attract({500.0, 500.0}, {0.0, 10.0});
+  b_attract.set_min_vel(1.0);
+  b_attract.set_max_vel(50.0);
+
+  std::vector<bs::Boid> flock_attract = {b_attract};
+  std::vector<bs::Boid> kettle_empty2 = {};
+
+  bs::update_physics(flock_attract, kettle_empty2, config, h_config, false,
+                     true, mouse_pos_right, true);
+
+  CHECK(flock_attract[0].get_velocity().x_ > 0.0);
 }
