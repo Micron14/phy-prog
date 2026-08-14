@@ -201,16 +201,57 @@ TEST_CASE("Testing Boid class")
   CHECK(b1.compute_alignment(flock3, config2).norm() == doctest::Approx(0.0));
   CHECK(b1.compute_cohesion(flock3, config2).norm() == doctest::Approx(0.0));
 
-  std::vector<bs::Boid> flock4;
+  bs::SimConfig config;
 
-  for (int i = 0; i < 10; ++i) {
-    flock4.emplace_back(bs::Vector2D{0.0, 0.0}, bs::Vector2D{0.0, 0.0});
-  }
-  std::vector<bs::Boid> kettle1;
+  config.min_vel       = 2.0;
+  config.max_vel       = 10.0;
+  config.margin        = 10.0;
+  config.border_width  = 1000.0;
+  config.border_height = 1000.0;
 
-  for (int i = 0; i < 2; ++i) {
-    kettle1.emplace_back(bs::Vector2D{0.0, 0.0}, bs::Vector2D{0.0, 0.0});
-  }
+  bs::Boid b7({500.0, 500.0}, {5.0, 0.0});
+  b7.set_min_vel(1.0);
+  b7.set_max_vel(10.0);
+  std::vector<bs::Boid> flock = {b7};
+
+  bs::Vector2D pos_before = b7.get_position();
+  bs::Vector2D vel_before = b7.get_velocity();
+
+  b7.update(flock, config);
+
+  CHECK(b7.get_velocity().x_ == doctest::Approx(vel_before.x_));
+  CHECK(b7.get_velocity().y_ == doctest::Approx(vel_before.y_));
+
+  CHECK(b7.get_position().x_
+        == doctest::Approx(pos_before.x_ + vel_before.x_ * config.dt));
+  CHECK(b7.get_position().y_
+        == doctest::Approx(pos_before.y_ + vel_before.y_ * config.dt));
+
+  bs::Boid b_slow({500.0, 500.0}, {0.5, 0.0});
+  b_slow.set_min_vel(config.min_vel);
+  b_slow.set_max_vel(config.max_vel);
+  std::vector<bs::Boid> flock_slow = {b_slow};
+
+  b_slow.update(flock_slow, config);
+  CHECK(b_slow.get_velocity().norm() == doctest::Approx(config.min_vel));
+
+  bs::Boid b_fast({500.0, 500.0}, {20.0, 0.0});
+  b_fast.set_min_vel(config.min_vel);
+  b_fast.set_max_vel(config.max_vel);
+  std::vector<bs::Boid> flock_fast = {b_fast};
+
+  b_fast.update(flock_fast, config);
+  CHECK(b_fast.get_velocity().norm() == doctest::Approx(config.max_vel));
+
+  bs::Boid b8({500.0, 500.0}, {5.0, 0.0});
+  bs::Boid b9({503.0, 500.0}, {-5.0, 0.0});
+  std::vector<bs::Boid> flock5 = {b8, b9};
+
+  bs::Vector2D vel_before1 = b8.get_velocity();
+
+  b8.update(flock5, config);
+
+  CHECK_FALSE(b8.get_velocity().x_ == doctest::Approx(vel_before1.x_));
 }
 
 TEST_CASE("Testing statistics calculation")
@@ -275,4 +316,73 @@ TEST_CASE("Testing statistics calculation")
 
   CHECK(bins2[4] == 1);
   CHECK(bins2[0] == 0);
+}
+
+TEST_CASE("Testing SimConfig creation")
+{
+  bs::SimConfig base_config;
+  base_config.is_custom = false;
+
+  bs::SimConfig hunter_cfg = bs::create_hunter_config(base_config);
+
+  CHECK(hunter_cfg.is_hunter == true);
+  CHECK(hunter_cfg.n_entities == 3);
+  CHECK(hunter_cfg.min_vel == doctest::Approx(40.0));
+  CHECK(hunter_cfg.max_vel == doctest::Approx(80.0));
+}
+
+TEST_CASE("Testing update_physics simulation loop")
+{
+  bs::SimConfig config;
+  config.min_vel       = 1.0;
+  config.max_vel       = 50.0;
+  config.dt            = 0.35;
+  config.border_width  = 1000.0;
+  config.border_height = 1000.0;
+
+  bs::SimConfig h_config = config;
+
+  bs::Boid b1({500.0, 500.0}, {10.0, 0.0});
+  b1.set_min_vel(1.0);
+  b1.set_max_vel(50.0);
+
+  bs::Boid h1({100.0, 100.0}, {5.0, 5.0});
+  h1.set_min_vel(1.0);
+  h1.set_max_vel(50.0);
+
+  std::vector<bs::Boid> flock1  = {b1};
+  std::vector<bs::Boid> kettle1 = {h1};
+  bs::Vector2D mouse_pos_default{0.0, 0.0};
+
+  bs::update_physics(flock1, kettle1, config, h_config, false, false,
+                     mouse_pos_default, true);
+
+  double expected_x = 500.0 + (10.0 * config.dt);
+  CHECK(flock1[0].get_position().x_ == doctest::Approx(expected_x));
+  CHECK_FALSE(kettle1[0].get_position().x_ == doctest::Approx(100.0));
+
+  bs::Boid b_attract({500.0, 500.0}, {0.0, 10.0});
+  b_attract.set_min_vel(1.0);
+  b_attract.set_max_vel(50.0);
+
+  std::vector<bs::Boid> flock_attract = {b_attract};
+  std::vector<bs::Boid> kettle_empty1 = {};
+  bs::Vector2D mouse_pos_right{600.0, 500.0};
+
+  bs::update_physics(flock_attract, kettle_empty1, config, h_config, true,
+                     false, mouse_pos_right, true);
+
+  CHECK(flock_attract[0].get_velocity().x_ < 0.0);
+
+  bs::Boid b_repel({500.0, 500.0}, {0.0, 10.0});
+  b_repel.set_min_vel(1.0);
+  b_repel.set_max_vel(50.0);
+
+  std::vector<bs::Boid> flock_repel   = {b_repel};
+  std::vector<bs::Boid> kettle_empty2 = {};
+
+  bs::update_physics(flock_repel, kettle_empty2, config, h_config, false, true,
+                     mouse_pos_right, true);
+
+  CHECK(flock_repel[0].get_velocity().x_ > 0.0);
 }
