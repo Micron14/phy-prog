@@ -169,13 +169,12 @@ TEST_CASE("Testing Boid class")
   test_config.alignment_factor = 0.5;
 
   // mass_center = (5, 5), c*mass_center = 0.1 * (5, 5) = (0.5, 0.5)
-  bs::Vector2D coh_big = next_flock[0].compute_cohesion(big_flock, test_config);
+  bs::Vector2D coh_big = big_flock[0].compute_cohesion(big_flock, test_config);
   CHECK(coh_big.x_ == doctest::Approx(0.5));
   CHECK(coh_big.y_ == doctest::Approx(0.5));
   // mean_speed (between f2 and f3) = (-0.5, -0.5), mean_speed - f1.vel = (-1.5,
   // 0.5) -> a*(-1.5, 0.5) = (-0.75, 0.25)
-  bs::Vector2D ali_big =
-      next_flock[0].compute_alignment(big_flock, test_config);
+  bs::Vector2D ali_big = big_flock[0].compute_alignment(big_flock, test_config);
   CHECK(ali_big.x_ == doctest::Approx(-0.75));
   CHECK(ali_big.y_ == doctest::Approx(0.25));
 
@@ -217,11 +216,10 @@ TEST_CASE("Testing Boid class")
   bs::Vector2D pos_before = b7.get_position();
   bs::Vector2D vel_before = b7.get_velocity();
 
-  b7.update(flock, config);
+  b7 = b7.update(flock, config);
 
   CHECK(b7.get_velocity().x_ == doctest::Approx(vel_before.x_));
   CHECK(b7.get_velocity().y_ == doctest::Approx(vel_before.y_));
-
   CHECK(b7.get_position().x_
         == doctest::Approx(pos_before.x_ + vel_before.x_ * config.dt));
   CHECK(b7.get_position().y_
@@ -232,7 +230,7 @@ TEST_CASE("Testing Boid class")
   b_slow.set_max_vel(config.max_vel);
   std::vector<bs::Boid> flock_slow = {b_slow};
 
-  b_slow.update(flock_slow, config);
+  b_slow = b_slow.update(flock_slow, config);
   CHECK(b_slow.get_velocity().norm() == doctest::Approx(config.min_vel));
 
   bs::Boid b_fast({500.0, 500.0}, {20.0, 0.0});
@@ -240,7 +238,7 @@ TEST_CASE("Testing Boid class")
   b_fast.set_max_vel(config.max_vel);
   std::vector<bs::Boid> flock_fast = {b_fast};
 
-  b_fast.update(flock_fast, config);
+  b_fast = b_fast.update(flock_fast, config);
   CHECK(b_fast.get_velocity().norm() == doctest::Approx(config.max_vel));
 
   bs::Boid b8({500.0, 500.0}, {5.0, 0.0});
@@ -249,7 +247,7 @@ TEST_CASE("Testing Boid class")
 
   bs::Vector2D vel_before1 = b8.get_velocity();
 
-  b8.update(flock5, config);
+  b8 = b8.update(flock5, config);
 
   CHECK_FALSE(b8.get_velocity().x_ == doctest::Approx(vel_before1.x_));
 }
