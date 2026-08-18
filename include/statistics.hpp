@@ -10,8 +10,8 @@ namespace bs {
 
 struct StatResult
 {
-  double mean_;
-  double std_dev_;
+  double mean;
+  double std_dev;
 };
 
 StatResult avg_speed(std::vector<Boid> const& flock);
