@@ -1,5 +1,5 @@
 ### progetto-fisica
-Repository per lo sviluppo del progetto [**boids**](https://github.com/Programmazione-per-la-Fisica/progetto2025/blob/main/boids.md) per il corso di Programmazione per la Fisica 25/26.
+Repository per la correzione del progetto (precedentemente inviato e sviluppato in un'altra repo) [**boids**](https://github.com/Programmazione-per-la-Fisica/progetto2025/blob/main/boids.md) per il corso di Programmazione per la Fisica 25/26.
 
 ## to-do list
 1. Article
