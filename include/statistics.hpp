@@ -23,5 +23,7 @@ std::vector<int> calculate_speed_histogram(std::vector<Boid> const& flock,
 
 Vector2D get_flock_center(std::vector<Boid> const& flock);
 
+void print_stats(std::vector<Boid> const& flock);
+
 } // namespace bs
 #endif

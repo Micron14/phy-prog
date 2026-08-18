@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <functional>
+#include <iostream>
 #include <numeric>
 #include <stdexcept>
 #include <vector>
@@ -93,4 +94,15 @@ Vector2D get_flock_center(std::vector<Boid> const& flock)
 
   return flock_center;
 }
+
+void print_stats(std::vector<Boid> const& flock)
+{
+  StatResult speed{avg_speed(flock)};
+  StatResult position{avg_position(flock)};
+  std::cout << "Mean speed: " << speed.mean_
+            << " | Std. Dev.: " << speed.std_dev_
+            << " | Mean position: " << position.mean_
+            << " | Std. Dev.: " << position.std_dev_ << '\n';
+}
+
 } // namespace bs
