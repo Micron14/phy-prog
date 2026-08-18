@@ -14,5 +14,7 @@ void update_physics(std::vector<Boid>& flock, std::vector<Boid>& kettle,
                     bool left_mouse, bool right_mouse,
                     Vector2D const& mouse_pos, bool is_bounded);
 
+std::vector<Boid> entity_gen(SimConfig const& config);
+
 } // namespace bs
 #endif

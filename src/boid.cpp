@@ -2,7 +2,6 @@
 #include "simconfig.hpp"
 #include "vector2d.hpp"
 
-#include <random>
 #include <vector>
 
 namespace bs {
@@ -165,42 +164,6 @@ void Boid::set_max_vel(double max_v)
 void Boid::set_min_vel(double min_v)
 {
   min_vel_ = min_v;
-}
-
-std::vector<Boid> entity_gen(SimConfig const& config)
-{
-  if (config.is_hunter && config.n_entities < 0) {
-    throw std::runtime_error("Invalid number of hunters (must be >= 0).");
-  } else if (!config.is_hunter && config.n_entities <= 0) {
-    throw std::runtime_error("Invalid number of boids (must be > 0).");
-  }
-
-  std::random_device r;                // static
-  std::default_random_engine eng{r()}; // static
-  std::uniform_real_distribution<double> x{100.0, config.border_width
-                                                      - 100.0}; // static
-  std::uniform_real_distribution<double> y{100.0, config.border_height
-                                                      - 100.0}; // static
-  std::uniform_real_distribution<double> v{-35.0, 35.0};        // static
-
-  std::vector<Boid> entities;
-  entities.reserve(static_cast<size_t>(config.n_entities));
-
-  for (int i{0}; i < config.n_entities; ++i) {
-    Vector2D pos{x(eng), y(eng)};
-    Vector2D vel{v(eng), v(eng)};
-
-    Boid e{pos, vel};
-
-    if (config.is_hunter) {
-      e.set_max_vel(config.max_vel);
-      e.set_min_vel(config.min_vel);
-    }
-
-    entities.push_back(e);
-  }
-
-  return entities;
 }
 
 } // namespace bs
