@@ -7,6 +7,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{subcaption}
 \usepackage{hyperref}
 \usepackage{booktabs}
 \usepackage{listings}
@@ -40,7 +41,7 @@
 \maketitle
 \hrule
 \vspace{0.5cm}
-\section{Modifiche dalla consegna precedente}
+\section*{Modifiche dalla consegna precedente}
 Rispetto alla consegna del 15 luglio 2026 il progetto è stato sottoposto a modifiche e revisioni. Riportiamo di seguito i cambiamenti salienti:
 \begin{itemize}
     \item \textbf{Unificazione del namespace: }Nella stesura precedente, per evitare conflitti di nomi, il codice era stato ripartito in diversi namespace indipendenti 
@@ -48,12 +49,12 @@ Rispetto alla consegna del 15 luglio 2026 il progetto è stato sottoposto a modi
     \item \textbf{Strumento di Formattazione: }Come richiesto dalle linee guida, il file di configurazione \texttt{.clang-format} utilizzato per definire le regole stilistiche del codice è stato esplicitamente incluso nell'archivio di consegna, insieme al file \texttt{CMakeLists.txt} e alle altre dipendenze.  
     \item \textbf{Ottimizzazione delle dichiarazioni e delle definizioni delle Funzioni (Parametri e Return Types): }È stata condotta una revisione sistematica delle interfacce delle funzioni. Si è prestata particolare attenzione al passaggio appropriato dei parametri, implementando il passaggio per const reference (\texttt{const T\&}) 
     per gli oggetti complessi (es. le strutture dati della configurazione o vettori di grandi dimensioni) e mantenendo il passaggio per valore (by value) per i tipi primitivi. Parallelamente, sono stati ottimizzati i return types per prevenire copie non necessarie.
-    \item \textbf{Uso di this e rimozione di self\_index: }Sono stati implementati dei range-for loop nelle funzioni di aggiornamento della simulazione. È stata modificata la logica di riconoscimento dello stesso boid attraverso la distanza (uguale a zero).
+    \item \textbf{Uso di this e rimozione di self\_index, cambiamento dei return type di \texttt{Boid::update}: }Sono stati implementati dei range-for loop nelle funzioni di aggiornamento della simulazione. Dopo aver tentato di far riconoscere al boid se stesso mediante un approccio geometrico non sempre efficace (controllando che la distanza tra i due boid fosse pari a 0), abbiamo deciso di modificare i metodi della classe \texttt{Boid} ad esempio: \texttt{Boid::compute\_cohesion}, \texttt{Boid::compute\_alignment}, \texttt{Boid::compute\_separation}... in modo da riconoscere il boid attraverso gli indirizzi di memoria.
+    A tal proposito abbiamo dovuto modificare interamente la logica di programmazione, dal momento che inizialmente si confrontavano \texttt{boids} appartenenti a due flock diversi (\texttt{flock}, \texttt{next\_flock}). Come conseguenza è variato il codice inerente al metodo \texttt{Boid::update} che restituisce una copia modificata che viene, in seguito all'applicazione di forze attraverso \texttt{Boid::apply\_force}, inserita in \texttt{next\_flock}. 
     \item \textbf{Uso appropriato di static: }Abbiamo modificato l'utilizzo di \texttt{static} nel codice, limitandolo alle variabili che ne necessitavano l'uso (al fine di rendere più efficiente il codice).
     \item \textbf{Modifiche relative alla relazione: }Dati i cambiamenti del codice abbiamo provveduto a perfezionare la descrizione di quest ultimo nella relazione da consegnare. Abbiamo inoltre aggiunto nuove spiegazioni in quest'ultima relative alle configurazioni iniziali della simulazione. 
 
 \end{itemize}
-\newpage
 \section*{Riassunto}
 Il progetto implementa una simulazione numerica del modello dei \textit{Boids}, introdotto da Craig Reynolds nel 1986 per descrivere il comportamento collettivo e coordinato (\textit{flocking}) di stormi di uccelli o banchi di pesci. Ogni agente evolve nel tempo seguendo semplici regole locali geometriche e cinematiche. La simulazione è interamente realizzata in C++ ed integra la libreria grafica SFML per la visualizzazione bidimensionale in tempo reale, una componente statistica per l'analisi dei dati in esecuzione e un modulo interattivo che prevede la presenza di agenti predatori (\textit{hunters}) e forze esterne pilotabili dall'utente tramite mouse.
 
@@ -126,11 +127,12 @@ Il codice è scritto in C++ seguendo la programmazione a oggetti ed è diviso in
     \item \textbf{\texttt{simconfig.hpp}}: Definisce la struttura dati \texttt{SimConfig}, che centralizza tutti i parametri di configurazione necessari al motore di simulazione. Tale approccio permette di separare la logica dei parametri dai componenti dinamici (i \textit{Boid}), facilitando la gestione delle impostazioni sia globali che specifiche per eventuali sottogruppi (es. predatori o \textit{kettle}). Abbiamo implementato questo \textit{header file}, incluso ad esempio in \texttt{boid.cpp} e in \texttt{boid.hpp}, in modo da poter dichiarare e definire delle funzioni che accettassero in input una singola struct, al posto di svariati parametri. Sono state dichiarate delle funzioni necessarie alla configurazione della simulazione, qualora si volessero utilizzare dei parametri da passare attraverso \texttt{std::cin}.
     \item \textbf{\texttt{simconfig.cpp}}: Implementa la logica di inizializzazione e configurazione dinamica dei parametri di simulazione. Gestisce l'interazione con l'utente tramite standard input per definire le caratteristiche dello stormo e dei predatori (\textit{hunter}), includendo meccanismi di validazione dei dati in ingresso.
     \item \textbf{\texttt{simulation.hpp}}: Contiene le dichiarazioni dell'interfaccia per il modulo di aggiornamento fisico della simulazione. In esso è presente la dichiarazione della funzione \texttt{update\_physics}, che gestisce l'evoluzione temporale dello stormo (\textit{flock}) e di eventuali sotto-gruppi (\textit{kettle}), applicando le regole di comportamento (\textit{flocking}) basate sulle configurazioni (\texttt{SimConfig}) e sugli input dell'utente (posizione del mouse e stati dei tasti).
-    \item \textbf{\texttt{simulation.cpp}}: Implementa la logica di aggiornamento temporale della simulazione (\texttt{update\_physics}). Esso funge da motore principale, coordinando il calcolo delle forze, l'applicazione delle regole di comportamento (\textit{flocking}) e la gestione dei vincoli spaziali per le entità (\textit{Boid}) presenti sia nello stormo principale che nel sotto-gruppo dei predatori (\textit{kettle}).
+    \item \textbf{\texttt{simulation.cpp}}: Implementa la logica di aggiornamento temporale della simulazione 
+    \newline (\texttt{update\_physics}). Esso funge da motore principale, coordinando il calcolo delle forze, l'applicazione delle regole di comportamento (\textit{flocking}) e la gestione dei vincoli spaziali per le entità (\textit{Boid}) presenti sia nello stormo principale che nel sotto-gruppo dei predatori (\textit{kettle}).
     \item \textbf{\texttt{render.hpp}}: Viene dichiarata l'interfaccia per il modulo di visualizzazione grafica, che utilizza la libreria SFML (\textit{Simple and Fast Multimedia Library}) per l'interfacciamento con l'hardware grafico. Il modulo si occupa della traduzione dello stato logico della simulazione (vettori di entità e dati statistici) in rappresentazioni visive su finestra.
     \item \textbf{\texttt{render.cpp}}: Contiene l'implementazione del motore grafico del progetto, che traduce lo stato numerico della simulazione (posizioni, velocità e dati statistici) in un output visivo mediante la libreria \textit{SFML}. Il modulo segue un pattern di rendering immediato, ottimizzato per l'aggiornamento costante durante il ciclo di gioco (\textit{game loop}).
 \end{itemize}
-Nell'archivio inviato sono presenti file come \texttt{CMakeLists.txt}, \texttt{.clang-format}, \texttt{doctest.h}, \texttt{arial.ttf} utilizati nello sviluppo del progetto.
+Nell'archivio inviato sono presenti file come \texttt{CMakeLists.txt}, \texttt{.clang-format}, \texttt{doctest.h}, \newline \texttt{arial.ttf} utilizati nello sviluppo del progetto.
 \subsection{Scelte Algoritmiche e Dinamica delle Forze}
 \subsubsection{Configurazione Iniziale e Parametri di Input}
 Per garantire flessibilità nell'analisi della simulazione, la funzione \texttt{get\_user\_config()} richiede all'avvio alcuni parametri di input da terminale standard. L'utente può scegliere tra due modalità principali di inizializzazione:
@@ -151,7 +153,7 @@ A titolo di esempio, il contenuto del file per una configurazione personalizzata
 \begin{tabular}{ll}
 n       & \textcolor{gray}{\% Impostazione configurazione personalizzata} \\
         & \textcolor{gray}{\% (Riga vuota)} \\
-900     & \textcolor{gray}{\% Numero di boids} \\
+600     & \textcolor{gray}{\% Numero di boids} \\
 60      & \textcolor{gray}{\% Visual range (d)} \\
 20      & \textcolor{gray}{\% Separation radius (ds)} \\
 0.8     & \textcolor{gray}{\% Separation factor (s)} \\
@@ -285,9 +287,30 @@ Le rilevazioni statistiche evidenziano come, partendo da distribuzioni casuali o
 
 In regime toroidale e in assenza di \textit{hunters}, la deviazione standard del modulo della velocità diminuisce rapidamente, indicando che gli agenti hanno accoppiato con successo i propri vettori di volo (dunque coordinano i loro movimenti), riducendo le velocità relative (fase di \textit{flock} compatto). L'inserimento di agenti predatori rompe questo equilibrio, inducendo la dispersione locale dei boids limitrofi e la formazione di sottogruppi coordinati di fuga, riscontrabili nelle improvvise fluttuazioni della deviazione standard spaziale stampata a terminale.
 
-\textbf{Gestione del Progetto (GitHub):}
+\paragraph{Gestione del Progetto (GitHub):}
 Per la scrittura del codice il team ha adottato \texttt{Git} come sistema di controllo versione e \texttt{GitHub} come repository remoto. Questa infrastruttura ci ha permesso di isolare lo sviluppo di nuove feature su \textit{branch} separati, garantendo un'integrazione sicura del codice tramite \textit{merge} e risolvendo i conflitti di sovrascrittura.
-
+\newpage
+\subsection{Documentazione dei risultati}
+Di seguito, in figura (\ref{fig:boids}), riportiamo attraverso l'utilizzo di \textit{screenshots} i risultati ottenuti attraverso l'esecuzione del nostro codice:
+\begin{figure}[htbp]
+    \centering
+    
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/flock.png}
+        \caption{} 
+        \label{subfig:a}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/stats.png}
+        \caption{}
+        \label{subfig:b}
+    \end{subfigure}
+    \hfill
+    \caption{Simulazione di uno stormo mediante il modello di Reynolds: in figura (a) in rosso sono rappresentati i \texttt{boids} mentre in azzurro sono disegnati gli \texttt{hunters}, in (b) la finestra mostra la distribuzione delle velocità dei \texttt{boids}.}
+    \label{fig:boids}
+\end{figure}
 \section{Dichiarazione sull'uso di IA Generativa}
 \label{sec:ia}
 In accordo con i vincoli di trasparenza del corso, si dichiara che il modello di Intelligenza Artificiale Generativa Gemini è stato utilizzato esclusivamente come supporto per lo studio delle funzioni della libreria SFML (la quale esulava dal programma approfondito a lezione), per la ricerca di algoritmi e l'interpretazione di messaggi di errore del compilatore. La progettazione logica finale del sistema, l'implementazione software delle equazioni fisiche in C++, l'integrazione delle chiamate grafiche e il debugging finale rimangono interamente frutto dell'analisi e del lavoro originale del gruppo.
