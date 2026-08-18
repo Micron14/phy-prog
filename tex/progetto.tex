@@ -52,7 +52,7 @@ Rispetto alla consegna del 15 luglio 2026 il progetto è stato sottoposto a modi
     \item \textbf{Uso di this e rimozione di self\_index, cambiamento dei return type di \texttt{Boid::update}: }Sono stati implementati dei range-for loop nelle funzioni di aggiornamento della simulazione. Dopo aver tentato di far riconoscere al boid se stesso mediante un approccio geometrico non sempre efficace (controllando che la distanza tra i due boid fosse pari a 0), abbiamo deciso di modificare i metodi della classe \texttt{Boid} ad esempio: \texttt{Boid::compute\_cohesion}, \texttt{Boid::compute\_alignment}, \texttt{Boid::compute\_separation}... in modo da riconoscere il boid attraverso gli indirizzi di memoria.
     A tal proposito abbiamo dovuto modificare interamente la logica di programmazione, dal momento che inizialmente si confrontavano \texttt{boids} appartenenti a due flock diversi (\texttt{flock}, \texttt{next\_flock}). Come conseguenza è variato il codice inerente al metodo \texttt{Boid::update} che restituisce una copia modificata che viene, in seguito all'applicazione di forze attraverso \texttt{Boid::apply\_force}, inserita in \texttt{next\_flock}. 
     \item \textbf{Uso appropriato di static: }Abbiamo modificato l'utilizzo di \texttt{static} nel codice, limitandolo alle variabili che ne necessitavano l'uso (al fine di rendere più efficiente il codice).
-    \item \textbf{Modifiche relative alla relazione: }Dati i cambiamenti del codice abbiamo provveduto a perfezionare la descrizione di quest ultimo nella relazione da consegnare. Abbiamo inoltre aggiunto nuove spiegazioni in quest'ultima relative alle configurazioni iniziali della simulazione. 
+    \item \textbf{Modifiche relative alla relazione: }Dati i cambiamenti del codice abbiamo provveduto a perfezionare la descrizione di quest'ultimo nella relazione da consegnare. Abbiamo inoltre aggiunto nuove spiegazioni in quest'ultima relative alle configurazioni iniziali della simulazione. 
 
 \end{itemize}
 \section*{Riassunto}
@@ -102,16 +102,16 @@ Il comportamento complessivo dello stormo emerge dalla combinazione lineare di t
 \end{itemize}
 
 \subsection{Modellizzazione della Predazione: gli \textit{Hunters}}
-Per inserire un elemento di disturbo nello stormo, il programma prevede la presenza dei cacciatori (\textit{hunters}). Rispetto ai boids ordinari, gli \textit{hunters} hanno parametri diversi: sono caratterizzati da dimensioni geometriche maggiori e si muovono a una velocità massima più elevata.
+Per inserire un elemento di disturbo nello stormo, il programma prevede la presenza dei cacciatori (\textit{hunters}). Rispetto ai boids ordinari, gli \textit{hunters} hanno parametri diversi: possiedono dimensioni geometriche maggiori e una velocità massima più elevata.
 
-Il loro comportamento segue una logica specifica tramite l'applicazione di forze centrali con la funzione \texttt{apply\_force}:
+Il loro diverso comportamento segue dall'applicazione di forze centrali attraveso la funzione \texttt{apply\_force}:
 \begin{itemize}
     \item \textbf{Separazione tra i Cacciatori:} Gli \textit{hunters} non si muovono in modo del tutto isolato; per evitare di andarsi a sbattere addosso a vicenda, la regola della separazione rimane attiva all'interno del loro gruppo.
-    \item \textbf{Forza Inerziale di Propulsione:} Ciascun cacciatore viene spinto costantemente nella direzione in cui si sta già muovendo. Il programma calcola una forza diretta verso un punto proiettato in avanti nel tempo lungo la sua traiettoria ($\vec{x}_{\text{hunter}} + 4\vec{v}_{\text{hunter}}$), simulando l'inerzia del movimento.
+    \item \textbf{Propulsione:} Ciascun cacciatore viene spinto costantemente nella direzione in cui si sta già muovendo. Il programma calcola una forza diretta verso un punto proiettato in avanti nel tempo lungo la sua traiettoria ($\vec{x}_{\text{hunter}} + 4\vec{v}_{\text{hunter}}$) al fine di rendere più fluida la simulazione.
     \item \textbf{Attrazione verso il Centro dello Stormo:} Contemporaneamente, il cacciatore viene attratto dal centro di massa dello stormo dei boids ($\vec{x}_c$). Questa forza centrale serve a fargli inseguire il gruppo, e la sua intensità viene dimezzata (moltiplicata per $-0.5$) rispetto al parametro standard.
 \end{itemize}
 
-I boids avvertono il pericolo del predatore: non appena un \textit{hunter} entra nel loro raggio di influenza, i boids attivano una regola di fuga che ha la priorità assoluta su tutte le altre, spingendoli nella direzione opposta con una forza repulsiva a corto raggio.
+Non appena un \textit{hunter} entra nel raggio di percezione dei boid (\texttt{influence\_radius}), i boids vengono spinti da una forza repulsiva che si somma vettorialmente alle altre forze dello stormo ma, data la sua intensità, domina la deviazione della traiettoria spingendoli nella direzione opposta.
 
 \section{Scelte Progettuali e Ripartizione del Codice}
 \label{sec:progettazione}
@@ -177,13 +177,13 @@ Enter the cohesion factor (c): 0.01
 Enter number of hunters: 3
 \end{lstlisting}
 \subsubsection{Generazione di flocks e kettles}
-Nella presente architettura di simulazione, la generazione sia degli stormi di Boid (\textit{flocks}) che dei gruppi di predatori (\text{kettle}) è affidata a una funzione di utilità unica e generica: \texttt{entity\_gen}. Questo approccio di programmazione modulare permette di gestire la creazione di entità diverse utilizzando un'unica logica di generazione, garantendo coerenza e manutenibilità del codice. La funzione riceve in input un oggetto di tipo \texttt{boids::SimConfig} contenente tutti i parametri necessari per configurare l'entità. La funzione esegue un controllo sugli input: per gli stormi di \textit{boids} viene richiesto un numero di entità strettamente positivo, mentre per gli \textit{hunters} un numero non negativo. In caso di parametri non validi, il sistema solleva un'eccezione di tipo \texttt{std::runtime\_error}, prevenendo errori di esecuzione.
+Nella presente architettura di simulazione, la generazione sia degli stormi di Boid (\textit{flocks}) che dei gruppi di predatori (\text{kettle}) è affidata a una funzione di utilità unica e generica: \texttt{entity\_gen}. Questo approccio di programmazione modulare permette di gestire la creazione di entità diverse utilizzando un'unica logica di generazione, garantendo coerenza e manutenibilità del codice. La funzione riceve in input un oggetto di tipo \texttt{bs::SimConfig} contenente tutti i parametri necessari per configurare l'entità. La funzione esegue un controllo sugli input: per gli stormi di \textit{boids} viene richiesto un numero di entità strettamente positivo, mentre per gli \textit{hunters} un numero non negativo. In caso di parametri non validi, il sistema solleva un'eccezione di tipo \texttt{std::runtime\_error}, prevenendo errori di esecuzione.
 Utilizzando un motore di numeri casuali \texttt{std::default\_random\_engine} la funzione distribuisce le entità nello spazio $\mathbb{R}^2$. Le coordinate ($x$, $y$) sono calcolate entro i bordi definiti dalla configurazione, applicando un margine di sicurezza per evitare la generazione di boid sui confini. Ogni entità viene inizializzata con un vettore velocità ($v_x$,$v_y$) casuale, compreso in un intervallo che garantisce movimento iniziale dello stormo. A questo punto la funzione controlla il valore booleano \texttt{is\_hunter} presente nella configurazione: se esso ha valore \texttt{true}, vengono applicati i limiti di velocità specifici del predatore.
 
 \subsubsection{Regole di volo}
 Sono state implementate le regole di volo presentate in Sezione \ref{sec:modellofisico}:
 \begin{itemize}
-    \item \texttt{compute\_separation}: impedisce ai boids di sovrapporsi o scontrarsi. Per ogni vicino all'interno del \texttt{separarion\_radius} calcola un vettore repulsivo che allontana il boid corrente. L'intensità della spinta è regolata attraverso il \texttt{separation\_factor}.
+    \item \texttt{compute\_separation}: impedisce ai boids di sovrapporsi o scontrarsi. Per ogni vicino all'interno del \texttt{separation\_radius} calcola un vettore repulsivo che allontana il boid corrente. L'intensità della spinta è regolata attraverso il \texttt{separation\_factor}.
     \item \texttt{compute\_alignment}: permette allo stormo di muoversi in modo coordinato. Il boid calcola la media dei vettori velocità dei vicini entro il proprio \texttt{visual\_range} e genera una forza che tende ad allineare la propria direzione a quella del gruppo, pesata dall'\texttt{alignment\_factor}.
     \item \texttt{compute\_cohesion}: spinge il boid verso il centro di massa dei vicini percepiti, garantendo che lo stormo rimanga coeso e non si disperda, regolata dal \texttt{cohesion\_factor}.
 \end{itemize}
@@ -199,13 +199,13 @@ L'evoluzione temporale del sistema adotta un approccio ad aggiornamento sincrono
 
 Il modello standard è arricchito da due elementi:
 \begin{enumerate}
-    \item \textbf{Agenti Predatori (Hunters):} Il codice istanzia una flotta di \textit{hunters} cinematica e strutturalmente distinta (\texttt{kettle}), configurata con velocità di punta superiori. Essi inseguono il centro di massa dei boid definiti \textit{vicini} secondo le logiche descritte nella Sezione~\ref{sec:modellofisico}. A seconda del parametro \texttt{is\_bounded}, vengono applicati confini rigidi o toroidali. Atraverso il metodo \texttt{update} vengono integrate le forze nel vettore velocità determinando lo spostamento finale.
+    \item \textbf{Agenti Predatori (Hunters):} Il codice istanzia una flotta di \textit{hunters} cinematica e strutturalmente distinta (\texttt{kettle}), configurata con velocità di punta superiori. Essi inseguono il centro di massa dei boid definiti \textit{vicini} secondo le logiche descritte nella Sezione~\ref{sec:modellofisico}. A seconda del parametro \texttt{is\_bounded}, vengono applicati confini rigidi o toroidali. Attraverso il metodo \texttt{update} vengono integrate le forze nel vettore velocità determinando lo spostamento finale.
     \item \textbf{Boids}: Il metodo \texttt{update} calcola le forze di separazione, allineamento e coesione rispetto agli altri componenti dello stormo. Si applica una forza repulsiva verso la posizione di ogni \textit{hunter} presente nel vettore \texttt{kettle}, simulando l'istinto di fuga dei boids. Analogamente ai predatori, vengono applicati i vincoli di bordo per mantenere lo stormo nell'area definita.
     \item \textbf{Interattività Utente:} L'utente può perturbare il sistema in tempo reale tramite input asincroni del mouse. La pressione del tasto destro genera una forza attrattiva verso le coordinate del cursore, mentre il tasto sinistro simula una forza repulsiva (effetto "spavento").
 \end{enumerate}
 
 \subsubsection{Generazione dei grafici attraverso SFML}
-Il modulo di rendering grafico è stato sviluppato, come anticipato, nel file \texttt{render.cpp}, che si basa sull'aggiornamento ciclico di primitive grafiche all'interno di una \texttt{sf::RenderWindow}. Il file si occupa di due tasks:
+Il modulo di rendering grafico è stato sviluppato, come anticipato, nel file \texttt{render.cpp}, che si basa sull'aggiornamento ciclico di primitive grafiche all'interno di una \texttt{sf::RenderWindow}. Il file si occupa di tre funzionalità principali:
 \begin{enumerate}
     \item Rendering delle entità: le funzioni \texttt{render\_flock} e \texttt{render\_kettle} visualizzano gli stormi e i predatori attraverso oggetti di tipo \texttt{sf::ConvexShape}. Le forme vengono dichiarate come \texttt{static} con un flag \texttt{initialized}, che garantisce che la geometria venga definita una volta sola all'avvio, risparmiando risorse computazionali durante il \textit{game loop}. Per ogni entità il codice esegue due operazioni prima di richiamare \texttt{window.draw()}: vengono allineate la forma alle coordinate ($x$, $y$) del \texttt{boid} attraverso la funzione \texttt{set\_Position}. Attraverso la funzione \texttt{set\_Rotation} viene orientato il triangolo in base all'angolo del vettore velocità, permettendo all'utente di percepire la direzione del moto del \texttt{boid}.
     \item Rappresentazione dei dati: la funzione \texttt{render\_histogram} trasforma un insieme di dati statistici (bins di velocità) in un istogramma grafico. L'altezza di ogni barra viene calcolata proporzionalmente al valore massimo presente nel dataset (\texttt{max\_count}) rispetto all'altezza totale disponibile(\texttt{bounds.height}). Il ciclo \texttt{for} crea rettangoli (\texttt{sf::RectangleShape}) per ogni bin, posizionandoli orizzontalmente in modo equispaziato. Vengono utilizzate \texttt{sf::Text} per visualizzare i valori numerici e le etichette dell'asse X. Il font viene caricato una sola volta staticamente, evitando operazioni di I/O disco onerose a ogni fotogramma.
@@ -261,7 +261,7 @@ Per eseguire la simulazione ci si posiziona all'interno della directory che incl
 \begin{lstlisting}
    $ ./build/Debug/simulazione 
 \end{lstlisting}
-per avviare la simulazone in modalità Debug, oppure si avvia in modalità Release:
+per avviare la simulazione in modalità Debug, oppure si avvia in modalità Release:
 \begin{lstlisting}
     $ ./build/Release/simulazione
 \end{lstlisting}
