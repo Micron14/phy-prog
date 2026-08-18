@@ -23,8 +23,11 @@ Vector2D Boid::compute_separation(std::vector<Boid> const& flock,
   Vector2D separation{0, 0};
 
   for (auto const& b : flock) {
+    if (&b == this) {
+      continue;
+    }
     double dist{position_.distance(b.get_position())};
-    if (dist > 0.0 && dist < config.separation_radius) {
+    if (dist < config.separation_radius) {
       separation -= (b.get_position() - position_) * config.separation_factor;
     }
   }
@@ -39,9 +42,11 @@ Vector2D Boid::compute_alignment(std::vector<Boid> const& flock,
   int count{0};
 
   for (auto const& b : flock) {
+    if (&b == this) {
+      continue;
+    }
     double dist{position_.distance(b.get_position())};
-
-    if (dist > 0.0 && dist < config.visual_range) {
+    if (dist < config.visual_range) {
       mean_velocity += b.get_velocity();
       ++count;
     }
@@ -63,9 +68,12 @@ Vector2D Boid::compute_cohesion(std::vector<Boid> const& flock,
   int count{0};
 
   for (auto const& b : flock) {
+    if (&b == this) {
+      continue;
+    }
     double dist{position_.distance(b.get_position())};
 
-    if (dist > 0.0 && dist < config.visual_range) {
+    if (dist < config.visual_range) {
       center_of_mass += b.get_position();
       ++count;
     }
@@ -91,19 +99,19 @@ void Boid::limit_velocity()
   }
 }
 
-void Boid::update(std::vector<Boid> const& flock, SimConfig const& config)
+Boid Boid::update(std::vector<Boid> const& flock, SimConfig const& config) const
 {
+  Boid next_state = *this;
+
   Vector2D separation{compute_separation(flock, config)};
-
   Vector2D alignment{compute_alignment(flock, config)};
-
   Vector2D cohesion{compute_cohesion(flock, config)};
 
-  velocity_ += separation + alignment + cohesion;
+  next_state.velocity_ += separation + alignment + cohesion;
+  next_state.limit_velocity();
+  next_state.position_ += next_state.velocity_ * config.dt;
 
-  limit_velocity();
-
-  position_ += velocity_ * config.dt;
+  return next_state;
 }
 
 void Boid::apply_toroidal_boundary(SimConfig const& config)
@@ -167,13 +175,13 @@ std::vector<Boid> entity_gen(SimConfig const& config)
     throw std::runtime_error("Invalid number of boids (must be > 0).");
   }
 
-  static std::random_device r;
-  static std::default_random_engine eng{r()};
-  static std::uniform_real_distribution<double> x{100.0,
-                                                  config.border_width - 100.0};
-  static std::uniform_real_distribution<double> y{100.0,
-                                                  config.border_height - 100.0};
-  static std::uniform_real_distribution<double> v{-35.0, 35.0};
+  std::random_device r;                // static
+  std::default_random_engine eng{r()}; // static
+  std::uniform_real_distribution<double> x{100.0, config.border_width
+                                                      - 100.0}; // static
+  std::uniform_real_distribution<double> y{100.0, config.border_height
+                                                      - 100.0}; // static
+  std::uniform_real_distribution<double> v{-35.0, 35.0};        // static
 
   std::vector<Boid> entities;
   entities.reserve(static_cast<size_t>(config.n_entities));

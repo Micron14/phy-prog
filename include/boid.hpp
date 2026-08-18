@@ -38,7 +38,7 @@ class Boid
 
   void limit_velocity();
 
-  void update(std::vector<Boid> const& flock, SimConfig const& config);
+  Boid update(std::vector<Boid> const& flock, SimConfig const& config) const;
 
   void apply_toroidal_boundary(SimConfig const& config);
   void apply_window_boundary(SimConfig const& config);
