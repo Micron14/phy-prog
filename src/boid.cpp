@@ -100,7 +100,7 @@ void Boid::limit_velocity()
 
 Boid Boid::update(std::vector<Boid> const& flock, SimConfig const& config) const
 {
-  Boid next_state = *this;
+  Boid next_state{*this};
 
   Vector2D separation{compute_separation(flock, config)};
   Vector2D alignment{compute_alignment(flock, config)};
