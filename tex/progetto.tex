@@ -7,6 +7,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{subcaption}
 \usepackage{hyperref}
 \usepackage{booktabs}
 \usepackage{listings}
@@ -40,7 +41,7 @@
 \maketitle
 \hrule
 \vspace{0.5cm}
-\section{Modifiche dalla consegna precedente}
+\section*{Modifiche dalla consegna precedente}
 Rispetto alla consegna del 15 luglio 2026 il progetto è stato sottoposto a modifiche e revisioni. Riportiamo di seguito i cambiamenti salienti:
 \begin{itemize}
     \item \textbf{Unificazione del namespace: }Nella stesura precedente, per evitare conflitti di nomi, il codice era stato ripartito in diversi namespace indipendenti 
@@ -48,12 +49,12 @@ Rispetto alla consegna del 15 luglio 2026 il progetto è stato sottoposto a modi
     \item \textbf{Strumento di Formattazione: }Come richiesto dalle linee guida, il file di configurazione \texttt{.clang-format} utilizzato per definire le regole stilistiche del codice è stato esplicitamente incluso nell'archivio di consegna, insieme al file \texttt{CMakeLists.txt} e alle altre dipendenze.  
     \item \textbf{Ottimizzazione delle dichiarazioni e delle definizioni delle Funzioni (Parametri e Return Types): }È stata condotta una revisione sistematica delle interfacce delle funzioni. Si è prestata particolare attenzione al passaggio appropriato dei parametri, implementando il passaggio per const reference (\texttt{const T\&}) 
     per gli oggetti complessi (es. le strutture dati della configurazione o vettori di grandi dimensioni) e mantenendo il passaggio per valore (by value) per i tipi primitivi. Parallelamente, sono stati ottimizzati i return types per prevenire copie non necessarie.
-    \item \textbf{Uso di this e rimozione di self\_index: }Sono stati implementati dei range-for loop nelle funzioni di aggiornamento della simulazione. È stata modificata la logica di riconoscimento dello stesso boid attraverso la distanza (uguale a zero).
+    \item \textbf{Uso di this e rimozione di self\_index, cambiamento dei return type di \texttt{Boid::update}: }Sono stati implementati dei range-for loop nelle funzioni di aggiornamento della simulazione. Dopo aver tentato di far riconoscere al boid se stesso mediante un approccio geometrico non sempre efficace (controllando che la distanza tra i due boid fosse pari a 0), abbiamo deciso di modificare i metodi della classe \texttt{Boid} ad esempio: \texttt{Boid::compute\_cohesion}, \texttt{Boid::compute\_alignment}, \texttt{Boid::compute\_separation}... in modo da riconoscere il boid attraverso gli indirizzi di memoria.
+    A tal proposito abbiamo dovuto modificare interamente la logica di programmazione, dal momento che inizialmente si confrontavano \texttt{boids} appartenenti a due flock diversi (\texttt{flock}, \texttt{next\_flock}). Come conseguenza è variato il codice inerente al metodo \texttt{Boid::update} che restituisce una copia modificata che viene, in seguito all'applicazione di forze attraverso \texttt{Boid::apply\_force}, inserita in \texttt{next\_flock}. 
     \item \textbf{Uso appropriato di static: }Abbiamo modificato l'utilizzo di \texttt{static} nel codice, limitandolo alle variabili che ne necessitavano l'uso (al fine di rendere più efficiente il codice).
     \item \textbf{Modifiche relative alla relazione: }Dati i cambiamenti del codice abbiamo provveduto a perfezionare la descrizione di quest ultimo nella relazione da consegnare. Abbiamo inoltre aggiunto nuove spiegazioni in quest'ultima relative alle configurazioni iniziali della simulazione. 
 
 \end{itemize}
-\newpage
 \section*{Riassunto}
 Il progetto implementa una simulazione numerica del modello dei \textit{Boids}, introdotto da Craig Reynolds nel 1986 per descrivere il comportamento collettivo e coordinato (\textit{flocking}) di stormi di uccelli o banchi di pesci. Ogni agente evolve nel tempo seguendo semplici regole locali geometriche e cinematiche. La simulazione è interamente realizzata in C++ ed integra la libreria grafica SFML per la visualizzazione bidimensionale in tempo reale, una componente statistica per l'analisi dei dati in esecuzione e un modulo interattivo che prevede la presenza di agenti predatori (\textit{hunters}) e forze esterne pilotabili dall'utente tramite mouse.
 
@@ -287,7 +288,28 @@ In regime toroidale e in assenza di \textit{hunters}, la deviazione standard del
 
 \textbf{Gestione del Progetto (GitHub):}
 Per la scrittura del codice il team ha adottato \texttt{Git} come sistema di controllo versione e \texttt{GitHub} come repository remoto. Questa infrastruttura ci ha permesso di isolare lo sviluppo di nuove feature su \textit{branch} separati, garantendo un'integrazione sicura del codice tramite \textit{merge} e risolvendo i conflitti di sovrascrittura.
-
+\newpage
+\subsection{Documentazione dei risultati}
+Di seguito, in figura (\ref{fig:boids}), riportiamo attraverso l'utilizzo di \textit{screenshots} i risultati ottenuti attraverso l'esecuzione del nostro codice:
+\begin{figure}[htbp]
+    \centering
+    
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/2026-08-18-17-20-21.png}
+        \caption{} 
+        \label{subfig:a}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/2026-08-18-17-22-02.png}
+        \caption{}
+        \label{subfig:b}
+    \end{subfigure}
+    \hfill
+    \caption{Simulazione di uno stormo mediante il modello di Reynolds: in figura (a) in rosso sono rappresentati i \texttt{boids} mentre in azzurro sono disegnati gli \texttt{hunters}, in (b) la finestra mostra la distribuzione delle velocità dei \texttt{boids}.}
+    \label{fig:boids}
+\end{figure}
 \section{Dichiarazione sull'uso di IA Generativa}
 \label{sec:ia}
 In accordo con i vincoli di trasparenza del corso, si dichiara che il modello di Intelligenza Artificiale Generativa Gemini è stato utilizzato esclusivamente come supporto per lo studio delle funzioni della libreria SFML (la quale esulava dal programma approfondito a lezione), per la ricerca di algoritmi e l'interpretazione di messaggi di errore del compilatore. La progettazione logica finale del sistema, l'implementazione software delle equazioni fisiche in C++, l'integrazione delle chiamate grafiche e il debugging finale rimangono interamente frutto dell'analisi e del lavoro originale del gruppo.
