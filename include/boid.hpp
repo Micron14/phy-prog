@@ -50,7 +50,5 @@ class Boid
   void set_min_vel(double min_v);
 };
 
-std::vector<Boid> entity_gen(SimConfig const& config);
-
 } // namespace bs
 #endif
