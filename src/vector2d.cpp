@@ -8,22 +8,22 @@ namespace bs {
 
 Vector2D& Vector2D::operator+=(Vector2D const& vec)
 {
-  x_ += vec.x_;
-  y_ += vec.y_;
+  x += vec.x;
+  y += vec.y;
   return *this;
 }
 
 Vector2D& Vector2D::operator-=(Vector2D const& vec)
 {
-  x_ -= vec.x_;
-  y_ -= vec.y_;
+  x -= vec.x;
+  y -= vec.y;
   return *this;
 }
 
 Vector2D& Vector2D::operator*=(double scalare)
 {
-  x_ *= scalare;
-  y_ *= scalare;
+  x *= scalare;
+  y *= scalare;
   return *this;
 }
 
@@ -32,8 +32,8 @@ Vector2D& Vector2D::operator/=(double scalare)
   if (scalare == 0.0) {
     throw std::runtime_error("Division by zero in Vector2D::operator/=");
   }
-  x_ /= scalare;
-  y_ /= scalare;
+  x /= scalare;
+  y /= scalare;
   return *this;
 }
 
@@ -69,23 +69,22 @@ Vector2D operator/(Vector2D vec, double scalare)
 
 double Vector2D::distance(Vector2D const& vec) const
 {
-  return std::sqrt((x_ - vec.x_) * (x_ - vec.x_)
-                   + (y_ - vec.y_) * (y_ - vec.y_));
+  return std::sqrt((x - vec.x) * (x - vec.x) + (y - vec.y) * (y - vec.y));
 }
 
 double Vector2D::norm2() const
 {
-  return x_ * x_ + y_ * y_;
+  return x * x + y * y;
 }
 
 double Vector2D::norm() const
 {
-  return std::sqrt(x_ * x_ + y_ * y_);
+  return std::sqrt(x * x + y * y);
 }
 
 double Vector2D::angle() const
 {
-  double radians{std::atan2(y_, x_)};
+  double radians{std::atan2(y, x)};
   double degrees{radians * (180.0 / std::numbers::pi)};
   return degrees;
 }

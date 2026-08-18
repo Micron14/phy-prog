@@ -43,8 +43,8 @@ Assets::Assets()
 void Assets::draw_entity(sf::RenderWindow& window, sf::ConvexShape& shape,
                          Boid const& entity)
 {
-  float x_pos{static_cast<float>(entity.get_position().x_)};
-  float y_pos{static_cast<float>(entity.get_position().y_)};
+  float x_pos{static_cast<float>(entity.get_position().x)};
+  float y_pos{static_cast<float>(entity.get_position().y)};
   shape.setPosition(x_pos, y_pos);
 
   float angle{static_cast<float>(entity.get_velocity().angle())};

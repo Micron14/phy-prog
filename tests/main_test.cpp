@@ -14,20 +14,20 @@ TEST_CASE("Testing Vector2D struct")
   bs::Vector2D v1{1.0, 2.0};
   bs::Vector2D v2{3.0, 4.0};
 
-  CHECK((v1 + v2).x_ == doctest::Approx(4.0));
-  CHECK((v1 + v2).y_ == doctest::Approx(6.0));
+  CHECK((v1 + v2).x == doctest::Approx(4.0));
+  CHECK((v1 + v2).y == doctest::Approx(6.0));
 
-  CHECK((v1 - v2).x_ == doctest::Approx(-2.0));
-  CHECK((v1 - v2).y_ == doctest::Approx(-2.0));
+  CHECK((v1 - v2).x == doctest::Approx(-2.0));
+  CHECK((v1 - v2).y == doctest::Approx(-2.0));
 
-  CHECK((v1 * 2.0).x_ == doctest::Approx(2.0));
-  CHECK((v1 * 2.0).y_ == doctest::Approx(4.0));
+  CHECK((v1 * 2.0).x == doctest::Approx(2.0));
+  CHECK((v1 * 2.0).y == doctest::Approx(4.0));
 
-  CHECK((2.0 * v1).x_ == doctest::Approx(2.0));
-  CHECK((2.0 * v1).y_ == doctest::Approx(4.0));
+  CHECK((2.0 * v1).x == doctest::Approx(2.0));
+  CHECK((2.0 * v1).y == doctest::Approx(4.0));
 
-  CHECK((v1 / 2.0).x_ == doctest::Approx(0.5));
-  CHECK((v1 / 2.0).y_ == doctest::Approx(1.0));
+  CHECK((v1 / 2.0).x == doctest::Approx(0.5));
+  CHECK((v1 / 2.0).y == doctest::Approx(1.0));
 
   bs::Vector2D v{10.0, -5.0};
   CHECK_THROWS_AS(v /= 0.0, std::runtime_error);
@@ -97,12 +97,12 @@ TEST_CASE("Testing Boid class")
 
   bs::Vector2D sep_overlap =
       b_overlap1.compute_separation(overlap_flock, test_config);
-  CHECK_FALSE(std::isnan(sep_overlap.x_));
-  CHECK_FALSE(std::isnan(sep_overlap.y_));
+  CHECK_FALSE(std::isnan(sep_overlap.x));
+  CHECK_FALSE(std::isnan(sep_overlap.y));
 
   b_overlap1.apply_force({0.0, 0.0}, 50.0, 20.0);
-  CHECK_FALSE(std::isnan(b_overlap1.get_velocity().x_));
-  CHECK_FALSE(std::isnan(b_overlap1.get_velocity().y_));
+  CHECK_FALSE(std::isnan(b_overlap1.get_velocity().x));
+  CHECK_FALSE(std::isnan(b_overlap1.get_velocity().y));
 
   bs::Boid b5({0.0, 0.0}, {1.0, 0.0});
   bs::Boid b6({10.0, 0.0}, {0.0, 1.0});
@@ -114,18 +114,18 @@ TEST_CASE("Testing Boid class")
 
   bs::Vector2D sep = flock1[0].compute_separation(flock1, test_config);
   // (b2.pos - b1.pos) = (10, 0); separation = -(10, 0) * 0.5 = (-5, 0)
-  CHECK(sep.x_ == doctest::Approx(-5.0));
-  CHECK(sep.y_ == doctest::Approx(0.0));
+  CHECK(sep.x == doctest::Approx(-5.0));
+  CHECK(sep.y == doctest::Approx(0.0));
 
   bs::Vector2D ali = flock1[0].compute_alignment(flock1, test_config);
   // mean_vel = (0, 1); diff = (0, 1) - (1, 0) = (-1, 1); ali = (-0.5, 0.5)
-  CHECK(ali.x_ == doctest::Approx(-0.5));
-  CHECK(ali.y_ == doctest::Approx(0.5));
+  CHECK(ali.x == doctest::Approx(-0.5));
+  CHECK(ali.y == doctest::Approx(0.5));
 
   bs::Vector2D coh1 = flock1[0].compute_cohesion(flock1, test_config);
   // center = (10, 0); diff = (10, 0) - (0, 0); coh = (1, 0)
-  CHECK(coh1.x_ == doctest::Approx(1.0));
-  CHECK(coh1.y_ == doctest::Approx(0.0));
+  CHECK(coh1.x == doctest::Approx(1.0));
+  CHECK(coh1.y == doctest::Approx(0.0));
 
   bs::Boid b_toroidal({1050.0, -10.0}, {0.0, 0.0});
 
@@ -133,8 +133,8 @@ TEST_CASE("Testing Boid class")
   test_config.border_width  = 1000.0;
 
   b_toroidal.apply_toroidal_boundary(test_config);
-  CHECK(b_toroidal.get_position().x_ == doctest::Approx(50.0));
-  CHECK(b_toroidal.get_position().y_ == doctest::Approx(990.0));
+  CHECK(b_toroidal.get_position().x == doctest::Approx(50.0));
+  CHECK(b_toroidal.get_position().y == doctest::Approx(990.0));
 
   bs::Boid b_window({950.0, 50.0}, {10.0, -10.0});
 
@@ -142,20 +142,20 @@ TEST_CASE("Testing Boid class")
   test_config.margin            = 100.0;
 
   b_window.apply_window_boundary(test_config);
-  CHECK(b_window.get_velocity().x_ == doctest::Approx(5.0));  // 10.0 - 5.0
-  CHECK(b_window.get_velocity().y_ == doctest::Approx(-5.0)); // -10.0 + 5.0
+  CHECK(b_window.get_velocity().x == doctest::Approx(5.0));  // 10.0 - 5.0
+  CHECK(b_window.get_velocity().y == doctest::Approx(-5.0)); // -10.0 + 5.0
 
   bs::Boid b_F({0.0, 0.0}, {0.0, 0.0});
   bs::Vector2D hunter_pos{10.0, 0.0};
   b_F.apply_force(hunter_pos, 50.0, 20.0);
   // vel -= (hunter - pos) * (strength / dist) -> -(10,0) * (20/10) = (-20, 0)
-  CHECK(b_F.get_velocity().x_ == doctest::Approx(-20.0));
-  CHECK(b_F.get_velocity().y_ == doctest::Approx(0.0));
+  CHECK(b_F.get_velocity().x == doctest::Approx(-20.0));
+  CHECK(b_F.get_velocity().y == doctest::Approx(0.0));
 
   bs::Boid b_F1({10.0, 0.0}, {5.0, 7.0});
   b_F1.apply_force(hunter_pos, 50.0, 20.0);
-  CHECK(b_F1.get_velocity().x_ == doctest::Approx(5.0));
-  CHECK(b_F1.get_velocity().y_ == doctest::Approx(7.0));
+  CHECK(b_F1.get_velocity().x == doctest::Approx(5.0));
+  CHECK(b_F1.get_velocity().y == doctest::Approx(7.0));
 
   bs::Boid f1({0.0, 0.0}, {1.0, 0.0});
   bs::Boid f2({10.0, 0.0}, {0.0, 1.0});
@@ -170,13 +170,13 @@ TEST_CASE("Testing Boid class")
 
   // mass_center = (5, 5), c*mass_center = 0.1 * (5, 5) = (0.5, 0.5)
   bs::Vector2D coh_big = big_flock[0].compute_cohesion(big_flock, test_config);
-  CHECK(coh_big.x_ == doctest::Approx(0.5));
-  CHECK(coh_big.y_ == doctest::Approx(0.5));
+  CHECK(coh_big.x == doctest::Approx(0.5));
+  CHECK(coh_big.y == doctest::Approx(0.5));
   // mean_speed (between f2 and f3) = (-0.5, -0.5), mean_speed - f1.vel = (-1.5,
   // 0.5) -> a*(-1.5, 0.5) = (-0.75, 0.25)
   bs::Vector2D ali_big = big_flock[0].compute_alignment(big_flock, test_config);
-  CHECK(ali_big.x_ == doctest::Approx(-0.75));
-  CHECK(ali_big.y_ == doctest::Approx(0.25));
+  CHECK(ali_big.x == doctest::Approx(-0.75));
+  CHECK(ali_big.y == doctest::Approx(0.25));
 
   std::vector<bs::Boid> flock2 = {bs::Boid({10.0, 10.0}, {0.0, 0.0}),
                                   bs::Boid({12.0, 12.0}, {0.0, 0.0})};
@@ -187,8 +187,8 @@ TEST_CASE("Testing Boid class")
 
   bs::Vector2D coh2 = flock2[0].compute_cohesion(flock2, config1);
 
-  CHECK(coh2.x_ == doctest::Approx(2.0));
-  CHECK(coh2.y_ == doctest::Approx(2.0));
+  CHECK(coh2.x == doctest::Approx(2.0));
+  CHECK(coh2.y == doctest::Approx(2.0));
 
   bs::Boid b1({0.0, 0.0}, {1.0, 0.0});
   bs::Boid b2({100.0, 100.0}, {1.0, 0.0});
@@ -218,12 +218,12 @@ TEST_CASE("Testing Boid class")
 
   b7 = b7.update(flock, config);
 
-  CHECK(b7.get_velocity().x_ == doctest::Approx(vel_before.x_));
-  CHECK(b7.get_velocity().y_ == doctest::Approx(vel_before.y_));
-  CHECK(b7.get_position().x_
-        == doctest::Approx(pos_before.x_ + vel_before.x_ * config.dt));
-  CHECK(b7.get_position().y_
-        == doctest::Approx(pos_before.y_ + vel_before.y_ * config.dt));
+  CHECK(b7.get_velocity().x == doctest::Approx(vel_before.x));
+  CHECK(b7.get_velocity().y == doctest::Approx(vel_before.y));
+  CHECK(b7.get_position().x
+        == doctest::Approx(pos_before.x + vel_before.x * config.dt));
+  CHECK(b7.get_position().y
+        == doctest::Approx(pos_before.y + vel_before.y * config.dt));
 
   bs::Boid b_slow({500.0, 500.0}, {0.5, 0.0});
   b_slow.set_min_vel(config.min_vel);
@@ -249,7 +249,7 @@ TEST_CASE("Testing Boid class")
 
   b8 = b8.update(flock5, config);
 
-  CHECK_FALSE(b8.get_velocity().x_ == doctest::Approx(vel_before1.x_));
+  CHECK_FALSE(b8.get_velocity().x == doctest::Approx(vel_before1.x));
 }
 
 TEST_CASE("Testing statistics calculation")
@@ -265,8 +265,8 @@ TEST_CASE("Testing statistics calculation")
   CHECK(std_p_empty == doctest::Approx(0.0));
 
   bs::Vector2D center_empty = bs::get_flock_center(empty_flock);
-  CHECK(center_empty.x_ == doctest::Approx(0.0));
-  CHECK(center_empty.y_ == doctest::Approx(0.0));
+  CHECK(center_empty.x == doctest::Approx(0.0));
+  CHECK(center_empty.y == doctest::Approx(0.0));
 
   bs::Boid b3({3.0, 4.0}, {3.0, 4.0}); // norm = 5.0
   bs::Boid b4({6.0, 8.0}, {6.0, 8.0}); // norm = 10.0
@@ -282,8 +282,8 @@ TEST_CASE("Testing statistics calculation")
 
   bs::Vector2D center = bs::get_flock_center(flock6);
   // ((3+6)/2, (4+8)/2) = (4.5, 6.0)
-  CHECK(center.x_ == doctest::Approx(4.5));
-  CHECK(center.y_ == doctest::Approx(6.0));
+  CHECK(center.x == doctest::Approx(4.5));
+  CHECK(center.y == doctest::Approx(6.0));
 
   bs::Boid h1({0.0, 0.0}, {5.0, 0.0});      // norm = 5.0
   bs::Boid h2({0.0, 0.0}, {25.0, 0.0});     // norm = 25.0
@@ -356,8 +356,8 @@ TEST_CASE("Testing update_physics simulation loop")
                      mouse_pos_default, true);
 
   double expected_x = 500.0 + (10.0 * config.dt);
-  CHECK(flock1[0].get_position().x_ == doctest::Approx(expected_x));
-  CHECK_FALSE(kettle1[0].get_position().x_ == doctest::Approx(100.0));
+  CHECK(flock1[0].get_position().x == doctest::Approx(expected_x));
+  CHECK_FALSE(kettle1[0].get_position().x == doctest::Approx(100.0));
 
   bs::Boid b_repel({500.0, 500.0}, {0.0, 10.0});
   b_repel.set_min_vel(1.0);
@@ -370,7 +370,7 @@ TEST_CASE("Testing update_physics simulation loop")
   bs::update_physics(flock_repel, kettle_empty1, config, h_config, true, false,
                      mouse_pos_right, true);
 
-  CHECK(flock_repel[0].get_velocity().x_ < 0.0);
+  CHECK(flock_repel[0].get_velocity().x < 0.0);
 
   bs::Boid b_attract({500.0, 500.0}, {0.0, 10.0});
   b_attract.set_min_vel(1.0);
@@ -382,5 +382,5 @@ TEST_CASE("Testing update_physics simulation loop")
   bs::update_physics(flock_attract, kettle_empty2, config, h_config, false,
                      true, mouse_pos_right, true);
 
-  CHECK(flock_attract[0].get_velocity().x_ > 0.0);
+  CHECK(flock_attract[0].get_velocity().x > 0.0);
 }

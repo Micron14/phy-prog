@@ -4,8 +4,8 @@
 namespace bs {
 struct Vector2D
 {
-  double x_{0.0};
-  double y_{0.0};
+  double x{0.0};
+  double y{0.0};
 
   Vector2D& operator+=(Vector2D const& vec);
 
