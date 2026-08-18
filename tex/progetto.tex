@@ -115,18 +115,18 @@ Non appena un \textit{hunter} entra nel raggio di percezione dei boid (\texttt{i
 
 \section{Scelte Progettuali e Ripartizione del Codice}
 \label{sec:progettazione}
-Il codice è scritto in C++ seguendo la programmazione a oggetti ed è diviso in diversi file separati per mantenere il lavoro ordinato e modulare. Abbiamo inoltre impiegato l'utilizzo di diversi namespace in modo da evitare conflitti di nomi.
+Il codice è scritto in C++ su diversi file:
 
 \begin{itemize}
     \item \textbf{\texttt{vector2d.hpp}}: Contiene le definizioni dell'interfaccia per la struttura dati \texttt{Vector2D}, progettata per la gestione di vettori nello spazio bidimensionale $\mathbb{R}^2$.
     \item \textbf{\texttt{vector2d.cpp}}: Contiene le definizioni delle funzioni della struttura dati dichiarata nell'header \texttt{vector2d.hpp}. Inoltre sono presenti gli overload degli operatori dichiarati in esso.
-    \item \textbf{\texttt{boid.hpp}}: Definisce la classe \texttt{Boid}, che modella l'agente fondamentale della simulazione. Questa classe incapsula lo stato fisico dell'entità (posizione e velocità) e i metodi necessari per implementare il comportamento collettivo basato sul modello di Reynolds (separazione, allineamento e coesione).
+    \item \textbf{\texttt{boid.hpp}}: Definisce la classe \texttt{Boid}, che costituisce l'agente fondamentale della simulazione. Questa classe incapsula lo stato fisico dell'entità (posizione e velocità) e i metodi necessari per implementare il comportamento collettivo basato sul modello di Reynolds (separazione, allineamento e coesione).
     \item \textbf{\texttt{boid.cpp}}: Implementa la logica comportamentale e cinetica della classe \texttt{Boid}. Basandosi sul modello di Reynolds, il codice traduce le interazioni locali tra le entità in vettori di forza, determinando il movimento fluido e collettivo tipico di uno stormo.
     \item \textbf{\texttt{statistics.hpp}}: Contiene le dichiarazioni dell'interfaccia per il modulo di analisi statistica, progettato per elaborare i dati relativi a un gruppo di oggetti di tipo \texttt{Boid} (tipicamente rappresentanti una simulazione di stormo).
     \item \textbf{\texttt{statistics.cpp}}: Fornisce l'implementazione logica delle funzioni di analisi statistica per lo stormo di Boid. Utilizza algoritmi della libreria standard C++ (\texttt{<algorithm>}, \texttt{<numeric>}) per elaborare in modo efficiente le proprietà del vettore flock.
     \item \textbf{\texttt{simconfig.hpp}}: Definisce la struttura dati \texttt{SimConfig}, che centralizza tutti i parametri di configurazione necessari al motore di simulazione. Tale approccio permette di separare la logica dei parametri dai componenti dinamici (i \textit{Boid}), facilitando la gestione delle impostazioni sia globali che specifiche per eventuali sottogruppi (es. predatori o \textit{kettle}). Abbiamo implementato questo \textit{header file}, incluso ad esempio in \texttt{boid.cpp} e in \texttt{boid.hpp}, in modo da poter dichiarare e definire delle funzioni che accettassero in input una singola struct, al posto di svariati parametri. Sono state dichiarate delle funzioni necessarie alla configurazione della simulazione, qualora si volessero utilizzare dei parametri da passare attraverso \texttt{std::cin}.
-    \item \textbf{\texttt{simconfig.cpp}}: Implementa la logica di inizializzazione e configurazione dinamica dei parametri di simulazione. Gestisce l'interazione con l'utente tramite standard input per definire le caratteristiche dello stormo e dei predatori (\textit{hunter}), includendo meccanismi di validazione dei dati in ingresso.
-    \item \textbf{\texttt{simulation.hpp}}: Contiene le dichiarazioni dell'interfaccia per il modulo di aggiornamento fisico della simulazione. In esso è presente la dichiarazione della funzione \texttt{update\_physics}, che gestisce l'evoluzione temporale dello stormo (\textit{flock}) e di eventuali sotto-gruppi (\textit{kettle}), applicando le regole di comportamento (\textit{flocking}) basate sulle configurazioni (\texttt{SimConfig}) e sugli input dell'utente (posizione del mouse e stati dei tasti).
+    \item \textbf{\texttt{simconfig.cpp}}: Implementa la logica di inizializzazione e configurazione dinamica dei parametri di simulazione. Gestisce l'interazione con l'utente tramite standard input per definire le caratteristiche dello stormo e dei predatori (\textit{hunter}), includendo meccanismi di validazione dei dati in ingresso. 
+    \item \textbf{\texttt{simulation.hpp}}: Contiene le dichiarazioni dell'interfaccia per il modulo di aggiornamento fisico della simulazione. In esso è presente la dichiarazione della funzione \texttt{update\_physics}, che gestisce l'evoluzione temporale dello stormo (\textit{flock}) e di eventuali sotto-gruppi (\textit{kettle}), applicando le regole di comportamento (\textit{flocking}) basate sulle configurazioni (\texttt{SimConfig}) e sugli input dell'utente (posizione del mouse e stati dei tasti). Inoltre, è presente la funzione \texttt{entity\_gen} per la generazione dello stormo, meglio descritta di seguito.
     \item \textbf{\texttt{simulation.cpp}}: Implementa la logica di aggiornamento temporale della simulazione 
     \newline (\texttt{update\_physics}). Esso funge da motore principale, coordinando il calcolo delle forze, l'applicazione delle regole di comportamento (\textit{flocking}) e la gestione dei vincoli spaziali per le entità (\textit{Boid}) presenti sia nello stormo principale che nel sotto-gruppo dei predatori (\textit{kettle}).
     \item \textbf{\texttt{render.hpp}}: Viene dichiarata l'interfaccia per il modulo di visualizzazione grafica, che utilizza la libreria SFML (\textit{Simple and Fast Multimedia Library}) per l'interfacciamento con l'hardware grafico. Il modulo si occupa della traduzione dello stato logico della simulazione (vettori di entità e dati statistici) in rappresentazioni visive su finestra.
@@ -142,7 +142,7 @@ Per garantire flessibilità nell'analisi della simulazione, la funzione \texttt{
 \end{itemize}
 Per agevolare le procedure di configurazione della simulazione ed evitare l'inserimento manuale interattivo a ogni avvio, l'acquisizione dei parametri tramite \texttt{std::cin} è stata progettata per supportare la redirezione dell'input da un file di testo. È sufficiente creare un file (ad esempio quello da noi consegnato nell'archivio \texttt{configuration.txt}) contenente i valori disposti sequenzialmente, separati da ritorni a capo, nello stesso ordine in cui vengono richiesti dal prompt del programma.
 
-A titolo di esempio, il contenuto del file per una configurazione personalizzata massiva con 900 boids e 2 predatori si presenta in questo modo:
+A titolo di esempio, il contenuto del file per una configurazione personalizzata con 600 boids e 2 predatori si presenta in questo modo:
 \begin{tcolorbox}[
   colback=gray!5!white,
   colframe=gray!75!black,
@@ -163,7 +163,7 @@ n       & \textcolor{gray}{\% Impostazione configurazione personalizzata} \\
 2       & \textcolor{gray}{\% Numero di hunters}
 \end{tabular}
 \end{tcolorbox}
-Indipendentemente dalla modalità scelta, il sistema richiede esplicitamente l'inserimento del \textbf{numero di cacciatori (\textit{hunters})} da generare nella mappa. Questo permette di testare la risposta dinamica dello stormo a diversi livelli di pressione predatoria, osservando l'impatto sulla stabilità globale.
+Indipendentemente dalla modalità scelta, il sistema richiede esplicitamente l'inserimento del \textbf{numero di cacciatori (\textit{hunters})}, anche nullo, da generare.
 \paragraph{Esempio di esecuzione con configurazione personalizzata}
 Di seguito si riporta un esempio di input interattivo consigliato per la valutazione del comportamento collettivo:
 \begin{lstlisting}
@@ -177,8 +177,9 @@ Enter the cohesion factor (c): 0.01
 Enter number of hunters: 3
 \end{lstlisting}
 \subsubsection{Generazione di flocks e kettles}
-Nella presente architettura di simulazione, la generazione sia degli stormi di Boid (\textit{flocks}) che dei gruppi di predatori (\text{kettle}) è affidata a una funzione di utilità unica e generica: \texttt{entity\_gen}. Questo approccio di programmazione modulare permette di gestire la creazione di entità diverse utilizzando un'unica logica di generazione, garantendo coerenza e manutenibilità del codice. La funzione riceve in input un oggetto di tipo \texttt{bs::SimConfig} contenente tutti i parametri necessari per configurare l'entità. La funzione esegue un controllo sugli input: per gli stormi di \textit{boids} viene richiesto un numero di entità strettamente positivo, mentre per gli \textit{hunters} un numero non negativo. In caso di parametri non validi, il sistema solleva un'eccezione di tipo \texttt{std::runtime\_error}, prevenendo errori di esecuzione.
-Utilizzando un motore di numeri casuali \texttt{std::default\_random\_engine} la funzione distribuisce le entità nello spazio $\mathbb{R}^2$. Le coordinate ($x$, $y$) sono calcolate entro i bordi definiti dalla configurazione, applicando un margine di sicurezza per evitare la generazione di boid sui confini. Ogni entità viene inizializzata con un vettore velocità ($v_x$,$v_y$) casuale, compreso in un intervallo che garantisce movimento iniziale dello stormo. A questo punto la funzione controlla il valore booleano \texttt{is\_hunter} presente nella configurazione: se esso ha valore \texttt{true}, vengono applicati i limiti di velocità specifici del predatore.
+La generazione sia degli stormi di Boid (\textit{flocks}) che dei gruppi di predatori (\text{kettle}) è affidata alla funzione \texttt{entity\_gen}. La funzione riceve in input un oggetto di tipo \texttt{bs::SimConfig} contenente tutti i parametri necessari per configurare l'entità. La funzione esegue un controllo sugli input: per gli stormi di \textit{boids} viene richiesto un numero di entità strettamente positivo, mentre per gli \textit{hunters} un numero non negativo. In caso di parametri non validi, il sistema solleva un'eccezione \texttt{std::runtime\_error}.
+Utilizzando il motore di numeri casuali \texttt{std::default\_random\_engine} la funzione distribuisce le entità nello spazio $\mathbb{R}^2$. Le coordinate ($x$, $y$) sono calcolate entro i bordi definiti dalla configurazione, applicando un margine di sicurezza. Ogni entità viene inizializzata con un vettore velocità ($v_x$,$v_y$) casuale e controlla il valore booleano \texttt{is\_hunter} presente nella configurazione: se esso ha valore \texttt{true}, vengono applicati i limiti di velocità specifici del predatore.
+
 
 \subsubsection{Regole di volo}
 Sono state implementate le regole di volo presentate in Sezione \ref{sec:modellofisico}:
@@ -194,14 +195,15 @@ Sono state costruite delle funzioni di supporto al movimento delle entities:
     \item \texttt{apply\_window\_boundary}: genera una forza repulsiva verso l'interno quando il boid si avvicina ai bordi della finestra.
     \item \texttt{apply\_force}: permette di applicare influenze dirette, come l'attrazione/repulsione causata dal mouse o dai predatori, calcolando un vettore basato sulla distanza rispetto a un punto di influenza.
 \end{itemize}
-\subsubsection{Evoluzione temporale}
-L'evoluzione temporale del sistema adotta un approccio ad aggiornamento sincrono delle coordinate. All'interno della funzione \texttt{update\_physics}, lo stato dello stormo e del kettle al tempo $t$ viene preservato mediante una copia profonda in un vettore ausiliario (\texttt{next\_flock}) e (\texttt{next\_kettle}), sul quale si calcolano e applicano le forze. Successivamente, la riassegnazione efficiente avviene sfruttando la semantica di spostamento tramite \texttt{std::move(next\_flock)} e \texttt{std::move(next\_kettle)}. Ciò elimina asimmetrie temporali fittizie dovute all'ordine sequenziale dei cicli \texttt{for}.
 
-Il modello standard è arricchito da due elementi:
+\subsubsection{Evoluzione temporale}
+L'evoluzione temporale del sistema adotta un approccio di aggiornamento sincrono delle coordinate. All'interno della funzione \texttt{update\_physics}, lo stato dello stormo e del kettle al tempo $t$ viene letto per calcolare i contributi di forza su ciascun agente; le nuove posizioni e velocità al tempo $t+\Delta t$ vengono quindi generate e salvate nei vettori ausiliari \texttt{next\_flock} e \texttt{next\_kettle}. Successivamente, il riassegnamento dello stato avviene tramite \texttt{std::move(next\_flock)} e \texttt{std::move(next\_kettle)}. Questo approccio elimina asimmetrie temporali fittizie dovute all'ordine sequenziale dell'elaborazione nei cicli \texttt{for}.
+
+L'evoluzione dinamica ad ogni passo di integrazione si articola nelle seguenti fasi:
 \begin{enumerate}
-    \item \textbf{Agenti Predatori (Hunters):} Il codice istanzia una flotta di \textit{hunters} cinematica e strutturalmente distinta (\texttt{kettle}), configurata con velocità di punta superiori. Essi inseguono il centro di massa dei boid definiti \textit{vicini} secondo le logiche descritte nella Sezione~\ref{sec:modellofisico}. A seconda del parametro \texttt{is\_bounded}, vengono applicati confini rigidi o toroidali. Attraverso il metodo \texttt{update} vengono integrate le forze nel vettore velocità determinando lo spostamento finale.
-    \item \textbf{Boids}: Il metodo \texttt{update} calcola le forze di separazione, allineamento e coesione rispetto agli altri componenti dello stormo. Si applica una forza repulsiva verso la posizione di ogni \textit{hunter} presente nel vettore \texttt{kettle}, simulando l'istinto di fuga dei boids. Analogamente ai predatori, vengono applicati i vincoli di bordo per mantenere lo stormo nell'area definita.
-    \item \textbf{Interattività Utente:} L'utente può perturbare il sistema in tempo reale tramite input asincroni del mouse. La pressione del tasto destro genera una forza attrattiva verso le coordinate del cursore, mentre il tasto sinistro simula una forza repulsiva (effetto "spavento").
+    \item \textbf{Aggiornamento dei Boids:} Il metodo \texttt{update} della classe \texttt{Boid} calcola le componenti di accelerazione dovute alle tre regole di Reynolds (separazione, allineamento e coesione) calcolate rispetto agli altri componenti dello stormo. A queste si aggiunge la forza repulsiva generata da ciascun \textit{hunter} presente nel vettore \texttt{kettle}, simulando l'istinto di fuga dei boids. Vengono infine applicati i vincoli di bordo (toroidali o confinati) per mantenere le entità nell'area di simulazione.
+    \item \textbf{Aggiornamento dei Hunters} Il codice gestisce una flotta di \textit{hunters} distinta (\texttt{kettle}), caratterizzata da limiti di velocità superiori. I cacciatori inseguono il centro di massa dei boids percepiti e mantengono una distanza di sicurezza tra loro tramite la sola regola di volo attiva: quella di separazione. Le forze integrate nel loro vettore velocità ne determinano lo spostamento finale.
+    \item \textbf{Interattività Utente:} L'utente può perturbare il sistema in tempo reale tramite input asincroni del mouse. La pressione del tasto destro genera una forza attrattiva verso le coordinate del cursore, mentre il tasto sinistro applica una forza repulsiva.
 \end{enumerate}
 
 \subsubsection{Generazione dei grafici attraverso SFML}
@@ -243,7 +245,7 @@ Per la gestione della compilazione viene utilizzato \texttt{CMake} in combinazio
 
 La configurazione iniziale si esegue posizionandosi nella cartella radice del progetto e digitando:
 \begin{lstlisting}[language=bash]
-cmake -S . -B build -G"Ninja Multi-Config"
+cmake -S . -B build -G "Ninja Multi-Config"
 \end{lstlisting}
 
 Per compilare il programma in modalità \textit{Debug} ed eseguire i test unitari automatizzati, i comandi sono:
