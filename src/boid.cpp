@@ -115,36 +115,36 @@ Boid Boid::update(std::vector<Boid> const& flock, SimConfig const& config) const
 
 void Boid::apply_toroidal_boundary(SimConfig const& config)
 {
-  if (position_.x_ >= config.border_width) {
-    position_.x_ -= config.border_width;
+  if (position_.x >= config.border_width) {
+    position_.x -= config.border_width;
   }
 
-  if (position_.x_ < 0) {
-    position_.x_ += config.border_width;
+  if (position_.x < 0) {
+    position_.x += config.border_width;
   }
 
-  if (position_.y_ >= config.border_height) {
-    position_.y_ -= config.border_height;
+  if (position_.y >= config.border_height) {
+    position_.y -= config.border_height;
   }
 
-  if (position_.y_ < 0) {
-    position_.y_ += config.border_height;
+  if (position_.y < 0) {
+    position_.y += config.border_height;
   }
 }
 
 void Boid::apply_window_boundary(SimConfig const& config)
 {
-  if (position_.x_ >= (config.border_width - config.margin)) {
-    velocity_.x_ -= config.border_turnfactor;
+  if (position_.x >= (config.border_width - config.margin)) {
+    velocity_.x -= config.border_turnfactor;
   }
-  if (position_.x_ <= config.margin) {
-    velocity_.x_ += config.border_turnfactor;
+  if (position_.x <= config.margin) {
+    velocity_.x += config.border_turnfactor;
   }
-  if (position_.y_ >= (config.border_height - config.margin)) {
-    velocity_.y_ -= config.border_turnfactor;
+  if (position_.y >= (config.border_height - config.margin)) {
+    velocity_.y -= config.border_turnfactor;
   }
-  if (position_.y_ <= config.margin) {
-    velocity_.y_ += config.border_turnfactor;
+  if (position_.y <= config.margin) {
+    velocity_.y += config.border_turnfactor;
   }
 }
 
