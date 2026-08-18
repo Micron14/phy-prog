@@ -8,7 +8,7 @@
 
 namespace bs {
 
-void clear_cin_buffer() // static 
+void clear_cin_buffer()
 {
   std::cin.clear();
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -16,7 +16,7 @@ void clear_cin_buffer() // static
 
 template<typename T, typename Predicate>
 T read_param(std::string const& prompt, std::string const& error_msg,
-             Predicate is_valid) // static 
+             Predicate is_valid)
 {
   T value{};
   std::cout << prompt;

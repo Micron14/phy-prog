@@ -20,7 +20,7 @@ void update_physics(std::vector<Boid>& flock, std::vector<Boid>& kettle,
 
   Vector2D flock_center{get_flock_center(flock)};
 
-  for (auto& hunter : kettle) {
+  for (auto const& hunter : kettle) {
     Boid next_hunter = hunter.update(kettle, h_config);
 
     next_hunter.apply_force(hunter.get_position() + 4.0 * hunter.get_velocity(),
@@ -39,7 +39,7 @@ void update_physics(std::vector<Boid>& flock, std::vector<Boid>& kettle,
     next_kettle.push_back(next_hunter);
   }
 
-  for (auto& boid : flock) {
+  for (auto const& boid : flock) {
     Boid next_boid = boid.update(flock, config);
 
     for (auto const& hunter : kettle) {
