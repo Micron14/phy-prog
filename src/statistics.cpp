@@ -99,10 +99,9 @@ void print_stats(std::vector<Boid> const& flock)
 {
   StatResult speed{avg_speed(flock)};
   StatResult position{avg_position(flock)};
-  std::cout << "Mean speed: " << speed.mean_
-            << " | Std. Dev.: " << speed.std_dev_
-            << " | Mean position: " << position.mean_
-            << " | Std. Dev.: " << position.std_dev_ << '\n';
+  std::cout << "Mean speed: " << speed.mean << " | Std. Dev.: " << speed.std_dev
+            << " | Mean position: " << position.mean
+            << " | Std. Dev.: " << position.std_dev << '\n';
 }
 
 } // namespace bs
