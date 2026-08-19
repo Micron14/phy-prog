@@ -2,6 +2,7 @@
 #include "statistics.hpp"
 
 #include <cstddef>
+#include <numbers>
 #include <random>
 #include <utility>
 #include <vector>
@@ -79,16 +80,23 @@ std::vector<Boid> entity_gen(SimConfig const& config)
 
   std::random_device r;
   std::default_random_engine eng{r()};
+
   std::uniform_real_distribution<double> x{100.0, config.border_width - 100.0};
   std::uniform_real_distribution<double> y{100.0, config.border_height - 100.0};
-  std::uniform_real_distribution<double> v{-35.0, 35.0};
+  std::uniform_real_distribution<double> angle_dist{0.0,
+                                                    2.0 * std::numbers::pi};
+  std::uniform_real_distribution<double> speed_dist{config.min_vel,
+                                                    config.max_vel};
 
   std::vector<Boid> entities;
   entities.reserve(static_cast<size_t>(config.n_entities));
 
   for (int i{0}; i < config.n_entities; ++i) {
     Vector2D pos{x(eng), y(eng)};
-    Vector2D vel{v(eng), v(eng)};
+
+    double theta = angle_dist(eng);
+    double speed = speed_dist(eng);
+    Vector2D vel{speed * std::cos(theta), speed * std::sin(theta)};
 
     Boid e{pos, vel};
 
