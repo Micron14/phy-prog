@@ -27,30 +27,10 @@ T read_param(std::string const& prompt, std::string const& error_msg,
   return value;
 }
 
-SimConfig get_user_config()
+SimConfig get_costum_config()
 {
   SimConfig config;
-
-  char choice;
-  while (true) {
-    std::cout << "Would you like to start the boid simulation with the default "
-                 "parameters? (y/n): ";
-    if (std::cin >> choice) {
-      clear_cin_buffer();
-      if (choice == 'y' || choice == 'Y') {
-        std::cout << "Starting with the default parameters...\n";
-        return config;
-      }
-      if (choice == 'n' || choice == 'N') {
-        config.is_custom = true;
-        break;
-      }
-      std::cout << "Not valid. Please enter 'y' or 'n'.\n";
-    } else {
-      clear_cin_buffer();
-      std::cout << "Input error. Please try again.\n";
-    }
-  }
+  config.is_custom = true;
 
   std::cout << "\n--- Custom Parameter Input ---\n";
 
@@ -90,6 +70,29 @@ SimConfig get_user_config()
       [](double v) { return v >= 0.0; });
 
   return config;
+}
+
+SimConfig get_user_config()
+{
+  char choice;
+  while (true) {
+    std::cout << "Would you like to start the boid simulation with the default "
+                 "parameters? (y/n): ";
+    if (std::cin >> choice) {
+      clear_cin_buffer();
+      if (choice == 'y' || choice == 'Y') {
+        std::cout << "Starting with the default parameters...\n";
+        return SimConfig{};
+      }
+      if (choice == 'n' || choice == 'N') {
+        return get_costum_config();
+      }
+      std::cout << "Not valid. Please enter 'y' or 'n'.\n";
+    } else {
+      clear_cin_buffer();
+      std::cout << "Input error. Please try again.\n";
+    }
+  }
 }
 
 SimConfig create_hunter_config(SimConfig h_config)
