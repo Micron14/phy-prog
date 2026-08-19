@@ -1,6 +1,7 @@
 #include "simulation.hpp"
 #include "statistics.hpp"
 
+#include <cmath>
 #include <cstddef>
 #include <numbers>
 #include <random>
