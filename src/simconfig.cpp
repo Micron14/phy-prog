@@ -14,7 +14,7 @@ void clear_cin_buffer()
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-SimConfig get_costum_config()
+SimConfig get_custom_config()
 {
   SimConfig config;
   config.is_custom = true;
