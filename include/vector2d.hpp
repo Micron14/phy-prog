@@ -15,6 +15,8 @@ struct Vector2D
 
   Vector2D& operator/=(double scalare);
 
+  double distance2(Vector2D const& vec) const;
+
   double distance(Vector2D const& vec) const;
 
   double norm2() const;

@@ -26,7 +26,8 @@ Vector2D Boid::compute_separation(std::vector<Boid> const& flock,
       continue;
     }
 
-    if (position_.distance(b.get_position()) < config.separation_radius) {
+    if (position_.distance2(b.get_position())
+        < config.separation_radius * config.separation_radius) {
       separation -= (b.get_position() - position_) * config.separation_factor;
     }
   }
@@ -45,7 +46,8 @@ Vector2D Boid::compute_alignment(std::vector<Boid> const& flock,
       continue;
     }
 
-    if (position_.distance(b.get_position()) < config.visual_range) {
+    if (position_.distance2(b.get_position())
+        < config.visual_range * config.visual_range) {
       sum_velocity += b.get_velocity();
       ++count;
     }
@@ -69,7 +71,8 @@ Vector2D Boid::compute_cohesion(std::vector<Boid> const& flock,
       continue;
     }
 
-    if (position_.distance(b.get_position()) < config.visual_range) {
+    if (position_.distance2(b.get_position())
+        < config.visual_range * config.visual_range) {
       sum_position += b.get_position();
       ++count;
     }

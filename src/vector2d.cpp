@@ -67,11 +67,6 @@ Vector2D operator/(Vector2D vec, double scalare)
   return vec;
 }
 
-double Vector2D::distance(Vector2D const& vec) const
-{
-  return std::sqrt((x - vec.x) * (x - vec.x) + (y - vec.y) * (y - vec.y));
-}
-
 double Vector2D::norm2() const
 {
   return x * x + y * y;
@@ -80,6 +75,16 @@ double Vector2D::norm2() const
 double Vector2D::norm() const
 {
   return std::sqrt(norm2());
+}
+
+double Vector2D::distance2(Vector2D const& vec) const
+{
+  return (*this - vec).norm2();
+}
+
+double Vector2D::distance(Vector2D const& vec) const
+{
+  return std::sqrt(distance2(vec));
 }
 
 double Vector2D::angle() const
