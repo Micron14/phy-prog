@@ -3,9 +3,12 @@
 \usepackage[utf8]{inputenc}
 \usepackage[italian]{babel}
 \usepackage[T1]{fontenc}
+\usepackage{float}
 \usepackage{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{array}
+\usepackage{tabularray}
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{hyperref}
@@ -52,7 +55,8 @@ Rispetto alla consegna del 15 luglio 2026 il progetto è stato sottoposto a modi
     \item \textbf{Uso di this e rimozione di self\_index, cambiamento dei return type di \texttt{Boid::update}: }Sono stati implementati dei range-for loop nelle funzioni di aggiornamento della simulazione. Dopo aver tentato di far riconoscere al boid se stesso mediante un approccio geometrico non sempre efficace (controllando che la distanza tra i due boid fosse pari a 0), abbiamo deciso di modificare i metodi della classe \texttt{Boid} ad esempio: \texttt{Boid::compute\_cohesion}, \texttt{Boid::compute\_alignment}, \texttt{Boid::compute\_separation}... in modo da riconoscere il boid attraverso gli indirizzi di memoria.
     A tal proposito abbiamo dovuto modificare interamente la logica di programmazione, dal momento che inizialmente si confrontavano \texttt{boids} appartenenti a due flock diversi (\texttt{flock}, \texttt{next\_flock}). Come conseguenza è variato il codice inerente al metodo \texttt{Boid::update} che restituisce una copia modificata che viene, in seguito all'applicazione di forze attraverso \texttt{Boid::apply\_force}, inserita in \texttt{next\_flock}. 
     \item \textbf{Uso appropriato di static: }Abbiamo eliminato l'utilizzo di \texttt{static} nel codice.
-    \item \textbf{Modifiche relative alla relazione: }Dati i cambiamenti del codice abbiamo provveduto a perfezionare la descrizione di quest'ultimo nella relazione da consegnare. Abbiamo inoltre aggiunto nuove spiegazioni in quest'ultima relative alle configurazioni iniziali della simulazione. Sono stati documentati a fondo relazione i risultati ottenuti mediante l'utilizzo di immagini.
+    \item \textbf{Uso di \texttt{std::sqrt}: }Rispetto alla precente versione del progetto è stato limitato l'utilizzo della funzione \texttt{std::sqrt} della Standard Library. Abbiamo convertito diversi controlli limitandoli a confronti tra quadrati delle variabili. In questo modo è stato realizzato un codice più leggero e ottimizzato rispetto alle versioni precedenti.
+    \item \textbf{Modifiche relative alla relazione: }Dati i cambiamenti del codice abbiamo provveduto a perfezionare la descrizione di quest'ultimo nella relazione da consegnare. Abbiamo inoltre aggiunto nuove spiegazioni in quest'ultima relative alle configurazioni iniziali della simulazione. È stata aggiunta una sotto sezione riguardante la spiegazione degli algoritmi non spiegati a lezione frontale e comunque implementati nel codice. Infine sono stati documentati a fondo relazione i risultati ottenuti mediante l'utilizzo di immagini.
 
 \end{itemize}
 \section*{Riassunto}
@@ -230,6 +234,31 @@ Per garantire l'affidabilità del simulatore e la correttezza delle equazioni fi
     \item \textbf{Modulo Statistico (\texttt{stats}):}
     Si verifica la correttezza del calcolo della media e della deviazione standard per posizione e velocità. Oltre ai campioni standard, il sistema è testato per gestire stormi vuoti restituendo vettori nulli, evitando così crash a runtime. Per quanto riguarda l'istogramma, i test convalidano la corretta allocazione delle entità nei \textit{bin} (inclusa la convergenza delle velocità fuori scala nell'ultimo bin disponibile) e la corretta gestione delle eccezioni in caso di input non validi (es. numero di bin nullo o velocità massima negativa).
 \end{itemize}
+\subsection{Costrutti non trattati a lezione}
+Nello sviluppo del codice relativo al progetto sono stati implementati degli algoritmi non trattati a lezione. Di seguito, in tabella (\ref{costrutti}) riportiamo i principali costrutti utilizzati.
+\begin{table}[H]
+    \centering
+    \caption{Algoritmi non trattati a lezione}
+    \label{costrutti}
+\begin{tblr}{
+  colspec = {Q[c,m] X[m, c]},
+  hlines, vlines}
+  \textbf{Algoritmo} & \textbf{caratteristiche} \\ \hline
+  \texttt{std::move} & Nella funzione \texttt{update\_physics}, l'aggiornamento dello stato dello sciame segue uno schema di double buffering. Per evitare dipendenze dall'ordine di iterazione (in cui il calcolo delle forze per il boid $i$-esimo verrebbe influenzato dalle posizioni già aggiornate dei boid precedenti), i nuovi stati vengono accumulati in due vettori locali temporanei, \texttt{next\_flock} e \texttt{next\_kettle}. Al termine del ciclo, occorre aggiornare i vettori di stato principali (\texttt{flock} e \texttt{kettle}). Invece di eseguire una copia elemento per elemento, si ricorre a \texttt{std::move}. Viene creato un oggetto nuovo ri utilizzando le risorse di proprietà di un altro. \\
+  \texttt{std::transform\_reduce} & È stato preferito l'utilizzo dell'algoritmo \texttt{std::transform\_reduce} della Standard Library al fine di utilizzare del codice ben implementato e ottimizzato. L'algoritmo combina in un'unica iterazione la mappatura di ogni elemento (fase di transform) e l'accumulazione dei risultati (fase di reduce).\\
+\end{tblr}
+\end{table}
+
+\begin{table}[H]
+    \centering
+\begin{tblr}{
+  colspec = {Q[c,m] X[m, c]},
+  hlines, vlines}
+  \texttt{std::cin.clear} e \texttt{std::cin.ignore} & Se il flusso \texttt{std::cin} entra in uno stato di errore, tutte le successive operazioni di lettura falliscono silenziosamente. La funzione \texttt{clear\_cin\_buffer()} definita in \texttt{simconfig.cpp} è costrutita (attraverso l'utilizzo di \texttt{std::cin.clear} e \texttt{std::cin.ignore}) per ripristinare lo stato dello stream e svuotare completamente il buffer residuo, garantendo che le successive richieste di input funzionino correttamente e senza blocchi.\\
+  \texttt{std::plus} & Nell'algoritmo \texttt{std::transform\_reduce}, serve a specificare l'operazione di riduzione, ossia come combinare tra loro i valori estratti da ciascun \texttt{Boid}.\\
+  \texttt{std::vector::reserve} & L'istruzione \texttt{std::vector::reserve(n)} alloca preventivamente la memoria dinamica nello \textit{heap} per contenere almeno $n$ elementi, modificando la capacità del vettore senza alterarne la dimensione (\texttt{size()}, che rimane $0$). \\
+\end{tblr}
+\end{table}
 \section{Guida all'Uso e Parametri di Input}
 \label{sec:guida}
 
