@@ -44,7 +44,7 @@ T read_param(std::string const& prompt, std::string const& error_msg,
 }
 
 SimConfig get_user_config();
-SimConfig get_costum_config();
+SimConfig get_custom_config();
 SimConfig create_hunter_config(SimConfig h_config);
 
 } // namespace bs
