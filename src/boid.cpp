@@ -25,8 +25,8 @@ Vector2D Boid::compute_separation(std::vector<Boid> const& flock,
     if (&b == this) {
       continue;
     }
-    double dist{position_.distance(b.get_position())};
-    if (dist < config.separation_radius) {
+
+    if (position_.distance(b.get_position()) < config.separation_radius) {
       separation -= (b.get_position() - position_) * config.separation_factor;
     }
   }
@@ -37,16 +37,16 @@ Vector2D Boid::compute_separation(std::vector<Boid> const& flock,
 Vector2D Boid::compute_alignment(std::vector<Boid> const& flock,
                                  SimConfig const& config) const
 {
-  Vector2D mean_velocity{0, 0};
+  Vector2D sum_velocity{0, 0};
   int count{0};
 
   for (auto const& b : flock) {
     if (&b == this) {
       continue;
     }
-    double dist{position_.distance(b.get_position())};
-    if (dist < config.visual_range) {
-      mean_velocity += b.get_velocity();
+
+    if (position_.distance(b.get_position()) < config.visual_range) {
+      sum_velocity += b.get_velocity();
       ++count;
     }
   }
@@ -55,23 +55,22 @@ Vector2D Boid::compute_alignment(std::vector<Boid> const& flock,
     return {0, 0};
   }
 
-  return (mean_velocity / count - velocity_) * config.alignment_factor;
+  return (sum_velocity / count - velocity_) * config.alignment_factor;
 }
 
 Vector2D Boid::compute_cohesion(std::vector<Boid> const& flock,
                                 SimConfig const& config) const
 {
-  Vector2D center_of_mass{0, 0};
+  Vector2D sum_position{0, 0};
   int count{0};
 
   for (auto const& b : flock) {
     if (&b == this) {
       continue;
     }
-    double dist{position_.distance(b.get_position())};
 
-    if (dist < config.visual_range) {
-      center_of_mass += b.get_position();
+    if (position_.distance(b.get_position()) < config.visual_range) {
+      sum_position += b.get_position();
       ++count;
     }
   }
@@ -80,7 +79,7 @@ Vector2D Boid::compute_cohesion(std::vector<Boid> const& flock,
     return {0, 0};
   }
 
-  return (center_of_mass / count - position_) * config.cohesion_factor;
+  return (sum_position / count - position_) * config.cohesion_factor;
 }
 
 void Boid::limit_velocity()
