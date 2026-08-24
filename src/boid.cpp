@@ -97,11 +97,9 @@ Boid Boid::update(std::vector<Boid> const& flock, SimConfig const& config) const
 {
   Boid next_state{*this};
 
-  Vector2D separation{compute_separation(flock, config)};
-  Vector2D alignment{compute_alignment(flock, config)};
-  Vector2D cohesion{compute_cohesion(flock, config)};
-
-  next_state.velocity_ += separation + alignment + cohesion;
+  next_state.velocity_ += compute_separation(flock, config)
+                        + compute_alignment(flock, config)
+                        + compute_cohesion(flock, config);
   next_state.limit_velocity();
   next_state.position_ += next_state.velocity_ * config.dt;
 
@@ -112,17 +110,13 @@ void Boid::apply_toroidal_boundary(SimConfig const& config)
 {
   if (position_.x >= config.border_width) {
     position_.x -= config.border_width;
-  }
-
-  if (position_.x < 0) {
+  } else if (position_.x < 0) {
     position_.x += config.border_width;
   }
 
   if (position_.y >= config.border_height) {
     position_.y -= config.border_height;
-  }
-
-  if (position_.y < 0) {
+  } else if (position_.y < 0) {
     position_.y += config.border_height;
   }
 }
@@ -131,14 +125,13 @@ void Boid::apply_window_boundary(SimConfig const& config)
 {
   if (position_.x >= (config.border_width - config.margin)) {
     velocity_.x -= config.border_turnfactor;
-  }
-  if (position_.x <= config.margin) {
+  } else if (position_.x <= config.margin) {
     velocity_.x += config.border_turnfactor;
   }
+
   if (position_.y >= (config.border_height - config.margin)) {
     velocity_.y -= config.border_turnfactor;
-  }
-  if (position_.y <= config.margin) {
+  } else if (position_.y <= config.margin) {
     velocity_.y += config.border_turnfactor;
   }
 }
@@ -146,9 +139,11 @@ void Boid::apply_window_boundary(SimConfig const& config)
 void Boid::apply_force(Vector2D const& force_point, double influence_radius,
                        double interaction_strength)
 {
-  double dist{position_.distance(force_point)};
-  if (dist < influence_radius && dist != 0) {
-    velocity_ -= (force_point - position_) * (interaction_strength / dist);
+  Vector2D delta{force_point - position_};
+  double dist2{delta.norm2()};
+
+  if (dist2 < influence_radius * influence_radius && dist2 > 0.0) {
+    velocity_ -= delta * (interaction_strength / std::sqrt(dist2));
   }
 }
 
