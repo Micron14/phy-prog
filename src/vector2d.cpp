@@ -79,7 +79,7 @@ double Vector2D::norm2() const
 
 double Vector2D::norm() const
 {
-  return std::sqrt(x * x + y * y);
+  return std::sqrt(norm2());
 }
 
 double Vector2D::angle() const
