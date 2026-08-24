@@ -4,7 +4,6 @@
 #include "simconfig.hpp"
 #include "vector2d.hpp"
 
-#include <cstddef>
 #include <vector>
 
 namespace bs {
