@@ -4,6 +4,7 @@
 #include "boid.hpp"
 #include "vector2d.hpp"
 
+#include <numeric>
 #include <vector>
 
 namespace bs {
@@ -13,6 +14,27 @@ struct StatResult
   double mean;
   double std_dev;
 };
+
+template<typename UnaryFunction>
+StatResult avg_measure(std::vector<Boid> const& flock, UnaryFunction func)
+{
+  if (flock.empty()) {
+    return {0.0, 0.0};
+  }
+  double const N{static_cast<double>(flock.size())};
+  double mean_val{std::transform_reduce(flock.begin(), flock.end(), 0.0,
+                                        std::plus<>(), func)
+                  / N};
+
+  double variance{
+      std::transform_reduce(flock.begin(), flock.end(), 0.0, std::plus<>(),
+                            [mean_val, &func](Boid const& b) {
+                              double v{func(b)};
+                              return (v - mean_val) * (v - mean_val);
+                            })
+      / N};
+  return {mean_val, std::sqrt(variance)};
+}
 
 StatResult avg_speed(std::vector<Boid> const& flock);
 
