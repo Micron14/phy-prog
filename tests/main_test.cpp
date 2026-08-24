@@ -5,12 +5,30 @@
 
 #include "boid.hpp"
 #include "doctest.h"
+#include "simconfig.hpp"
 #include "simulation.hpp"
 #include "statistics.hpp"
 #include "vector2d.hpp"
 
 TEST_CASE("Testing Vector2D struct")
 {
+  bs::Vector2D v0{2.0, 3.0};
+  v0 += bs::Vector2D{1.0, 1.0};
+  CHECK(v0.x == doctest::Approx(3.0));
+  CHECK(v0.y == doctest::Approx(4.0));
+
+  v0 -= bs::Vector2D{2.0, 1.0};
+  CHECK(v0.x == doctest::Approx(1.0));
+  CHECK(v0.y == doctest::Approx(3.0));
+
+  v0 *= 2.0;
+  CHECK(v0.x == doctest::Approx(2.0));
+  CHECK(v0.y == doctest::Approx(6.0));
+
+  v0 /= 2.0;
+  CHECK(v0.x == doctest::Approx(1.0));
+  CHECK(v0.y == doctest::Approx(3.0));
+
   bs::Vector2D v1{1.0, 2.0};
   bs::Vector2D v2{3.0, 4.0};
 
@@ -34,9 +52,9 @@ TEST_CASE("Testing Vector2D struct")
   CHECK_THROWS_AS(v / 0.0, std::runtime_error);
 
   bs::Vector2D zero{0.0, 0.0};
-  bs::Vector2D v0{5.0, 5.0};
+  bs::Vector2D v3{5.0, 5.0};
 
-  CHECK(v0.distance(v0) == doctest::Approx(0.0));
+  CHECK(v3.distance(v3) == doctest::Approx(0.0));
   CHECK(zero.norm() == doctest::Approx(0.0));
   CHECK(zero.norm2() == doctest::Approx(0.0));
   CHECK(zero.angle() == doctest::Approx(0.0)); // atan2(0,0), which returns 0
@@ -356,7 +374,8 @@ TEST_CASE("Testing update_physics simulation loop")
                      mouse_pos_default, true);
 
   double expected_x = 500.0 + (10.0 * config.dt);
-  CHECK(flock1[0].get_position().x == doctest::Approx(expected_x));
+  CHECK(flock1[0].get_position().x
+        == doctest::Approx(expected_x)); // update_physics check
   CHECK_FALSE(kettle1[0].get_position().x == doctest::Approx(100.0));
 
   bs::Boid b_repel({500.0, 500.0}, {0.0, 10.0});
@@ -370,7 +389,8 @@ TEST_CASE("Testing update_physics simulation loop")
   bs::update_physics(flock_repel, kettle_empty1, config, h_config, true, false,
                      mouse_pos_right, true);
 
-  CHECK(flock_repel[0].get_velocity().x < 0.0);
+  CHECK(flock_repel[0].get_velocity().x
+        < 0.0); // mouse repell update_physics check
 
   bs::Boid b_attract({500.0, 500.0}, {0.0, 10.0});
   b_attract.set_min_vel(1.0);
@@ -382,5 +402,60 @@ TEST_CASE("Testing update_physics simulation loop")
   bs::update_physics(flock_attract, kettle_empty2, config, h_config, false,
                      true, mouse_pos_right, true);
 
-  CHECK(flock_attract[0].get_velocity().x > 0.0);
+  CHECK(flock_attract[0].get_velocity().x
+        > 0.0); // mouse attract update_physics check
+
+  bs::Boid b_hunted({500.0, 500.0}, {0.0, 0.0});
+  bs::Boid h_hunter({510.0, 500.0}, {0.0, 0.0});
+  std::vector<bs::Boid> flock_hunted  = {b_hunted};
+  std::vector<bs::Boid> kettle_hunter = {h_hunter};
+
+  bs::update_physics(flock_hunted, kettle_hunter, config, h_config, false,
+                     false, mouse_pos_default, true);
+
+  CHECK(flock_hunted[0].get_velocity().x
+        < 0.0); // boid being hunted update_physics check
+
+  bs::Boid b_edge({999.0, 500.0}, {35.0, 0.0});
+  std::vector<bs::Boid> flock_edge  = {b_edge};
+  std::vector<bs::Boid> kettle_edge = {};
+
+  bs::update_physics(flock_edge, kettle_edge, config, h_config, false, false,
+                     mouse_pos_default, false);
+
+  CHECK(flock_edge[0].get_velocity().x
+        == 35.0); // toroidal update_physics check
+
+  flock_edge = {b_edge};
+
+  bs::update_physics(flock_edge, kettle_edge, config, h_config, false, false,
+                     mouse_pos_default, true);
+
+  CHECK(flock_edge[0].get_velocity().x < 35.0); // bounded update_physics check
+}
+
+TEST_CASE("Testing entity_gen function")
+{
+  bs::SimConfig config;
+  config.border_width  = 800.0;
+  config.border_height = 600.0;
+  config.n_entities    = 10;
+
+  auto flock = bs::entity_gen(config);
+  CHECK(flock.size() == 10);
+  for (const auto& b : flock) {
+    CHECK(b.get_position().x >= 0.0);
+    CHECK(b.get_position().x <= config.border_width);
+    CHECK(b.get_position().y >= 0.0);
+    CHECK(b.get_position().y <= config.border_height);
+  } // checking bounded generation
+
+  bs::SimConfig config1;
+  config1.n_entities = 0;
+  CHECK_THROWS_AS(bs::entity_gen(config1), std::runtime_error);
+  config1.n_entities = -5;
+  CHECK_THROWS_AS(bs::entity_gen(config1), std::runtime_error);
+  config1.n_entities = -1;
+  config1.is_hunter  = true;
+  CHECK_THROWS_AS(bs::entity_gen(config1), std::runtime_error); // throws checks
 }
