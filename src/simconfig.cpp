@@ -72,7 +72,7 @@ SimConfig get_user_config()
         return SimConfig{};
       }
       if (choice == 'n' || choice == 'N') {
-        return get_costum_config();
+        return get_custom_config();
       }
       std::cout << "Not valid. Please enter 'y' or 'n'.\n";
     } else {

@@ -30,6 +30,8 @@ Assets::Assets()
   }
 
   bar_.setFillColor(sf::Color(70, 130, 180));
+  bar_.setOutlineThickness(-1.f);
+  bar_.setOutlineColor(sf::Color(40, 40, 40));
 
   text_.setFont(font_);
   text_.setCharacterSize(12);
@@ -71,10 +73,7 @@ void Assets::draw_histogram(sf::RenderWindow& window,
     return;
   }
 
-  int max_count{*std::max_element(bins.begin(), bins.end())};
-  if (max_count == 0) {
-    max_count = 1;
-  }
+  int max_count{std::max(1, *std::max_element(bins.begin(), bins.end()))};
 
   float bin_width{bounds.width / static_cast<float>(bins.size())};
 
@@ -97,10 +96,9 @@ void Assets::draw_histogram(sf::RenderWindow& window,
       text_.setPosition(x_pos + bin_width / 2.0f, y_pos - 10.f);
       window.draw(text_);
 
-      float v_min{(static_cast<float>(i) / static_cast<float>(bins.size()))
-                  * static_cast<float>(max_val)};
-
       if (i % 5 == 0) {
+        float v_min{(static_cast<float>(i) / static_cast<float>(bins.size()))
+                    * static_cast<float>(max_val)};
         label_.setString(std::to_string(static_cast<int>(v_min)));
         sf::FloatRect labelRect{label_.getLocalBounds()};
         label_.setOrigin(labelRect.left + labelRect.width / 2.0f,
@@ -111,9 +109,6 @@ void Assets::draw_histogram(sf::RenderWindow& window,
       }
     }
   }
-
-  bar_.setOutlineThickness(-1.f);
-  bar_.setOutlineColor(sf::Color(40, 40, 40));
 
   sf::RectangleShape xAxis{sf::Vector2f{bounds.width, 2.f}};
   xAxis.setPosition(bounds.left, bounds.top + bounds.height);
