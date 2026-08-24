@@ -27,7 +27,7 @@ T read_param(std::string const& prompt, std::string const& error_msg,
   return value;
 }
 
-SimConfig get_costum_config()
+SimConfig get_custom_config()
 {
   SimConfig config;
   config.is_custom = true;
@@ -85,7 +85,7 @@ SimConfig get_user_config()
         return SimConfig{};
       }
       if (choice == 'n' || choice == 'N') {
-        return get_costum_config();
+        return get_custom_config();
       }
       std::cout << "Not valid. Please enter 'y' or 'n'.\n";
     } else {

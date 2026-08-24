@@ -25,7 +25,7 @@ struct SimConfig
 };
 
 SimConfig get_user_config();
-SimConfig get_costum_config();
+SimConfig get_custom_config();
 SimConfig create_hunter_config(SimConfig h_config);
 
 } // namespace bs
