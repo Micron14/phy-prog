@@ -55,9 +55,7 @@ Vector2D Boid::compute_alignment(std::vector<Boid> const& flock,
     return {0, 0};
   }
 
-  mean_velocity = mean_velocity / count;
-
-  return (mean_velocity - velocity_) * config.alignment_factor;
+  return (mean_velocity / count - velocity_) * config.alignment_factor;
 }
 
 Vector2D Boid::compute_cohesion(std::vector<Boid> const& flock,
@@ -82,9 +80,7 @@ Vector2D Boid::compute_cohesion(std::vector<Boid> const& flock,
     return {0, 0};
   }
 
-  center_of_mass = center_of_mass / count;
-
-  return (center_of_mass - position_) * config.cohesion_factor;
+  return (center_of_mass / count - position_) * config.cohesion_factor;
 }
 
 void Boid::limit_velocity()
