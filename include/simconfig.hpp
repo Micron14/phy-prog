@@ -1,6 +1,10 @@
 #ifndef SIM_CONFIG_HPP
 #define SIM_CONFIG_HPP
 
+#include <iostream>
+#include <stdexcept>
+#include <string>
+
 namespace bs {
 
 struct SimConfig
@@ -23,6 +27,21 @@ struct SimConfig
   double min_vel{20.0};
   double max_vel{35.0};
 };
+
+void clear_cin_buffer();
+
+template<typename T, typename Predicate>
+T read_param(std::string const& prompt, std::string const& error_msg,
+             Predicate is_valid)
+{
+  T value{};
+  std::cout << prompt;
+  if (!(std::cin >> value) || !is_valid(value)) {
+    clear_cin_buffer();
+    throw std::runtime_error(error_msg);
+  }
+  return value;
+}
 
 SimConfig get_user_config();
 SimConfig get_costum_config();

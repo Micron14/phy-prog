@@ -14,19 +14,6 @@ void clear_cin_buffer()
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-template<typename T, typename Predicate>
-T read_param(std::string const& prompt, std::string const& error_msg,
-             Predicate is_valid)
-{
-  T value{};
-  std::cout << prompt;
-  if (!(std::cin >> value) || !is_valid(value)) {
-    clear_cin_buffer();
-    throw std::runtime_error(error_msg);
-  }
-  return value;
-}
-
 SimConfig get_costum_config()
 {
   SimConfig config;
