@@ -145,7 +145,7 @@ void Boid::apply_force(Vector2D const& force_point, double influence_radius,
   Vector2D delta{force_point - position_};
   double dist2{delta.norm2()};
 
-  if (dist2 < influence_radius * influence_radius && dist2 > 0.0) {
+  if (dist2 < influence_radius * influence_radius && dist2 != 0.0) {
     velocity_ -= delta * (interaction_strength / std::sqrt(dist2));
   }
 }
