@@ -91,7 +91,7 @@ void Boid::limit_velocity()
 
   if (speed2 > max_vel_ * max_vel_) {
     velocity_ *= (max_vel_ / std::sqrt(speed2));
-  } else if (speed2 < min_vel_ * min_vel_ && speed2 > 0.0) {
+  } else if (speed2 < min_vel_ * min_vel_ && speed2 != 0.0) {
     velocity_ *= (min_vel_ / std::sqrt(speed2));
   }
 }
