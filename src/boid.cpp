@@ -84,12 +84,12 @@ Vector2D Boid::compute_cohesion(std::vector<Boid> const& flock,
 
 void Boid::limit_velocity()
 {
-  double speed{velocity_.norm()};
+  double speed2{velocity_.norm2()};
 
-  if (speed > max_vel_) {
-    velocity_ *= (max_vel_ / speed);
-  } else if (speed < min_vel_ && speed > 0) {
-    velocity_ *= (min_vel_ / speed);
+  if (speed2 > max_vel_ * max_vel_) {
+    velocity_ *= (max_vel_ / std::sqrt(speed2));
+  } else if (speed2 < min_vel_ * min_vel_ && speed2 > 0.0) {
+    velocity_ *= (min_vel_ / std::sqrt(speed2));
   }
 }
 
