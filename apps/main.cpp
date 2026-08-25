@@ -26,8 +26,8 @@ int main()
     sf::RenderWindow statsWindow;
     bs::Assets assets;
 
-    auto flock  = bs::entity_gen(config);
-    auto kettle = bs::entity_gen(h_config);
+    auto flock{bs::entity_gen(config)};
+    auto kettle{bs::entity_gen(h_config)};
     bool is_bounded{true};
     int tic{0};
 

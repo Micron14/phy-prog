@@ -24,7 +24,7 @@ void update_physics(std::vector<Boid>& flock, std::vector<Boid>& kettle,
   Vector2D flock_center{get_flock_center(flock)};
 
   for (auto const& hunter : kettle) {
-    Boid next_hunter = hunter.update(kettle, h_config);
+    Boid next_hunter{hunter.update(kettle, h_config)};
 
     next_hunter.apply_force(hunter.get_position() + 4.0 * hunter.get_velocity(),
                             h_config.border_width,
@@ -43,7 +43,7 @@ void update_physics(std::vector<Boid>& flock, std::vector<Boid>& kettle,
   }
 
   for (auto const& boid : flock) {
-    Boid next_boid = boid.update(flock, config);
+    Boid next_boid{boid.update(flock, config)};
 
     for (auto const& hunter : kettle) {
       next_boid.apply_force(hunter.get_position(), config.influence_radius,
@@ -95,8 +95,8 @@ std::vector<Boid> entity_gen(SimConfig const& config)
   for (int i{0}; i < config.n_entities; ++i) {
     Vector2D pos{x(eng), y(eng)};
 
-    double theta = angle_dist(eng);
-    double speed = speed_dist(eng);
+    double theta{angle_dist(eng)};
+    double speed{speed_dist(eng)};
     Vector2D vel{speed * std::cos(theta), speed * std::sin(theta)};
 
     Boid e{pos, vel};
