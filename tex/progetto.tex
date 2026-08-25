@@ -251,7 +251,6 @@ Nello sviluppo del codice relativo al progetto sono stati implementati degli alg
   hlines, vlines}
   \textbf{Algoritmo} & \textbf{caratteristiche} \\ \hline
   \texttt{std::move} & Nella funzione \texttt{update\_physics}, l'aggiornamento dello stato dello sciame segue uno schema di double buffering. Per evitare dipendenze dall'ordine di iterazione (in cui il calcolo delle forze per il boid $i$-esimo verrebbe influenzato dalle posizioni già aggiornate dei boid precedenti), i nuovi stati vengono accumulati in due vettori locali temporanei, \texttt{next\_flock} e \texttt{next\_kettle}. Al termine del ciclo, occorre aggiornare i vettori di stato principali (\texttt{flock} e \texttt{kettle}). Invece di eseguire una copia elemento per elemento, si ricorre a \texttt{std::move}. Viene creato un oggetto nuovo ri utilizzando le risorse di proprietà di un altro. \\
-  \texttt{std::transform\_reduce} & È stato preferito l'utilizzo dell'algoritmo \texttt{std::transform\_reduce} della Standard Library al fine di utilizzare del codice ben implementato e ottimizzato. L'algoritmo combina in un'unica iterazione la mappatura di ogni elemento (fase di transform) e l'accumulazione dei risultati (fase di reduce).\\
 \end{tblr}
 \end{table}
 
@@ -260,6 +259,7 @@ Nello sviluppo del codice relativo al progetto sono stati implementati degli alg
 \begin{tblr}{
   colspec = {Q[c,m] X[m, c]},
   hlines, vlines}
+  \texttt{std::transform\_reduce} & È stato preferito l'utilizzo dell'algoritmo \texttt{std::transform\_reduce} della Standard Library al fine di utilizzare del codice ben implementato e ottimizzato. L'algoritmo combina in un'unica iterazione la mappatura di ogni elemento (fase di transform) e l'accumulazione dei risultati (fase di reduce).\\
   \texttt{std::cin.clear} e \texttt{std::cin.ignore} & Se il flusso \texttt{std::cin} entra in uno stato di errore, tutte le successive operazioni di lettura falliscono silenziosamente. La funzione \texttt{clear\_cin\_buffer()} definita in \texttt{simconfig.cpp} è costrutita (attraverso l'utilizzo di \texttt{std::cin.clear} e \texttt{std::cin.ignore}) per ripristinare lo stato dello stream e svuotare completamente il buffer residuo, garantendo che le successive richieste di input funzionino correttamente e senza blocchi.\\
   \texttt{std::plus} & Nell'algoritmo \texttt{std::transform\_reduce}, serve a specificare l'operazione di riduzione, ossia come combinare tra loro i valori estratti da ciascun \texttt{Boid}.\\
   \texttt{std::vector::reserve} & L'istruzione \texttt{std::vector::reserve(n)} alloca preventivamente la memoria dinamica nello \textit{heap} per contenere almeno $n$ elementi, modificando la capacità del vettore senza alterarne la dimensione (\texttt{size()}, che rimane $0$). \\
@@ -326,7 +326,6 @@ In regime toroidale e in assenza di \textit{hunters}, la deviazione standard del
 
 \paragraph{Gestione del Progetto (GitHub):}
 Per la scrittura del codice il team ha adottato \texttt{Git} come sistema di controllo versione e \texttt{GitHub} come repository remoto. Questa infrastruttura ci ha permesso di isolare lo sviluppo di nuove feature su \textit{branch} separati, garantendo un'integrazione sicura del codice tramite \textit{merge} e risolvendo i conflitti di sovrascrittura.
-\newpage
 \subsection{Documentazione dei risultati}
 Di seguito, in figura (\ref{fig:boids}), riportiamo attraverso l'utilizzo di \textit{screenshots} i risultati ottenuti attraverso l'esecuzione del nostro codice:
 \begin{figure}[htbp]
