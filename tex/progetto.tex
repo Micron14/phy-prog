@@ -227,6 +227,12 @@ Per garantire l'affidabilità del simulatore e la correttezza delle equazioni fi
         \item \textit{Forze e Confini:} Validazione delle condizioni al contorno: i test assicurano il corretto riposizionamento delle entità in modalità toroidale (wrap-around) e il calcolo esatto della forza repulsiva elastica ai margini della finestra. Infine, viene verificato il corretto funzionamento di \texttt{apply\_force} nel generare vettori di fuga/inseguimento (es. rispetto alla posizione di un \textit{hunter}).
     \end{itemize}
 
+    \item \textbf{Integrazione fisica e Generazione (\texttt{simulation}):}
+    \begin{itemize}
+        \item \textit{Ciclo di simulazione:} Verificata l'evoluzione temporale $\Delta t$ (\texttt{update\_physics}), delle interazioni dinamiche con il mouse (attrazione e repulsione), della reazione di fuga dai predatori e del corretto comportamento dei confini.
+        \item \textit{Generazione entità:} Controllo del posizionamento casuale degli agenti all'intero della finestra (\texttt{entity\_gen}) e gestione delle eccezioni (\texttt{std::runtime\_error}) con parametri di popolazione negativi o nulli ($N \le 0$).
+    \end{itemize}
+
     \item \textbf{Modulo Statistico (\texttt{stats}):}
     Si verifica la correttezza del calcolo della media e della deviazione standard per posizione e velocità. Oltre ai campioni standard, il sistema è testato per gestire stormi vuoti restituendo vettori nulli, evitando così crash a runtime. Per quanto riguarda l'istogramma, i test convalidano la corretta allocazione delle entità nei \textit{bin} (inclusa la convergenza delle velocità fuori scala nell'ultimo bin disponibile) e la corretta gestione delle eccezioni in caso di input non validi (es. numero di bin nullo o velocità massima negativa).
 \end{itemize}
