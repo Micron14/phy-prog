@@ -1,8 +1,10 @@
 #include "simulation.hpp"
 #include "statistics.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
+#include <iterator>
 #include <numbers>
 #include <random>
 #include <utility>
@@ -92,7 +94,7 @@ std::vector<Boid> entity_gen(SimConfig const& config)
   std::vector<Boid> entities;
   entities.reserve(static_cast<size_t>(config.n_entities));
 
-  for (int i{0}; i < config.n_entities; ++i) {
+  std::generate_n(std::back_inserter(entities), config.n_entities, [&]() {
     Vector2D pos{x(eng), y(eng)};
 
     double theta{angle_dist(eng)};
@@ -106,8 +108,8 @@ std::vector<Boid> entity_gen(SimConfig const& config)
       e.set_min_vel(config.min_vel);
     }
 
-    entities.push_back(e);
-  }
+    return e;
+  });
 
   return entities;
 }
