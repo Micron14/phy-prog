@@ -2,6 +2,7 @@
 #include "simconfig.hpp"
 #include "vector2d.hpp"
 
+#include <cmath>
 #include <vector>
 
 namespace bs {

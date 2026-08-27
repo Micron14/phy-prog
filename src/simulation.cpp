@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <iterator>
 #include <numbers>
 #include <random>
@@ -92,7 +93,7 @@ std::vector<Boid> entity_gen(SimConfig const& config)
                                                     config.max_vel};
 
   std::vector<Boid> entities;
-  entities.reserve(static_cast<size_t>(config.n_entities));
+  entities.reserve(static_cast<std::size_t>(config.n_entities));
 
   std::generate_n(std::back_inserter(entities), config.n_entities, [&]() {
     Vector2D pos{x(eng), y(eng)};
