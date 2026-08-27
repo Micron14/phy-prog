@@ -3,10 +3,10 @@
 
 #include <algorithm>
 #include <cmath>
-#include <cstddef>
 #include <iterator>
 #include <numbers>
 #include <random>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 
