@@ -77,7 +77,7 @@ void Assets::draw_histogram(sf::RenderWindow& window,
 
   float bin_width{bounds.width / static_cast<float>(bins.size())};
 
-  for (size_t i{0}; i < bins.size(); ++i) {
+  for (std::size_t i{0}; i < bins.size(); ++i) {
     float normalized_height{
         (static_cast<float>(bins[i]) / static_cast<float>(max_count))
         * bounds.height};

@@ -4,7 +4,6 @@
 #include <iostream>
 #include <limits>
 #include <stdexcept>
-#include <string>
 
 namespace bs {
 

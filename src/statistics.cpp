@@ -1,6 +1,6 @@
 #include "statistics.hpp"
 
-#include <cmath>
+#include <cstddef>
 #include <functional>
 #include <iostream>
 #include <numeric>
@@ -22,7 +22,7 @@ StatResult avg_position(std::vector<Boid> const& flock)
 }
 
 std::vector<int> calculate_speed_histogram(std::vector<Boid> const& flock,
-                                           size_t num_bins, double max_val)
+                                           std::size_t num_bins, double max_val)
 {
   if (num_bins == 0) {
     throw std::runtime_error("Histogram must have at least 1 bin.");
@@ -36,8 +36,8 @@ std::vector<int> calculate_speed_histogram(std::vector<Boid> const& flock,
 
   for (auto const& b : flock) {
     double val{b.get_velocity().norm()};
-    size_t bin_idx{
-        static_cast<size_t>((val / max_val) * static_cast<double>(num_bins))};
+    std::size_t bin_idx{static_cast<std::size_t>(
+        (val / max_val) * static_cast<double>(num_bins))};
 
     if (bin_idx >= num_bins) {
       bin_idx = num_bins - 1;

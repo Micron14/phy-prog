@@ -4,6 +4,8 @@
 #include "boid.hpp"
 #include "vector2d.hpp"
 
+#include <cmath>
+#include <cstddef>
 #include <numeric>
 #include <vector>
 
@@ -41,7 +43,8 @@ StatResult avg_speed(std::vector<Boid> const& flock);
 StatResult avg_position(std::vector<Boid> const& flock);
 
 std::vector<int> calculate_speed_histogram(std::vector<Boid> const& flock,
-                                           size_t num_bins, double max_val);
+                                           std::size_t num_bins,
+                                           double max_val);
 
 Vector2D get_flock_center(std::vector<Boid> const& flock);
 
