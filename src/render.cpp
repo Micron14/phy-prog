@@ -82,7 +82,8 @@ void Assets::draw_histogram(sf::RenderWindow& window,
         (static_cast<float>(bins[i]) / static_cast<float>(max_count))
         * bounds.height};
     float x_pos{bounds.left + static_cast<float>(i) * bin_width};
-    float y_pos{bounds.top + bounds.height - normalized_height};
+    float y_pos{bounds.top + bounds.height
+                - normalized_height}; // origin is on top-left
 
     bar_.setSize(sf::Vector2f{bin_width - 1.f, normalized_height});
     bar_.setPosition(x_pos, y_pos);
@@ -142,7 +143,7 @@ void handle_events(sf::RenderWindow& window, sf::RenderWindow& statsWindow,
       window.close();
       if (statsWindow.isOpen())
         statsWindow.close();
-    }
+    } // closing logic
 
     if (event.type == sf::Event::KeyPressed) {
       if (event.key.code == sf::Keyboard::B) {
@@ -153,7 +154,7 @@ void handle_events(sf::RenderWindow& window, sf::RenderWindow& statsWindow,
         } else {
           std::cout << "Boundary: Toroidal Space.\n";
         }
-      }
+      } // boundary logic
 
       if (event.key.code == sf::Keyboard::S) {
         if (statsWindow.isOpen()) {
@@ -161,7 +162,7 @@ void handle_events(sf::RenderWindow& window, sf::RenderWindow& statsWindow,
         } else {
           statsWindow.create(sf::VideoMode(600, 400), "Speed distribution");
           statsWindow.setFramerateLimit(60);
-        }
+        } // open stats
       }
     }
   }
@@ -177,7 +178,7 @@ void handle_events(sf::RenderWindow& window, sf::RenderWindow& statsWindow,
         }
       }
     }
-  }
+  } // close stats
 }
 
 } // namespace bs

@@ -50,10 +50,10 @@ int main()
 
       if (statsWindow.isOpen()) {
         std::vector<int> speed_histogram{
-            bs::calculate_speed_histogram(flock, 25, 50.0)};
+            bs::calculate_speed_histogram(flock, 60, 50.0)}; //max_val should be the same
         statsWindow.clear(sf::Color(25, 25, 25));
         sf::FloatRect graph_area(50.f, 50.f, 500.f, 280.f);
-        assets.draw_histogram(statsWindow, speed_histogram, graph_area, 50.0);
+        assets.draw_histogram(statsWindow, speed_histogram, graph_area, 50.0); //max_val should be the same
         statsWindow.display();
       }
 

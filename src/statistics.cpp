@@ -55,9 +55,10 @@ Vector2D get_flock_center(std::vector<Boid> const& flock)
   }
   double const N{static_cast<double>(flock.size())};
   Vector2D flock_center{
-      std::transform_reduce(flock.begin(), flock.end(), Vector2D{0.0, 0.0},
-                            std::plus<>(),
-                            [](Boid const& b) { return b.get_position(); })
+      std::transform_reduce(
+          flock.begin(), flock.end(), Vector2D{0.0, 0.0},
+          [](Vector2D const& a, Vector2D const& b) { return a + b; },
+          [](Boid const& b) { return b.get_position(); })
       / N};
 
   return flock_center;
