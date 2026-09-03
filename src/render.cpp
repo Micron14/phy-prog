@@ -111,7 +111,8 @@ void Assets::draw_histogram(sf::RenderWindow& window,
     }
   }
 
-  sf::RectangleShape xAxis{sf::Vector2f{bounds.width, 2.f}};
+  sf::RectangleShape xAxis{sf::Vector2f{
+      bounds.width, 2.f}}; // could have been declared as a private attribute?
   xAxis.setPosition(bounds.left, bounds.top + bounds.height);
   xAxis.setFillColor(sf::Color::White);
   window.draw(xAxis);
