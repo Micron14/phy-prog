@@ -43,7 +43,9 @@ class Boid
   void apply_window_boundary(SimConfig const& config);
 
   void apply_force(Vector2D const& force_point, double influence_radius,
-                   double interaction_strength);
+                   double interaction_strength); // may be a risck to class
+                                                 // invariant (in update_physics
+                                                 // is performed after .update)
 
   void set_max_vel(double max_v);
   void set_min_vel(double min_v);
