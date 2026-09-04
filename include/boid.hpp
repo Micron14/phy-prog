@@ -11,8 +11,8 @@ namespace bs {
 class Boid
 {
  private:
-  Vector2D position_;
-  Vector2D velocity_;
+  Vector2D position_; //"real" class inveriant
+  Vector2D velocity_; // soft constraint
   double max_vel_{35.0};
   double min_vel_{20.0};
 
@@ -40,14 +40,15 @@ class Boid
   Boid update(std::vector<Boid> const& flock, SimConfig const& config) const;
 
   void apply_toroidal_boundary(SimConfig const& config);
-  void apply_window_boundary(SimConfig const& config);  // may be a risck to class
-                                                 // invariant (in update_physics
-                                                 // is performed after .update)
+  void apply_window_boundary(
+      SimConfig const& config); // may modify velocity "soft constraint" (in
+                                // update_physics is performed after .update)
 
-  void apply_force(Vector2D const& force_point, double influence_radius,
-                   double interaction_strength); // may be a risck to class
-                                                 // invariant (in update_physics
-                                                 // is performed after .update)
+  void
+  apply_force(Vector2D const& force_point, double influence_radius,
+              double interaction_strength); // may modify velocity "soft
+                                            // constraint" (in update_physics is
+                                            // performed after .update)
 
   void set_max_vel(double max_v);
   void set_min_vel(double min_v);
